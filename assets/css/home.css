@@ -276,8 +276,6 @@ a {
   }
 }
 
-
-
 /* 3 & 4. TOURS */
 .tours {
   background: #ffffff;
@@ -904,33 +902,37 @@ body {
 .booking-steps {
   display: flex;
   justify-content: center;
-  gap: 80px;
+  align-items: stretch;
+  gap: 60px;
   flex-wrap: wrap;
 }
 
 .step {
   background: #fff;
   border-radius: 18px;
-  padding: 24px;
+  padding: 28px 20px;
   width: 250px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease;
-}
-
-.step:hover {
-  transform: translateY(-6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .step img {
   width: 70px;
-  margin-bottom: 12px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 14px;
+  display: block;
 }
 
 .step h3 {
-  color: #083a4d;
   font-size: 17px;
-  margin-bottom: 6px;
   font-weight: 600;
+  margin-bottom: 6px;
+  color: #083a4d;
 }
 
 .step p {
@@ -966,4 +968,3 @@ body {
     gap: 30px;
   }
 }
-
