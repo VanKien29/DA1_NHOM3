@@ -1,24 +1,21 @@
 <?php 
-// Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
 
-// Require file Common
-require_once './commons/env.php'; // Khai báo biến môi trường
-require_once './commons/function.php'; // Hàm hỗ trợ
+session_start();
 
-// Require toàn bộ file Controllers
-require_once './controllers/ProductController.php';
+spl_autoload_register(function ($class) {    
+    $fileName = "$class.php";
 
-// Require toàn bộ file Models
-require_once './models/ProductModel.php';
+    $fileModel              = PATH_MODEL . $fileName;
+    $fileController         = PATH_CONTROLLER . $fileName;
 
-// Route
-$act = $_GET['act'] ?? '/';
+    if (is_readable($fileModel)) {
+        require_once $fileModel;
+    } 
+    else if (is_readable($fileController)) {
+        require_once $fileController;
+    }
+});
 
-
-// Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
-
-match ($act) {
-    // Trang chủ
-    '/'=>(new ProductController())->Home(),
-
-};
+require_once './commons/env.php';
+require_once './commons/function.php';
+require_once './routes/index.php';
