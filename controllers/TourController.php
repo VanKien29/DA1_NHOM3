@@ -13,7 +13,7 @@ class TourController {
         $start = ($page - 1) * $perPage;
         $tours = array_slice($tours, $start, $perPage);
 
-        require_once './views/admin/listTour.php';
+        require_once './views/admin/Tour/listTour.php';
     }
 }
 ?>

@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/dashBoard/dashBoard.php'; ?>
+<?php
+// thêm require_once ở đầu mỗi file chức năng admin
+require_once __DIR__ . '/../dashBoard.php'; ?>
 <div class="admin-list-container">
     <div class="admin-list-title">Danh sách tour du lịch</div>
 
@@ -69,7 +71,7 @@
     </div>
 </div>
 
-<?php // thêm 4 dòng này ở mỗi file chức năng admin ?>
+<?php // thêm 5 dòng này ở mỗi file chức năng admin ?>
 </section>
 </main>
 </div>
