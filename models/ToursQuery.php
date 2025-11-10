@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/BaseModel.php';
 
 class ToursQuery extends BaseModel {
     public $tour_id;
