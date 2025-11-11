@@ -15,11 +15,21 @@
             case 'admin-listTours':
                 echo '<link rel="stylesheet" href="./assets/css/Tour/listTour.css">';
                 break;
-            case 'admin-listUsers':
-                echo '<link rel="stylesheet" href="/assets/css/users.css">';
+            case 'admin-createTours':
+                echo '<link rel="stylesheet" href="./assets/css/Tour/createTour.css">';
                 break;
-            case 'admin-listBookings':
-                echo '<link rel="stylesheet" href="/assets/css/bookings.css">';
+            case 'admin-updateTours':
+                echo '<link rel="stylesheet" href="/assets/css/Tour/updateTour.css">';
+                break;
+        ///////// user
+            case 'admin-listUsers':
+                echo '<link rel="stylesheet" href="./assets/css/User/listUser.css">';
+                break;
+            case 'admin-createUsers':
+                echo '<link rel="stylesheet" href="./assets/css/User/createUser.css">';
+                break;
+            case 'admin-updateUsers':
+                echo '<link rel="stylesheet" href="/assets/css/User/updateUser.css">';
                 break;
         }
     }
