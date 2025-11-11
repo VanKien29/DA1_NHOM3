@@ -1,6 +1,6 @@
 <?php
 // thêm require_once ở đầu mỗi file chức năng admin
-require_once __DIR__ . '/../dashBoard.php'; ?>
+require_once __DIR__ . '/../dashBoard/dashBoard.php'; ?>
 <div class="admin-list-container">
     <div class="admin-list-title">Danh sách tour du lịch</div>
 
@@ -52,7 +52,7 @@ require_once __DIR__ . '/../dashBoard.php'; ?>
                     <a class="btn btn-success text-white text-decoration-none"
                         href="?action=admin-updateTours&id=<?= $value['tour_id']; ?>">Sửa</a>
                     <a class="btn btn-danger text-white text-decoration-none"
-                        href="?action=admin-deleteTours&id=<?= $value['tour_id']; ?>"
+                        href="?action=admin-deleteTour&id=<?= $value['tour_id']; ?>"
                         onclick="return confirm('Xác nhận xóa tour này?');">Xóa</a>
                 </td>
             </tr>
