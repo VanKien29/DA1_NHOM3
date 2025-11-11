@@ -10,10 +10,6 @@ class ProductController
 
     public function Home()
     {
-        require_once './views/home.php';
-    }
-    public function admin()
-    {
-        require_once './views/admin/dashBoard/dashBoard.php';
+        require_once './views/admin.php';
     }
 }

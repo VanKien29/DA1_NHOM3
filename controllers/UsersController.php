@@ -1,11 +1,14 @@
 <?php
 class UsersController {
-    // ====== Hiển thị danh sách người dùng ======
-    public function listUsers() {
-        $userQuery = new UsersQuery();
-        $users = $userQuery->getAllUsers();
+    private $userQuery;
 
-        // Phân trang (10 user/trang)
+    function __construct() {
+        $this->userQuery = new UsersQuery();
+    }
+
+    public function listUsers() {
+        $users = $this->userQuery->getAllUsers();
+
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $perPage = 10;
         $totalUsers = count($users);
@@ -13,66 +16,56 @@ class UsersController {
         $start = ($page - 1) * $perPage;
         $users = array_slice($users, $start, $perPage);
 
-        require_once './views/admin/User/listUser.php';
+        require './views/User/listUser.php';
     }
 
-    // ====== Thêm người dùng ======
-    public function createUser() {
-        $userQuery = new UsersQuery();
-
+    public function createUsers() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userQuery->username = $_POST['username'];
-            $userQuery->password = $_POST['password'];
-            $userQuery->role = $_POST['role'];
-            $userQuery->name = $_POST['name'];
-            $userQuery->email = $_POST['email'];
-            $userQuery->phone = $_POST['phone'];
+            $this->userQuery->username = $_POST['username'];
+            $this->userQuery->password = $_POST['password'];
+            $this->userQuery->role = $_POST['role'];
+            $this->userQuery->name = $_POST['name'];
+            $this->userQuery->email = $_POST['email'];
+            $this->userQuery->phone = $_POST['phone'];
 
-            $userQuery->createUser();
+            $this->userQuery->createUser();
             header("Location: ?action=admin-listUsers");
             exit;
         }
 
-        require './views/admin/User/CreateUser.php';
+        require './views/User/CreateUser.php';
     }
 
-    // ====== Sửa người dùng ======
-    public function updateUser() {
-        $userQuery = new UsersQuery();
-
-        // Lấy id user cần sửa
+    public function updateUsers() {
         $id = $_GET['id'] ?? null;
         if (!$id) {
             header("Location: ?action=admin-listUsers");
             exit;
         }
 
-        // Lấy dữ liệu user cũ
-        $user = $userQuery->findUser($id);
+        $user = $this->userQuery->findUser($id);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userQuery->user_id = $id;
-            $userQuery->username = $_POST['username'];
-            $userQuery->password = $_POST['password'];
-            $userQuery->role = $_POST['role'];
-            $userQuery->name = $_POST['name'];
-            $userQuery->email = $_POST['email'];
-            $userQuery->phone = $_POST['phone'];
+            $this->userQuery->user_id = $id;
+            $this->userQuery->username = $_POST['username'];
+            $this->userQuery->password = $_POST['password'];
+            $this->userQuery->role = $_POST['role'];
+            $this->userQuery->name = $_POST['name'];
+            $this->userQuery->email = $_POST['email'];
+            $this->userQuery->phone = $_POST['phone'];
 
-            $userQuery->updateUser();
+            $this->userQuery->updateUser();
             header("Location: ?action=admin-listUsers");
             exit;
         }
 
-        require './views/admin/User/updateUser.php';
+        require './views/User/updateUser.php';
     }
 
-    // ====== Xóa người dùng ======
-    public function deleteUser() {
+    public function deleteUsers() {
         $id = $_GET['id'] ?? null;
         if ($id) {
-            $userQuery = new UsersQuery();
-            $userQuery->deleteUser($id);
+            $this->userQuery->deleteUser($id);
         }
         header("Location: ?action=admin-listUsers");
         exit;

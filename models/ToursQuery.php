@@ -25,6 +25,26 @@ class ToursQuery extends BaseModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    // ====== Lấy toàn bộ tour kèm tên danh mục ======
+    public function getAllToursWithCategory() {
+        $sql = "SELECT 
+                    t.tour_id,
+                    t.tour_name,
+                    t.description,
+                    t.price,
+                    t.category_id,
+                    t.start_date,
+                    t.end_date,
+                    t.status,
+                    c.category_name
+                FROM tours t
+                LEFT JOIN categories c ON t.category_id = c.category_id
+                ORDER BY t.tour_id ASC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     // ====== Tìm tour theo ID ======
     public function findTour($id) {
