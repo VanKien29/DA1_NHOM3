@@ -20,6 +20,9 @@ class UsersController {
             $this->userQuery->email = $_POST['email'];
             $this->userQuery->phone = $_POST['phone'];
 
+            if($username < 10){
+                alert("Tên đăng nhập phải có ít nhất 10 ký tự");
+            }
             $this->userQuery->createUser();
             header("Location: ?action=admin-listUsers");
             exit;

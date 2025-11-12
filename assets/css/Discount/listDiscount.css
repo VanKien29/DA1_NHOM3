@@ -2,13 +2,13 @@ a {
   text-decoration: none;
 }
 
-.table-container {
+/* .table-container {
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   padding: 24px;
   overflow-x: auto;
-}
+} */
 
 .table-container h4 {
   font-size: 20px;
@@ -160,13 +160,13 @@ a {
     overflow-x: auto;
   }
 }
-.admin-table-container {
+/* .admin-table-container {
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 6px 20px rgba(13, 110, 253, 0.08);
   padding: 24px 28px;
   margin-top: 20px;
-}
+} */
 
 .table-header {
   border-bottom: 2px solid #f1f5f9;
