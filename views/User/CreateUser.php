@@ -3,16 +3,28 @@
         <h4 class="form-title text-center mb-4">Thêm Quản Trị Viên</h4>
 
         <form method="POST">
+            <?php if (!empty($err['empty'])): ?>
+                <div class="text-danger"><?= $err['empty'] ?></div>
+            <?php endif; ?>
+            <?php if (!empty($success)): ?>
+                <div class="text-danger"><?= $success ?></div>
+            <?php endif; ?>
             <div class="form-group mb-3">
                 <label>Tên đăng nhập</label>
                 <input type="text" name="username" class="form-control form-control-lg" placeholder="Nhập tên đăng nhập"
-                    required>
+                    value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
+                <?php if (!empty($err['username'])): ?>
+                    <div class="text-danger err"><?= $err['username'] ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-group mb-3">
                 <label>Mật khẩu</label>
                 <input type="password" name="password" class="form-control form-control-lg" placeholder="Nhập mật khẩu"
-                    required>
+                    value="<?= htmlspecialchars($_POST['password'] ?? '') ?>">
+                <?php if (!empty($err['password'])): ?>
+                    <div class="text-danger err"><?= $err['password'] ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-group mb-3">
@@ -25,19 +37,29 @@
 
             <div class="form-group mb-3">
                 <label>Họ tên</label>
-                <input type="text" name="name" class="form-control form-control-lg" placeholder="Nhập họ tên" required>
+                <input type="text" name="name" class="form-control form-control-lg" placeholder="Nhập họ tên"
+                    value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
+                <?php if (!empty($err['name'])): ?>
+                    <div class="text-danger err"><?= $err['name'] ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-group mb-3">
                 <label>Email</label>
-                <input type="email" name="email" class="form-control form-control-lg" placeholder="example@email.com"
-                    required>
+                <input type="text" name="email" class="form-control form-control-lg" placeholder="example@email.com"
+                    value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
+                <?php if (!empty($err['email'])): ?>
+                    <div class="text-danger err"><?= $err['email'] ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-group mb-4">
                 <label>Số điện thoại</label>
                 <input type="text" name="phone" class="form-control form-control-lg" placeholder="Nhập số điện thoại"
-                    required>
+                    value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
+                <?php if (!empty($err['phone'])): ?>
+                    <div class="text-danger err"><?= $err['phone'] ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-action text-center">
