@@ -35,6 +35,11 @@ match ($action) {
     //login 
     'login' => require './views/login.php',
     
+    'login'=>  (new AuthController)->handleLogin(),
+    
+    'logout'=>  (new AuthController)->logout(),
+
     default => require './views/admin.php',
+
 
 };
