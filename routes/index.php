@@ -32,6 +32,11 @@ match ($action) {
     'admin-createDiscount' => require './views/admin.php',
     'admin-updateDiscount' => require './views/admin.php',
     
+    'login'=>  (new AuthController)->handleLogin(),
+    
+    'logout'=>  (new AuthController)->logout(),
+
     default => require './views/admin.php',
+
 
 };
