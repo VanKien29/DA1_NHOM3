@@ -16,7 +16,7 @@
                 <th>Bắt đầu</th>
                 <th>Kết thúc</th>
                 <th>Trạng thái</th>
-                <th>Thao tác</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>

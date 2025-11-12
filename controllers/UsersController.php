@@ -8,15 +8,7 @@ class UsersController {
 
     public function listUsers() {
         $users = $this->userQuery->getAllUsers();
-
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 10;
-        $totalUsers = count($users);
-        $totalPages = ceil($totalUsers / $perPage);
-        $start = ($page - 1) * $perPage;
-        $users = array_slice($users, $start, $perPage);
-
-        require './views/User/listUser.php';
+        require './views/User/ListUser.php';
     }
 
     public function createUsers() {
@@ -32,19 +24,11 @@ class UsersController {
             header("Location: ?action=admin-listUsers");
             exit;
         }
-
         require './views/User/CreateUser.php';
     }
 
-    public function updateUsers() {
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header("Location: ?action=admin-listUsers");
-            exit;
-        }
-
+    public function updateUsers($id) {
         $user = $this->userQuery->findUser($id);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->userQuery->user_id = $id;
             $this->userQuery->username = $_POST['username'];
@@ -58,8 +42,7 @@ class UsersController {
             header("Location: ?action=admin-listUsers");
             exit;
         }
-
-        require './views/User/updateUser.php';
+        require './views/User/UpdateUser.php';
     }
 
     public function deleteUsers() {

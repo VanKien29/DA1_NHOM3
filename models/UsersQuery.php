@@ -9,12 +9,8 @@ class UsersQuery extends BaseModel {
     public $phone;
 
     // ====== Lấy toàn bộ người dùng ======
-    public function getAllUsers($limit = null, $offset = null) {
+    public function getAllUsers() {
         $sql = "SELECT * FROM users ORDER BY user_id ASC";
-        if ($limit !== null && $offset !== null) {
-            $sql .= " LIMIT $limit OFFSET $offset";
-        }
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

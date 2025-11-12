@@ -1,4 +1,8 @@
-<?php ob_start(); $action = $_GET['action'] ?? ''; ?>
+<?php
+ob_start(); 
+$action = $_GET['action'] ?? '';
+$id = $_GET['id'] ?? '';
+?>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -12,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <?php
     switch ($action) {
+        // Tours
         case 'admin-listTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/listTours.css">';
             break;
@@ -19,12 +24,41 @@
         case 'admin-updateTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/formTours.css">';
             break;
+        
+        // Users
         case 'admin-listUsers':
             echo '<link rel="stylesheet" href="assets/css/User/listUsers.css">';
             break;
         case 'admin-createUsers':
         case 'admin-updateUsers':
             echo '<link rel="stylesheet" href="assets/css/User/formUsers.css">';
+            break;
+            
+        // Categories
+        case 'admin-listCategory':
+            echo '<link rel="stylesheet" href="assets/css/Category/listCategory.css">';
+            break;
+        case 'admin-createCategory':
+        case 'admin-updateCategory':
+            echo '<link rel="stylesheet" href="assets/css/Category/formCategory.css">';
+            break;
+            
+        // Customers
+        case 'admin-listCustomer':
+            echo '<link rel="stylesheet" href="assets/css/Customer/listCustomer.css">';
+            break;
+        case 'admin-createCustomer':
+        case 'admin-updateCustomer':
+            echo '<link rel="stylesheet" href="assets/css/Customer/formCustomer.css">';
+            break;
+        
+        // Discounts
+        case 'admin-listDiscount':
+            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
+            break;
+        case 'admin-createDiscount':
+        case 'admin-updateDiscount':
+            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
             break;
     }
     ?>
@@ -51,7 +85,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="?action=admin-listCustomer"
+                        class="<?= ($action == 'admin-listCustomer') ? 'active' : '' ?>">
                         <i class="fa-solid fa-users"></i> Customers
                     </a>
                 </li>
@@ -61,13 +96,15 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="?action=admin-listDiscount"
+                        class="<?= ($action == 'admin-listDiscount') ? 'active' : '' ?>">
                         <i class="fa-solid fa-tags"></i> Discounts
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="fa-solid fa-coins"></i> Revenues
+                    <a href="?action=admin-listCategory"
+                        class="<?= ($action == 'admin-listCategory') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-coins"></i> Categories
                     </a>
                 </li>
                 <li>
@@ -138,6 +175,7 @@
         <div id="main-content" class="p-3">
             <?php
                 switch ($action) {
+                    // Tours
                     case 'admin-listTours':
                         (new TourController)->listTours();
                         break;
@@ -145,8 +183,13 @@
                         (new TourController)->createTours();
                         break;
                     case 'admin-updateTours':
-                        (new TourController)->updateTours();
+                        (new TourController)->updateTours($id);
                         break;
+                    case 'admin-deleteTours':
+                        (new TourController)->deleteTours($id);
+                        break;
+                    
+                    // Users
                     case 'admin-listUsers':
                         (new UsersController)->listUsers();
                         break;
@@ -154,11 +197,54 @@
                         (new UsersController)->createUsers();
                         break;
                     case 'admin-updateUsers':
-                        (new UsersController)->updateUsers();
+                        (new UsersController)->updateUsers($id);
                         break;
                     case 'admin-deleteUsers':
-                        (new UsersController)->deleteUsers();
+                        (new UsersController)->deleteUsers($id);
                         break;
+                        
+                    // Categories
+                    case 'admin-listCategory':
+                        (new CategoryController)->listCategories();
+                        break;
+                    case 'admin-createCategory':
+                        (new CategoryController)->createCategory();
+                        break;
+                    case 'admin-updateCategory':
+                        (new CategoryController)->updateCategory($id);
+                        break;
+                    case 'admin-deleteCategory':
+                        (new CategoryController)->deleteCategory($id);
+                        break;
+                    
+                    // Customers
+                    case 'admin-listCustomer':
+                        (new CustomerController)->listCustomers();
+                        break;
+                    case 'admin-createCustomer':
+                        (new CustomerController)->createCustomer();
+                        break;
+                    case 'admin-updateCustomer':
+                        (new CustomerController)->updateCustomer($id);
+                        break;
+                    case 'admin-deleteCustomer':
+                        (new CustomerController)->deleteCustomer($id);
+                        break;
+                    
+                    // Discounts
+                    case 'admin-listDiscount':
+                        (new DiscountController)->listDiscounts();
+                        break;
+                    case 'admin-createDiscount' :
+                        (new DiscountController)->createDiscount();
+                        break;
+                    case 'admin-updateDiscount' :
+                        (new DiscountController)->updateDiscount($id);
+                        break;
+                    case 'admin-deleteDiscount' :
+                        (new DiscountController)->deleteDiscount($id); 
+                        break;
+
                 }
             ?>
         </div>
