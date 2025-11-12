@@ -1,6 +1,5 @@
 <?php
 $action = $_GET['action'] ?? '/';
-$id = $_GET['id'] ?? '/';
 
 match ($action) {
     '/' => (new ProductController)->home(),
@@ -17,6 +16,22 @@ match ($action) {
     'admin-listUsers' => require './views/admin.php',
     'admin-createUsers' => require './views/admin.php',
     'admin-updateUsers' => require './views/admin.php',
+    
+    // Category
+    'admin-listCategory' => require './views/admin.php',
+    'admin-createCategory' => require './views/admin.php',
+    'admin-updateCategory' => require './views/admin.php',
+    
+    // Customer
+    'admin-listCustomer' => require './views/admin.php',
+    'admin-createCustomer' => require './views/admin.php',
+    'admin-updateCustomer' => require './views/admin.php',
+    
+    // Discount
+    'admin-listDiscount' => require './views/admin.php',
+    'admin-createDiscount' => require './views/admin.php',
+    'admin-updateDiscount' => require './views/admin.php',
+    
     default => require './views/admin.php',
 
 };

@@ -5,28 +5,18 @@ class TourController {
 
     public function __construct() {
         $this->tourQuery = new ToursQuery();
-        $this->categoryModel = new Categorys();
+        $this->categoryModel = new CategoryQuery();
     }
 
     // ===== Danh sách tour =====
     public function listTours() {
-        // ✅ Lấy dữ liệu từ bảng tours, không phải categories
         $tours = $this->tourQuery->getAllToursWithCategory();
-
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 10;
-        $totalTours = count($tours);
-        $totalPages = ceil($totalTours / $perPage);
-        $start = ($page - 1) * $perPage;
-        $tours = array_slice($tours, $start, $perPage);
-
         require './views/Tour/listTour.php';
     }
 
     // ===== Thêm tour =====
     public function createTours() {
         $categories = $this->categoryModel->getAllCategories();
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->tourQuery->tour_name = $_POST['tour_name'];
             $this->tourQuery->description = $_POST['description'];
@@ -45,16 +35,9 @@ class TourController {
     }
 
     // ===== Cập nhật tour =====
-    public function updateTours() {
+    public function updateTours($id) {
         $categories = $this->categoryModel->getAllCategories();
-        $id = $_GET['id'] ?? null;
-        if (!$id) {
-            header("Location: ?action=admin-listTours");
-            exit;
-        }
-
         $tour = $this->tourQuery->findTour($id);
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->tourQuery->tour_id = $id;
             $this->tourQuery->tour_name = $_POST['tour_name'];
@@ -69,13 +52,11 @@ class TourController {
             header("Location: ?action=admin-listTours");
             exit;
         }
-
         require './views/Tour/updateTour.php';
     }
 
     // ===== Xóa tour =====
-    public function deleteTours() {
-        $id = $_GET['id'] ?? null;
+    public function deleteTours($id) {
         if ($id) {
             $this->tourQuery->deleteTour($id);
         }
