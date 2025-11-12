@@ -4,9 +4,13 @@ $action = $_GET['action'] ?? '/';
 match ($action) {
     '/' => (new ProductController)->home(),
 
-    // Trang admin
+    // Admin Home
     'admin' => require './views/admin.php',
 
+    //login 
+    'login'=>  (new AuthController)->login(),
+    'logout'=>  (new AuthController)->logout(),
+    
     // Tour
     'admin-listTours' => require './views/admin.php',
     'admin-createTours' => require './views/admin.php',
@@ -31,10 +35,6 @@ match ($action) {
     'admin-listDiscount' => require './views/admin.php',
     'admin-createDiscount' => require './views/admin.php',
     'admin-updateDiscount' => require './views/admin.php',
-
-    //login 
-    'login' => require './views/login.php',
     
     default => require './views/admin.php',
-
 };

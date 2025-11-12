@@ -8,7 +8,7 @@ class CustomerQuery extends BaseModel {
 
     // ====== Lấy toàn bộ khách hàng ======
     public function getAllCustomers() {
-        $sql = "SELECT * FROM customers ORDER BY customer_id ASC";
+        $sql = "SELECT * FROM customers ORDER BY customer_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

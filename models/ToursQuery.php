@@ -16,7 +16,7 @@ class ToursQuery extends BaseModel {
         $sql = "SELECT t.*, c.category_name 
                 FROM tours t
                 INNER JOIN categories c ON t.category_id = c.category_id
-                ORDER BY t.tour_id ASC";
+                ORDER BY t.tour_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,7 +27,7 @@ class ToursQuery extends BaseModel {
         $sql = "SELECT t.*, c.category_name
                 FROM tours t
                 LEFT JOIN categories c ON t.category_id = c.category_id
-                ORDER BY t.tour_id ASC";
+                ORDER BY t.tour_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
