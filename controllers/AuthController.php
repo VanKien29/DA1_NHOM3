@@ -1,37 +1,36 @@
 <?php
-require_once "./models/AuthQuery.php";
 
 class AuthController
 {
-    private $authQuery;
+    private $UsersQuery;
 
     public function __construct()
     {
-        $this->authQuery = new AuthQuery();
+        $this->UsersQuery = new UsersQuery();
     }
 
-    public function handleLogin()
-{
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['dangnhap'])) {
+    public function login() {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = $_POST['user'];
         $password = $_POST['pass'];
-
-        $user = $this->authQuery->checkLogin($username, $password);
+        $user = $this->UsersQuery->checkLogin($username, $password);
+        var_dump($user);
 
         if ($user) {
-            session_start();
-            $_SESSION['user'] = $user;
+            $_SESSION['user'] = [
+                'id'   => $user['user_id'],
+                'name' => $user['name'],
+                'role' => $user['role'],
+            ];
             header("Location: ?action=admin");
             exit();
-        } else {
+        }else {
             $error = "Sai tên đăng nhập hoặc mật khẩu!";
-            include "./views/auth/login.php";
+            require "./views/auth/login.php";
             exit();
         }
-    } else {
-        include "./views/auth/login.php";
-        exit();
     }
+    require "./views/auth/login.php";
 }
 
    public function logout()

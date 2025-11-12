@@ -14,6 +14,7 @@
                         <th>STT</th>
                         <th>ID</th>
                         <th>Tên đăng nhập</th>
+                        <th>Mật Khẩu</th>
                         <th>Họ tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
@@ -28,6 +29,7 @@
                         <td><?= $stt++; ?></td>
                         <td><?= $user['user_id']; ?></td>
                         <td><?= htmlspecialchars($user['username']); ?></td>
+                        <td><?= htmlspecialchars($user['password']); ?></td>
                         <td><?= htmlspecialchars($user['name']); ?></td>
                         <td><?= htmlspecialchars($user['email']); ?></td>
                         <td><?= htmlspecialchars($user['phone']); ?></td>

@@ -10,7 +10,7 @@ class UsersQuery extends BaseModel {
 
     // ====== Lấy toàn bộ người dùng ======
     public function getAllUsers() {
-        $sql = "SELECT * FROM users ORDER BY user_id ASC";
+        $sql = "SELECT * FROM users ORDER BY user_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -67,5 +67,16 @@ class UsersQuery extends BaseModel {
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+    public function checkLogin($username, $password){
+        $sql = "SELECT * FROM users WHERE username = :username AND password = :password";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':username' => $username,
+            ':password' => $password
+        ]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>
