@@ -3,10 +3,19 @@
         <h4 class="form-title text-center mb-4">Cập Nhật Danh Mục</h4>
 
         <form method="POST">
+            <?php if (!empty($err['empty'])): ?>
+                <div class="text-danger"><?= $err['empty'] ?></div>
+            <?php endif; ?>
+            <?php if (!empty($success)): ?>
+                <div class="text-danger"><?= $success ?></div>
+            <?php endif; ?>
             <div class="mb-3">
                 <label>Tên Danh Mục</label>
                 <input type="text" name="category_name" class="form-control"
-                    value="<?= htmlspecialchars($category['category_name']) ?>" required>
+                    value="<?= htmlspecialchars($category['category_name'] ?? '') ?>">
+                <?php if (!empty($err['category_name'])): ?>
+                    <div class="text-danger err"><?= $err['category_name'] ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-action">
