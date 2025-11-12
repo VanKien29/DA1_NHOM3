@@ -197,3 +197,83 @@ header.topbar {
   min-height: 400px;
   overflow-x: auto;
 }
+/* ==== Sidebar Footer ==== */
+.sidebar-footer {
+  text-align: center;
+  padding: 20px 10px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.sidebar-footer img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 3px solid #e0e7ff;
+  object-fit: cover;
+}
+
+.sidebar-footer p {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1e293b;
+  margin: 4px 0;
+}
+
+.sidebar-footer small {
+  display: block;
+  color: #64748b;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+/* ==== Auth Buttons ==== */
+.sidebar-footer .auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.sidebar-footer .auth-buttons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 90%;
+  padding: 8px 0;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+/* Nút login */
+.sidebar-footer .auth-buttons a[href*="login"] {
+  background-color: #2563eb;
+  color: #fff;
+  border: 1px solid #2563eb;
+}
+
+.sidebar-footer .auth-buttons a[href*="login"]:hover {
+  background-color: #1e40af;
+  box-shadow: 0 3px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Nút logout */
+.sidebar-footer .auth-buttons a[href*="logout"] {
+  background-color: #7ca0d3;
+  color: #fff;
+  border: 1px solid #7ca0d3;
+}
+
+.sidebar-footer .auth-buttons a[href*="logout"]:hover {
+  background-color: #7ca0d3;
+  box-shadow: 0 3px 8px #64748b;
+}
+
+/* Icon căn giữa */
+.sidebar-footer .auth-buttons i {
+  font-size: 14px;
+}
