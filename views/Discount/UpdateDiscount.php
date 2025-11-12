@@ -4,16 +4,17 @@
 
         <form method="POST">
             <?php if (!empty($err['empty'])): ?>
-                <div class="text-danger"><?= $err['empty'] ?></div>
+            <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
             <?php if (!empty($success)): ?>
-                <div class="text-danger"><?= $success ?></div>
+            <div class="text-danger"><?= $success ?></div>
             <?php endif; ?>
+
             <div class="form-group mb-3">
                 <label>Mã giảm giá</label>
                 <input type="text" name="code" class="form-control" value="<?= htmlspecialchars($discount['code']); ?>">
                 <?php if (!empty($err['code'])): ?>
-                    <div class="text-danger err"><?= $err['code'] ?></div>
+                <div class="text-danger err"><?= $err['code'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -22,7 +23,7 @@
                 <input type="text" name="description" class="form-control"
                     value="<?= htmlspecialchars($discount['description']); ?>">
                 <?php if (!empty($err['description'])): ?>
-                    <div class="text-danger err"><?= $err['description'] ?></div>
+                <div class="text-danger err"><?= $err['description'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -41,7 +42,7 @@
                 <input type="number" step="0.01" name="value" class="form-control"
                     value="<?= htmlspecialchars($discount['value']); ?>">
                 <?php if (!empty($err['value'])): ?>
-                    <div class="text-danger err"><?= $err['value'] ?></div>
+                <div class="text-danger err"><?= $err['value'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -49,9 +50,10 @@
                 <label>Tour áp dụng</label>
                 <select name="tour_id" class="form-select">
                     <?php foreach ($tours as $tour): ?>
-                        <option value="<?= $tour['tour_id']; ?>" <?= ($discount['tour_id'] == $tour['tour_id']) ? 'selected' : ''; ?>>
-                            <?= htmlspecialchars($tour['tour_name']); ?>
-                        </option>
+                    <option value="<?= $tour['tour_id']; ?>"
+                        <?= ($discount['tour_id'] == $tour['tour_id']) ? 'selected' : ''; ?>>
+                        <?= htmlspecialchars($tour['tour_name']); ?>
+                    </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -70,7 +72,7 @@
             </div>
 
             <?php if (!empty($err['date'])): ?>
-                <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
+            <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
             <?php endif; ?>
 
             <div class="form-group mb-4">

@@ -3,22 +3,24 @@
         <h4 class="form-title text-center mb-4">Thêm Mã Giảm Giá</h4>
         <form method="POST">
             <?php if (!empty($err['empty'])): ?>
-                <div class="text-danger"><?= $err['empty'] ?></div>
+            <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
             <?php if (!empty($success)): ?>
-                <div class="text-danger"><?= $success ?></div>
+            <div class="text-danger"><?= $success ?></div>
             <?php endif; ?>
+
             <div class="form-group mb-3">
                 <label>Mã giảm giá</label>
                 <input type="text" name="code" class="form-control"
                     value="<?= htmlspecialchars($_POST['code'] ?? '') ?>">
                 <?php if (!empty($err['code'])): ?>
-                    <div class="text-danger err"><?= $err['code'] ?></div>
+                <div class="text-danger err"><?= $err['code'] ?></div>
                 <?php endif; ?>
             </div>
             <div class="form-group mb-3">
                 <label>Mô tả</label>
-                <input type="text" name="description" class="form-control">
+                <input type="text" name="description" class="form-control"
+                    value="<?= htmlspecialchars($_POST['description'] ?? '') ?>">
             </div>
             <div class="form-group mb-3">
                 <label>Loại</label>
@@ -29,13 +31,17 @@
             </div>
             <div class="form-group mb-3">
                 <label>Giá trị</label>
-                <input type="number" step="0.01" name="value" class="form-control">
+                <input type="number" step="0.01" name="value" class="form-control"
+                    value="<?= htmlspecialchars($_POST['value'] ?? '') ?>">
+                <?php if (!empty($err['value'])): ?>
+                <div class="text-danger err"><?= $err['value'] ?></div>
+                <?php endif; ?>
             </div>
             <div class="form-group mb-3">
                 <label>Tour áp dụng</label>
                 <select name="tour_id" class="form-select">
                     <?php foreach ($tours as $tour): ?>
-                        <option value="<?= $tour['tour_id']; ?>"><?= htmlspecialchars($tour['tour_name']); ?></option>
+                    <option value="<?= $tour['tour_id']; ?>"><?= htmlspecialchars($tour['tour_name']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -53,7 +59,7 @@
             </div>
 
             <?php if (!empty($err['date'])): ?>
-                <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
+            <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
             <?php endif; ?>
             <div class="form-group mb-4">
                 <label>Trạng thái</label>
