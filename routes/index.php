@@ -31,6 +31,9 @@ match ($action) {
     'admin-listDiscount' => require './views/admin.php',
     'admin-createDiscount' => require './views/admin.php',
     'admin-updateDiscount' => require './views/admin.php',
+
+    //login 
+    'login' => require './views/login.php',
     
     default => require './views/admin.php',
 

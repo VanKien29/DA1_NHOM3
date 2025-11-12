@@ -2,9 +2,9 @@
     <div class="table-container">
         <div class="admin-table-container">
             <div class="table-header d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold">Danh sách Người Quản Trị</h4><br>
+                <h4 class="fw-bold">Danh sách Quản Trị Viên</h4><br>
                 <a href="?action=admin-createUsers" class="btn btn-primary">
-                    Thêm Người Quản Trị
+                    Thêm Quản Trị Viên
                 </a>
             </div>
 

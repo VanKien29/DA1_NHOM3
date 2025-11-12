@@ -1,4 +1,3 @@
-/* Reset cơ bản */
 a {
   text-decoration: none;
   color: inherit;
@@ -9,7 +8,6 @@ body {
   background-color: #f9fbff;
 }
 
-/* --- BẢNG DANH SÁCH NGƯỜI DÙNG --- */
 .table-container {
   background: #ffffff;
   border-radius: 16px;
@@ -64,7 +62,6 @@ body {
   border-top: 1px solid #f3f4f6;
 }
 
-/* Vai trò */
 .badge {
   display: inline-block;
   padding: 6px 12px;
@@ -83,7 +80,6 @@ body {
   color: #374151 !important;
 }
 
-/* Nút hành động */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -141,7 +137,6 @@ body {
   margin-top: 24px;
 }
 
-/* --- FORM THÊM/CẬP NHẬT NGƯỜI DÙNG --- */
 .admin-form-container {
   display: flex;
   justify-content: center;
@@ -191,7 +186,6 @@ body {
   outline: none;
 }
 
-/* Nút trong form */
 .form-action {
   text-align: center;
   margin-top: 20px;

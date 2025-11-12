@@ -13,7 +13,6 @@ body {
   overflow: hidden;
 }
 
-/* ===== Sidebar ===== */
 aside.sidebar {
   width: 240px;
   background: #fff;
@@ -73,7 +72,6 @@ nav a svg {
   height: 18px;
 }
 
-/* ===== Sidebar footer ===== */
 .sidebar-footer {
   margin-top: auto;
   text-align: center;
@@ -101,7 +99,6 @@ nav a svg {
   color: #94a3b8;
 }
 
-/* ===== Main layout ===== */
 main.main {
   flex-grow: 1;
   display: flex;
@@ -110,7 +107,6 @@ main.main {
   overflow-y: auto;
 }
 
-/* ===== Topbar ===== */
 header.topbar {
   display: flex;
   justify-content: space-between;
@@ -193,11 +189,11 @@ header.topbar {
   user-select: none;
 }
 
-/* ===== Nội dung chính ===== */
 #main-content {
   padding: 16px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
   min-height: 400px;
+  overflow-x: auto;
 }
