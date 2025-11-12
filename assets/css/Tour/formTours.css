@@ -116,3 +116,7 @@ textarea:focus {
     text-align: center;
   }
 }
+
+.err {
+  color: red !important;
+}
