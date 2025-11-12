@@ -24,8 +24,8 @@ class CategoryController
             if (empty($_POST['category_name'])) {
                 $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
             }
-            if (strpbrk($_POST['category_name'], '0123456789') || strlen($_POST['category_name']) <= 10) {
-                $err['name'] = "Tên phải trên 10 kí tự và không chứa số.";
+            if (strlen($_POST['category_name']) <= 6 || strpbrk($_POST['category_name'], '0123456789')) {
+                $err['name'] = "Tên phải trên 6 kí tự và không chứa số.";
             }
             if (empty($err)) {
                 $this->categoryModel->category_name = $_POST['category_name'];

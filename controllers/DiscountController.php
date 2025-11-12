@@ -26,6 +26,9 @@ class DiscountController
             if ($_POST['start_date'] > $_POST['end_date']) {
                 $err['date'] = "Ngày kết thúc phải sau ngày bắt đầu.";
             }
+            if ($_POST['value'] > 0) {
+                $err['value'] = "Giá trị phải là số dương.";
+            }
             if (empty($err)) {
                 $this->discountModel->code = $_POST['code'];
                 $this->discountModel->description = $_POST['description'];
