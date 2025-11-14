@@ -54,27 +54,17 @@ class CustomerQuery extends BaseModel {
 
     // ====== Xóa khách hàng ======
     public function deleteCustomer($id) {
-    $getBookings = $this->pdo->prepare("SELECT booking_id FROM bookings WHERE customer_id = :id");
-    $getBookings->bindParam(':id', $id);
-    $getBookings->execute();
-    $bookings = $getBookings->fetchAll(PDO::FETCH_COLUMN);
-
-    if (!empty($bookings)) {
-        $in = str_repeat('?,', count($bookings) - 1) . '?';
-        $deleteRevenues = $this->pdo->prepare("DELETE FROM revenues WHERE booking_id IN ($in)");
-        $deleteRevenues->execute($bookings);
+    try {
+        $sql = "DELETE FROM customers WHERE customer_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        if ($e->getCode() == "23000") {
+            return false;
+        }
     }
-
-    $deleteBookings = $this->pdo->prepare("DELETE FROM bookings WHERE customer_id = :id");
-    $deleteBookings->bindParam(':id', $id);
-    $deleteBookings->execute();
-
-    $sql = "DELETE FROM customers WHERE customer_id = :id";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->bindParam(':id', $id);
-    return $stmt->execute();
-}
-
-
+    }
 }
 ?>

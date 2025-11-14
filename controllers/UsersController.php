@@ -99,14 +99,23 @@ class UsersController
         require './views/User/UpdateUser.php';
     }
 
-    public function deleteUsers()
+    public function deleteUsers($id)
     {
-        $id = $_GET['id'] ?? null;
         if ($id) {
-            $this->userQuery->deleteUser($id);
+            if($this->userQuery->deleteUser($id)) {
+            echo "<script>
+                    alert('Xóa người dùng thành công!');
+                    window.location.href='?action=admin-listUsers';
+            </script>";
+            exit; 
+            } else {
+                echo "<script>
+                    alert('Không thể xoá người dùng vì đang có dữ liệu liên quan!');
+                    window.location.href='?action=admin-listUsers';
+            </script>";
+                exit;
+            }
         }
-        header("Location: ?action=admin-listUsers");
-        exit;
     }
 }
 ?>

@@ -66,10 +66,17 @@ class DiscountQuery extends BaseModel {
     }
 
     public function deleteDiscount($id) {
+    try {
         $sql = "DELETE FROM discounts WHERE discount_id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        if ($e->getCode() == "23000") {
+            return false;
+        }
+    }
     }
 }
 ?>

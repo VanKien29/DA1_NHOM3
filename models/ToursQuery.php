@@ -85,10 +85,17 @@ class ToursQuery extends BaseModel {
 
     // ====== Xóa tour ======
     public function deleteTour($id) {
+    try {
         $sql = "DELETE FROM tours WHERE tour_id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        if ($e->getCode() == "23000") {
+            return false;
+        }
+    }
     }
 
 }

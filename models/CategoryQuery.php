@@ -34,13 +34,20 @@ class CategoryQuery extends BaseModel {
         $stmt->bindParam(':category_id', $this->category_id);
         return $stmt->execute();
     }
-    public function deleteCategory($id) {
-        $sql = "DELETE FROM categories 
-                WHERE category_id = :category_id";
+    public function deleteCategory($id){
+    try {
+        $sql = "DELETE FROM categories WHERE category_id = :id";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':category_id', $id);
-        return $stmt->execute();
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        if ($e->getCode() == "23000") {
+            return false;
+        }
     }
+}
+
     
 }
 ?>
