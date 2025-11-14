@@ -15,6 +15,7 @@
                 <th>Giá</th>
                 <th>Bắt đầu</th>
                 <th>Kết thúc</th>
+                <th>Mô Tả</th>
                 <th>Trạng thái</th>
                 <th>Hành động</th>
             </tr>
@@ -28,6 +29,7 @@
                 <td><?= number_format($tour['price'], 0, ',', '.') ?>₫</td>
                 <td><?= $tour['start_date'] ?></td>
                 <td><?= $tour['end_date'] ?></td>
+                <td><?= htmlspecialchars($tour['description']) ?></td>
                 <td>
                     <?php if ($tour['status'] == 'upcoming'): ?>
                     <span class="badge bg-warning">Sắp diễn ra</span>

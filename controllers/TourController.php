@@ -92,13 +92,22 @@ class TourController
     }
 
     // ===== Xóa tour =====
-    public function deleteTours($id)
-    {
+    public function deleteTours($id){
         if ($id) {
-            $this->tourQuery->deleteTour($id);
+            if($this->tourQuery->deleteTour($id)) {
+            echo "<script>
+                    alert('Xóa tour thành công!');
+                    window.location.href='?action=admin-listTours';
+            </script>";
+            exit; 
+            } else {
+                echo "<script>
+                    alert('Không thể xoá tour vì đang có khách hàng thuộc tour này!');
+                    window.location.href='?action=admin-listTours';
+            </script>";
+                exit;
+            }
         }
-        header("Location: ?action=admin-listTours");
-        exit;
     }
 }
 ?>

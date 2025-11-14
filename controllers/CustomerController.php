@@ -86,10 +86,20 @@ class CustomerController
     public function deleteCustomer($id)
     {
         if ($id) {
-            $this->customerModel->deleteCustomer($id);
+            if($this->customerModel->deleteCustomer($id)) {
+            echo "<script>
+                    alert('Xóa khách hàng thành công!');
+                    window.location.href='?action=admin-listCustomer';
+            </script>";
+            exit; 
+            } else {
+                echo "<script>
+                    alert('Không thể xoá vì khách hàng này đang trong một tour!');
+                    window.location.href='?action=admin-listCustomer';
+            </script>";
+                exit;
+            }
         }
-        header("Location: ?action=admin-listCustomer");
-        exit;
     }
 }
 ?>

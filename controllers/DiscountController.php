@@ -87,13 +87,23 @@ class DiscountController
         require './views/Discount/updateDiscount.php';
     }
 
-    public function deleteDiscount()
+    public function deleteDiscount($id)
     {
-        $id = $_GET['id'] ?? null;
-        if ($id)
-            $this->discountModel->deleteDiscount($id);
-        header("Location: ?action=admin-listDiscount");
-        exit;
+        if ($id) {
+            if($this->discountModel->deleteDiscount($id)) {
+            echo "<script>
+                    alert('Xóa mã giảm giá thành công!');
+                    window.location.href='?action=admin-listDiscount';
+            </script>";
+            exit; 
+            } else {
+                echo "<script>
+                    alert('Không thể xoá mã giảm giá vì đang có tour thuộc mã giảm giá này!');
+                    window.location.href='?action=admin-listDiscount';
+            </script>";
+                exit;
+            }
+        }
     }
 }
 ?>

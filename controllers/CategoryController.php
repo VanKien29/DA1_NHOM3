@@ -70,13 +70,22 @@ class CategoryController
     }
 
     // ===== Xóa danh mục =====
-    public function deleteCategory($id)
-    {
+    public function deleteCategory($id){
         if ($id) {
-            $this->categoryModel->deleteCategory($id);
+            if($this->categoryModel->deleteCategory($id)) {
+            echo "<script>
+                    alert('Xóa danh mục thành công!');
+                    window.location.href='?action=admin-listCategory';
+            </script>";
+            exit; 
+            } else {
+                echo "<script>
+                    alert('Không thể xoá danh mục vì đang có tour thuộc danh mục này!');
+                    window.location.href='?action=admin-listCategory';
+            </script>";
+                exit;
+            }
         }
-        header("Location: ?action=admin-listCategory");
-        exit;
     }
 }
 
