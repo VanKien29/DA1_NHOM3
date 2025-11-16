@@ -9,26 +9,24 @@
     <table class="table table-hover align-middle">
         <thead class="table-light">
             <tr>
+                <th>#</th>
                 <th>ID</th>
                 <th>Tên tour</th>
                 <th>Danh mục</th>
                 <th>Giá</th>
-                <th>Bắt đầu</th>
-                <th>Kết thúc</th>
                 <th>Mô Tả</th>
                 <th>Trạng thái</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($tours as $tour): ?>
+            <?php $stt = 1; foreach ($tours as $tour): ?>
             <tr>
+                <td><?= $stt++ ?></td>
                 <td><?= $tour['tour_id'] ?></td>
                 <td><?= htmlspecialchars($tour['tour_name']) ?></td>
                 <td><?= htmlspecialchars($tour['category_name']) ?></td>
                 <td><?= number_format($tour['price'], 0, ',', '.') ?>₫</td>
-                <td><?= $tour['start_date'] ?></td>
-                <td><?= $tour['end_date'] ?></td>
                 <td><?= htmlspecialchars($tour['description']) ?></td>
                 <td>
                     <?php if ($tour['status'] == 'upcoming'): ?>
