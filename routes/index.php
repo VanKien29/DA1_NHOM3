@@ -35,6 +35,16 @@ match ($action) {
     'admin-listDiscount' => require './views/admin.php',
     'admin-createDiscount' => require './views/admin.php',
     'admin-updateDiscount' => require './views/admin.php',
+
+    // Guide
+    'admin-listGuide' => require './views/admin.php',
+    'admin-createGuide' => require './views/admin.php',
+    'admin-updateGuide' => require './views/admin.php',
+    
+    // Tour Guide
+    'admin-listTourGuide' => require './views/admin.php',
+    'admin-createTourGuide' => require './views/admin.php',
+    'admin-updateTourGuide' => require './views/admin.php',
     
     default => require './views/admin.php',
 };
