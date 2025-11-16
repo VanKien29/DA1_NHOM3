@@ -35,7 +35,7 @@ $user = $_SESSION['user'];
         case 'admin-updateTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/formTours.css">';
             break;
-        
+
         // Users
         case 'admin-listUsers':
             echo '<link rel="stylesheet" href="assets/css/User/listUsers.css">';
@@ -44,7 +44,7 @@ $user = $_SESSION['user'];
         case 'admin-updateUsers':
             echo '<link rel="stylesheet" href="assets/css/User/formUsers.css">';
             break;
-            
+
         // Categories
         case 'admin-listCategory':
             echo '<link rel="stylesheet" href="assets/css/Category/listCategory.css">';
@@ -53,7 +53,7 @@ $user = $_SESSION['user'];
         case 'admin-updateCategory':
             echo '<link rel="stylesheet" href="assets/css/Category/formCategory.css">';
             break;
-            
+
         // Customers
         case 'admin-listCustomer':
             echo '<link rel="stylesheet" href="assets/css/Customer/listCustomer.css">';
@@ -62,7 +62,7 @@ $user = $_SESSION['user'];
         case 'admin-updateCustomer':
             echo '<link rel="stylesheet" href="assets/css/Customer/formCustomer.css">';
             break;
-        
+
         // Discounts
         case 'admin-listDiscount':
             echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
@@ -88,6 +88,30 @@ $user = $_SESSION['user'];
         case 'admin-createTourGuide':
         case 'admin-updateTourGuide':
             echo '<link rel="stylesheet" href="assets/css/TourGuide/formToursGuide.css">';
+    
+        // Hotel
+        case 'admin-listHotel':
+            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
+            break;
+        case 'admin-createHotel':
+        case 'admin-updateHotel':
+            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
+            break;
+        // Hotel
+        case 'admin-listVehicles':
+            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
+            break;
+        case 'admin-createVehicles':
+        case 'admin-updatevehicles':
+            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
+
+        // Reports
+        case 'admin-listReport':
+            echo '<link rel="stylesheet" href="assets/css/Report/listReport.css">';
+            break;
+        case 'admin-createReport':
+        case 'admin-updateReport':
+            echo '<link rel="stylesheet" href="assets/css/Report/formReport.css">';
             break;
     }
     ?>
@@ -155,6 +179,13 @@ $user = $_SESSION['user'];
                 <li>
                     <a href="#">
                         <i class="fa-solid fa-bus-simple"></i> Xe Du Lịch
+                    <a href="?action=admin-listReport">
+                        <i class="<?= ($action == 'admin-listReport') ? 'active' : '' ?>"></i> Reports
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listVehicles">
+                        <i class="fa-solid fa-bus-simple"></i> Vehicles
                     </a>
                 </li>
                 <li>
@@ -167,6 +198,11 @@ $user = $_SESSION['user'];
                         <i class="fa-solid fa-comments"></i> Đánh Giá
                     </a>
                 </li>
+                <li>
+                    <a href="?action=admin-listHotel">
+                        <i class="fa-solid fa-comments"></i> Hotel
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -177,9 +213,9 @@ $user = $_SESSION['user'];
             <small><?= $user['role'] == "admin" ? "Quản Trị Viên" : "Hướng Dẫn Viên" ?></small>
             <div class="auth-buttons">
                 <?php if (empty($user)) { ?>
-                <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
+                    <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
                 <?php } else { ?>
-                <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                 <?php } ?>
             </div>
         </div>
@@ -221,75 +257,103 @@ $user = $_SESSION['user'];
         </header>
         <div id="main-content" class="p-3">
             <?php
-                switch ($action) {
-                    // Tours
-                    case 'admin-listTours':
-                        (new TourController)->listTours();
+            switch ($action) {
+                // Tours
+                case 'admin-listTours':
+                    (new TourController)->listTours();
+                    break;
+                case 'admin-createTours':
+                    (new TourController)->createTours();
+                    break;
+                case 'admin-updateTours':
+                    (new TourController)->updateTours($id);
+                    break;
+                case 'admin-deleteTours':
+                    (new TourController)->deleteTours($id);
+                    break;
+
+                // Users
+                case 'admin-listUsers':
+                    (new UsersController)->listUsers();
+                    break;
+                case 'admin-createUsers':
+                    (new UsersController)->createUsers();
+                    break;
+                case 'admin-updateUsers':
+                    (new UsersController)->updateUsers($id);
+                    break;
+                case 'admin-deleteUsers':
+                    (new UsersController)->deleteUsers($id);
+                    break;
+
+                // Categories
+                case 'admin-listCategory':
+                    (new CategoryController)->listCategories();
+                    break;
+                case 'admin-createCategory':
+                    (new CategoryController)->createCategory();
+                    break;
+                case 'admin-updateCategory':
+                    (new CategoryController)->updateCategory($id);
+                    break;
+                case 'admin-deleteCategory':
+                    (new CategoryController)->deleteCategory($id);
+                    break;
+
+                // Customers
+                case 'admin-listCustomer':
+                    (new CustomerController)->listCustomers();
+                    break;
+                case 'admin-createCustomer':
+                    (new CustomerController)->createCustomer();
+                    break;
+                case 'admin-updateCustomer':
+                    (new CustomerController)->updateCustomer($id);
+                    break;
+                case 'admin-deleteCustomer':
+                    (new CustomerController)->deleteCustomer($id);
+                    break;
+
+                // Discounts
+                case 'admin-listDiscount':
+                    (new DiscountController)->listDiscounts();
+                    break;
+                case 'admin-createDiscount':
+                    (new DiscountController)->createDiscount();
+                    break;
+                case 'admin-updateDiscount':
+                    (new DiscountController)->updateDiscount($id);
+                    break;
+                case 'admin-deleteDiscount':
+                    (new DiscountController)->deleteDiscount($id);
+                    break;
+
+                    // Hotels
+                    case 'admin-listHotel':
+                        (new HotelController)->listHotel();
                         break;
-                    case 'admin-createTours':
-                        (new TourController)->createTours();
+                    case 'admin-createHotel' :
+                        (new HotelController)->createHotel();
                         break;
-                    case 'admin-updateTours':
-                        (new TourController)->updateTours($id);
+                    case 'admin-updateHotel' :
+                        (new HotelController)->updateHotel($id);
                         break;
-                    case 'admin-deleteTours':
-                        (new TourController)->deleteTours($id);
+                    case 'admin-deleteHotel' :
+                        (new HotelController)->deleteHotel($id); 
                         break;
-                    
-                    // Users
-                    case 'admin-listUsers':
-                        (new UsersController)->listUsers();
+
+                    // Vehicles
+                    case 'admin-listVehicles':
+                        (new VehiclesController)->listVehicles();
                         break;
-                    case 'admin-createUsers':
-                        (new UsersController)->createUsers();
+                    case 'admin-createVehicles' :
+                        (new VehiclesController)->createVehicles();
                         break;
-                    case 'admin-updateUsers':
-                        (new UsersController)->updateUsers($id);
+                    case 'admin-updateVehicles' :
+                        (new VehiclesController)->updateVehicles($id);
                         break;
-                    case 'admin-deleteUsers':
-                        (new UsersController)->deleteUsers($id);
-                        break;
-                        
-                    // Categories
-                    case 'admin-listCategory':
-                        (new CategoryController)->listCategories();
-                        break;
-                    case 'admin-createCategory':
-                        (new CategoryController)->createCategory();
-                        break;
-                    case 'admin-updateCategory':
-                        (new CategoryController)->updateCategory($id);
-                        break;
-                    case 'admin-deleteCategory':
-                        (new CategoryController)->deleteCategory($id);
-                        break;
-                    
-                    // Customers
-                    case 'admin-listCustomer':
-                        (new CustomerController)->listCustomers();
-                        break;
-                    case 'admin-createCustomer':
-                        (new CustomerController)->createCustomer();
-                        break;
-                    case 'admin-updateCustomer':
-                        (new CustomerController)->updateCustomer($id);
-                        break;
-                    case 'admin-deleteCustomer':
-                        (new CustomerController)->deleteCustomer($id);
-                        break;
-                    
-                    // Discounts
-                    case 'admin-listDiscount':
-                        (new DiscountController)->listDiscounts();
-                        break;
-                    case 'admin-createDiscount' :
-                        (new DiscountController)->createDiscount();
-                        break;
-                    case 'admin-updateDiscount' :
-                        (new DiscountController)->updateDiscount($id);
-                        break;
-                    case 'admin-deleteDiscount' :
-                        (new DiscountController)->deleteDiscount($id); 
+                    case 'admin-deleteVehicles' :
+                        (new VehiclesController)->deleteVehicles($id); 
                         break;
 
                     // Guides 
@@ -321,6 +385,20 @@ $user = $_SESSION['user'];
                         break;
 
                 }
+                // Reports
+                case 'admin-listReport':
+                    (new ReportController)->listReports();
+                    break;
+                case 'admin-createReport':
+                    (new ReportController)->createReport();
+                    break;
+                case 'admin-updateReport':
+                    (new ReportController)->updateReport($id);
+                    break;
+                case 'admin-deleteReport':
+                    (new ReportController)->deleteReport($id);
+                    break;
+            }
             ?>
         </div>
     </main>

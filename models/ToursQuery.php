@@ -1,5 +1,4 @@
 <?php
-
 class ToursQuery extends BaseModel {
     public $tour_id;
     public $tour_name;
@@ -10,8 +9,6 @@ class ToursQuery extends BaseModel {
     public $end_date;
     public $status;
     public $category_name;
-
-    // ====== Lấy toàn bộ tour ======
     public function getAllTours() {
         $sql = "SELECT t.*, c.category_name 
                 FROM tours t
@@ -21,8 +18,6 @@ class ToursQuery extends BaseModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    // ====== Lấy toàn bộ tour kèm tên danh mục ======
     public function getAllToursWithCategory() {
         $sql = "SELECT t.*, c.category_name
                 FROM tours t
@@ -32,8 +27,6 @@ class ToursQuery extends BaseModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // ====== Tìm tour theo ID ======
     public function findTour($id) {
         $sql = "SELECT t.*, c.category_name 
                 FROM tours t
@@ -44,8 +37,6 @@ class ToursQuery extends BaseModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    // ====== Thêm tour ======
     public function createTour() {
         $sql = "INSERT INTO tours (tour_name, description, price, category_id, start_date, end_date, status)
                 VALUES (:tour_name, :description, :price, :category_id, :start_date, :end_date, :status)";
@@ -59,8 +50,6 @@ class ToursQuery extends BaseModel {
         $stmt->bindParam(':status', $this->status);
         return $stmt->execute();
     }
-
-    // ====== Cập nhật tour ======
     public function updateTour() {
         $sql = "UPDATE tours SET 
                     tour_name = :tour_name,
@@ -82,8 +71,6 @@ class ToursQuery extends BaseModel {
         $stmt->bindParam(':status', $this->status);
         return $stmt->execute();
     }
-
-    // ====== Xóa tour ======
     public function deleteTour($id) {
     try {
         $sql = "DELETE FROM tours WHERE tour_id = :id";
@@ -97,6 +84,5 @@ class ToursQuery extends BaseModel {
         }
     }
     }
-
 }
 ?>
