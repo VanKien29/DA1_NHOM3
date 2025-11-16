@@ -51,9 +51,8 @@ class DiscountController
         require './views/Discount/createDiscount.php';
     }
 
-    public function updateDiscount()
+    public function updateDiscount($id)
     {
-        $id = $_GET['id'] ?? null;
         $discount = $this->discountModel->findDiscount($id);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
