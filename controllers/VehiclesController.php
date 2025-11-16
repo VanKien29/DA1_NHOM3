@@ -44,18 +44,10 @@ class VehiclesController
 
         require './views/Vehicles/createVehicles.php';
     }
-    public function updateVehicles()
+    public function updateVehicles($id)
     {
-        $id = $_GET['id'] ?? null;
         $vehicles = $this->vehiclesModel->findVehicles($id);
-
-        if (!$vehicles) {
-            echo "<script>alert('Xe không tồn tại!'); window.location='?action=admin-listVehicles';</script>";
-            exit;
-        }
-
         $err = [];
-        $success = "";
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -86,12 +78,8 @@ class VehiclesController
 
         require './views/Vehicles/updateVehicles.php';
     }
-
-    // ================= DELETE =================
-    public function deleteVehicles()
+    public function deleteVehicles($id)
     {
-        $id = $_GET['id'] ?? null;
-
         if ($id) {
             if ($this->vehiclesModel->deleteVehicles($id)) {
                 echo "<script>

@@ -43,25 +43,15 @@ class HotelController
 
         require './views/Hotel/createHotel.php';
     }
-    public function updateHotel()
+    public function updateHotel($id)
     {
-        $id = $_GET['id'] ?? null;
         $hotel = $this->hotelModel->findHotel($id);
-
-        if (!$hotel) {
-            echo "<script>alert('Hotel không tồn tại!'); window.location='?action=admin-listHotel';</script>";
-            exit;
-        }
-
         $err = [];
-        $success = "";
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
             if (empty($_POST['hotel_name']) || empty($_POST['address']) || empty($_POST['rating'])) {
                 $err['empty'] = "Vui lòng điền đầy đủ thông tin!";
             }
-
             if (!empty($_POST['rating']) && ($_POST['rating'] < 0 || $_POST['rating'] > 5)) {
                 $err['rating'] = "Rating phải từ 0 đến 5.";
             }
@@ -85,10 +75,8 @@ class HotelController
     }
 
 
-    public function deleteHotel()
+    public function deleteHotel($id)
     {
-        $id = $_GET['id'] ?? null;
-
         if ($id) {
             if ($this->hotelModel->deleteHotel($id)) {
                 echo "<script>
