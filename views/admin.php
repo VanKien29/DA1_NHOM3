@@ -71,6 +71,23 @@ $user = $_SESSION['user'];
         case 'admin-updateDiscount':
             echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
             break;
+    
+        // Hotel
+        case 'admin-listHotel':
+            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
+            break;
+        case 'admin-createHotel':
+        case 'admin-updateHotel':
+            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
+            break;
+        // Hotel
+        case 'admin-listVehicles':
+            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
+            break;
+        case 'admin-createVehicles':
+        case 'admin-updatevehicles':
+            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
+            break;
     }
     ?>
 </head>
@@ -124,7 +141,7 @@ $user = $_SESSION['user'];
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="?action=admin-listVehicles">
                         <i class="fa-solid fa-bus-simple"></i> Vehicles
                     </a>
                 </li>
@@ -136,6 +153,11 @@ $user = $_SESSION['user'];
                 <li>
                     <a href="#">
                         <i class="fa-solid fa-comments"></i> Feedback
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listHotel">
+                        <i class="fa-solid fa-comments"></i> Hotel
                     </a>
                 </li>
             </ul>
@@ -261,6 +283,34 @@ $user = $_SESSION['user'];
                         break;
                     case 'admin-deleteDiscount' :
                         (new DiscountController)->deleteDiscount($id); 
+                        break;
+
+                    // Hotels
+                    case 'admin-listHotel':
+                        (new HotelController)->listHotel();
+                        break;
+                    case 'admin-createHotel' :
+                        (new HotelController)->createHotel();
+                        break;
+                    case 'admin-updateHotel' :
+                        (new HotelController)->updateHotel($id);
+                        break;
+                    case 'admin-deleteHotel' :
+                        (new HotelController)->deleteHotel($id); 
+                        break;
+
+                    // Vehicles
+                    case 'admin-listVehicles':
+                        (new VehiclesController)->listVehicles();
+                        break;
+                    case 'admin-createVehicles' :
+                        (new VehiclesController)->createVehicles();
+                        break;
+                    case 'admin-updateVehicles' :
+                        (new VehiclesController)->updateVehicles($id);
+                        break;
+                    case 'admin-deleteVehicles' :
+                        (new VehiclesController)->deleteVehicles($id); 
                         break;
 
                 }
