@@ -1,84 +1,90 @@
 <?php
 class VehiclesController
 {
-    private $vehiclesModel;
+    private $vehiclesQuery;
 
-    public function __construct()
+    function __construct()
     {
-        $this->vehiclesModel = new VehiclesQuery();
+        $this->vehiclesQuery = new VehiclesQuery();
     }
+
+    // ==== Danh sách Vehicles ====
     public function listVehicles()
     {
-        $vehicles = $this->vehiclesModel->getAllVehicles();
+        $vehicles = $this->vehiclesQuery->getAllVehicles();
         require './views/Vehicles/listVehicles.php';
     }
+
+    // ==== Thêm Vehicles ====
     public function createVehicles()
     {
         $err = [];
-        $success = "";
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (empty($_POST['service_name']) || empty($_POST['seat']) ||
+                empty($_POST['price_per_day']) || empty($_POST['description'])) {
 
-            if (empty($_POST['plate_number']) || empty($_POST['supplier_id']) ||
-                empty($_POST['type']) || empty($_POST['capacity'])) {
-                $err['empty'] = "Vui lòng điền đầy đủ thông tin!";
-            }
-
-            if (!empty($_POST['capacity']) && $_POST['capacity'] <= 0) {
-                $err['capacity'] = "Số chỗ phải lớn hơn 0!";
+                $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
+            } elseif ($_POST['seat'] <= 0) {
+                $err['seat'] = "Số chỗ phải lớn hơn 0!";
+            } elseif ($_POST['price_per_day'] <= 0) {
+                $err['price_per_day'] = "Giá phải lớn hơn 0!";
             }
 
             if (empty($err)) {
-                $this->vehiclesModel->plate_number = $_POST['plate_number'];
-                $this->vehiclesModel->supplier_id  = $_POST['supplier_id'];
-                $this->vehiclesModel->type         = $_POST['type'];
-                $this->vehiclesModel->capacity     = $_POST['capacity'];
+                $this->vehiclesQuery->service_name = $_POST['service_name'];
+                $this->vehiclesQuery->seat = $_POST['seat'];
+                $this->vehiclesQuery->price_per_day = $_POST['price_per_day'];
+                $this->vehiclesQuery->description = $_POST['description'];
 
-                if ($this->vehiclesModel->createVehicles()) {
-                    $success = "Thêm phương tiện thành công!";
-                } else {
-                    $err['query'] = "Lỗi thêm dữ liệu!";
+                if ($this->vehiclesQuery->createVehicles()) {
+                    echo "<script>alert('Thêm Phương tiện thành công!'); 
+                          window.location='?action=admin-listVehicles'</script>";
+                    exit;
                 }
             }
         }
 
         require './views/Vehicles/createVehicles.php';
     }
+
+    // ==== Cập nhật Vehicles ====
     public function updateVehicles()
     {
-        $id = $_GET['id'] ?? null;
-        $vehicles = $this->vehiclesModel->findVehicles($id);
+        if (!isset($_GET['id'])) {
+            header("Location: ?action=admin-listVehicles");
+            exit;
+        }
 
+        $id = $_GET['id'];
+        $vehicles = $this->vehiclesQuery->findVehicles($id);
         if (!$vehicles) {
-            echo "<script>alert('Xe không tồn tại!'); window.location='?action=admin-listVehicles';</script>";
+            header("Location: ?action=admin-listVehicles");
             exit;
         }
 
         $err = [];
-        $success = "";
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (empty($_POST['service_name']) || empty($_POST['seat']) ||
+                empty($_POST['price_per_day']) || empty($_POST['description'])) {
 
-            if (empty($_POST['plate_number']) || empty($_POST['supplier_id']) ||
-                empty($_POST['type']) || empty($_POST['capacity'])) {
-                $err['empty'] = "Vui lòng điền đầy đủ thông tin!";
-            }
-
-            if (!empty($_POST['capacity']) && $_POST['capacity'] <= 0) {
-                $err['capacity'] = "Số chỗ phải lớn hơn 0!";
+                $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
+            } elseif ($_POST['seat'] <= 0) {
+                $err['seat'] = "Số chỗ phải lớn hơn 0!";
+            } elseif ($_POST['price_per_day'] <= 0) {
+                $err['price_per_day'] = "Giá phải lớn hơn 0!";
             }
 
             if (empty($err)) {
-                $this->vehiclesModel->plate_number = $_POST['plate_number'];
-                $this->vehiclesModel->supplier_id  = $_POST['supplier_id'];
-                $this->vehiclesModel->type         = $_POST['type'];
-                $this->vehiclesModel->capacity     = $_POST['capacity'];
+                $this->vehiclesQuery->service_name = $_POST['service_name'];
+                $this->vehiclesQuery->seat = $_POST['seat'];
+                $this->vehiclesQuery->price_per_day = $_POST['price_per_day'];
+                $this->vehiclesQuery->description = $_POST['description'];
 
-                if ($this->vehiclesModel->updateVehicles($id)) {
-                    echo "<script>
-                        alert('Cập nhật thành công!');
-                        window.location='?action=admin-listVehicles';
-                    </script>";
+                if ($this->vehiclesQuery->updateVehicles($id)) {
+                    echo "<script>alert('Cập nhật thành công!'); 
+                          window.location='?action=admin-listVehicles'</script>";
                     exit;
                 }
             }
@@ -87,25 +93,20 @@ class VehiclesController
         require './views/Vehicles/updateVehicles.php';
     }
 
-    // ================= DELETE =================
+    // ==== Xóa Vehicles ====
     public function deleteVehicles()
     {
-        $id = $_GET['id'] ?? null;
-
-        if ($id) {
-            if ($this->vehiclesModel->deleteVehicles($id)) {
-                echo "<script>
-                    alert('Xóa phương tiện thành công!');
-                    window.location='?action=admin-listVehicles';
-                </script>";
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            if ($this->vehiclesQuery->deleteVehicles($id)) {
+                echo "<script>alert('Xóa thành công!'); 
+                      window.location='?action=admin-listVehicles'</script>";
             } else {
-                echo "<script>
-                    alert('Không thể xóa phương tiện!');
-                    window.location='?action=admin-listVehicles';
-                </script>";
+                echo "<script>alert('Không thể xóa vì phương tiện đang được sử dụng trong Booking!'); 
+                      window.location='?action=admin-listVehicles'</script>";
             }
-            exit;
         }
+        exit;
     }
 }
 ?>

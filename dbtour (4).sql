@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th10 14, 2025 lúc 04:54 AM
+-- Thời gian đã tạo: Th10 17, 2025 lúc 09:18 AM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -144,6 +144,7 @@ CREATE TABLE `guides` (
   `user_id` int DEFAULT NULL,
   `experience_years` int DEFAULT '0',
   `specialization` varchar(255) DEFAULT NULL,
+  `avt` varchar(255) DEFAULT NULL,
   `note` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -151,25 +152,25 @@ CREATE TABLE `guides` (
 -- Đang đổ dữ liệu cho bảng `guides`
 --
 
-INSERT INTO `guides` (`guide_id`, `user_id`, `experience_years`, `specialization`, `note`) VALUES
-(1, 3, 5, 'Miền Bắc', 'HDV chuyên nghiệp'),
-(2, 4, 3, 'Miền Trung', 'Thân thiện'),
-(3, 5, 6, 'Miền Nam', 'Nhiệt tình'),
-(4, 6, 2, 'Miền Tây', 'Vui vẻ'),
-(5, 7, 4, 'Miền Trung', 'Kinh nghiệm cao'),
-(6, 8, 3, 'Miền Bắc', 'Giao tiếp tốt'),
-(7, 9, 2, 'Miền Nam', 'Thấu hiểu khách hàng'),
-(8, 10, 4, 'Miền Tây', 'Cẩn thận'),
-(9, 5, 1, 'Miền Trung', 'Tận tâm'),
-(10, 6, 5, 'Miền Nam', 'Hiểu biết văn hóa');
+INSERT INTO `guides` (`guide_id`, `user_id`, `experience_years`, `specialization`, `avt`, `note`) VALUES
+(1, 3, 5, 'Trong Nước', NULL, 'HDV chuyên nghiệp'),
+(2, 4, 3, 'Nước Ngoài', NULL, 'Thân thiện'),
+(3, 5, 6, 'Nước Ngoài', NULL, 'Nhiệt tình'),
+(4, 6, 2, 'Nước Ngoài', NULL, 'Vui vẻ'),
+(5, 7, 4, 'Trong Nước', NULL, 'Kinh nghiệm cao'),
+(6, 8, 3, 'Trong Nước', NULL, 'Giao tiếp tốt'),
+(7, 9, 2, 'Nước Ngoài', NULL, 'Thấu hiểu khách hàng'),
+(8, 10, 4, 'Trong Nước', NULL, 'Cẩn thận'),
+(9, 5, 1, 'Trong Nước', NULL, 'Tận tâm'),
+(10, 6, 5, 'Trong Nước', NULL, 'Hiểu biết văn hoá');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `hotel_services`
+-- Cấu trúc bảng cho bảng `hotels`
 --
 
-CREATE TABLE `hotel_services` (
+CREATE TABLE `hotels` (
   `hotel_service_id` int NOT NULL,
   `service_name` varchar(255) DEFAULT NULL,
   `room_type` varchar(255) DEFAULT NULL,
@@ -238,8 +239,6 @@ CREATE TABLE `tours` (
   `description` text,
   `price` decimal(12,2) DEFAULT NULL,
   `category_id` int DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
   `status` enum('upcoming','ongoing','finished') DEFAULT 'upcoming'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -247,17 +246,17 @@ CREATE TABLE `tours` (
 -- Đang đổ dữ liệu cho bảng `tours`
 --
 
-INSERT INTO `tours` (`tour_id`, `tour_name`, `description`, `price`, `category_id`, `start_date`, `end_date`, `status`) VALUES
-(1, 'Tour Đà Lạt 3N2Đ', 'Khám phá thành phố ngàn hoa.', 3600000.00, 6, '2025-01-10', '2025-01-12', 'upcoming'),
-(2, 'Tour Phú Quốc 4N3Đ', 'Vinpearl Safari, Grand World.', 5200000.00, 7, '2025-02-02', '2025-02-05', 'upcoming'),
-(3, 'Tour Sapa 3N2Đ', 'Leo Fansipan, bản Cát Cát.', 4200000.00, 6, '2024-12-20', '2024-12-22', 'ongoing'),
-(4, 'Tour Nha Trang 2N1Đ', 'Tắm biển và VinWonders.', 2800000.00, 6, '2024-12-05', '2024-12-06', 'finished'),
-(5, 'Tour Hạ Long 3N2Đ', 'Du thuyền và hang Sửng Sốt.', 4500000.00, 7, '2025-03-15', '2025-03-17', 'upcoming'),
-(6, 'Tour Huế 2N1Đ', 'Tham quan Kinh Thành Huế.', 2500000.00, 7, '2025-04-05', '2025-04-06', 'upcoming'),
-(7, 'Tour Hội An 3N2Đ', 'Phố cổ và biển An Bàng.', 3200000.00, 7, '2025-05-10', '2025-05-12', 'upcoming'),
-(8, 'Tour Cần Thơ 2N1Đ', 'Chợ nổi Cái Răng.', 2600000.00, 6, '2025-06-10', '2025-06-11', 'upcoming'),
-(9, 'Tour Ninh Bình 2N1Đ', 'Tràng An - Tam Cốc.', 2800000.00, 6, '2025-07-15', '2025-07-16', 'upcoming'),
-(10, 'Tour Đà Nẵng 3N2Đ', 'Bà Nà Hills - Mỹ Khê.', 3900000.00, 7, '2025-08-10', '2025-08-12', 'upcoming');
+INSERT INTO `tours` (`tour_id`, `tour_name`, `description`, `price`, `category_id`, `status`) VALUES
+(1, 'Tour Đà Lạt 3N2Đ', 'Khám phá thành phố ngàn hoa.', 3600000.00, 6, 'ongoing'),
+(2, 'Tour Phú Quốc 4N3Đ', 'Vinpearl Safari, Grand World.', 5200000.00, 7, 'ongoing'),
+(3, 'Tour Sapa 3N2Đ', 'Leo Fansipan, bản Cát Cát.', 4200000.00, 6, 'ongoing'),
+(4, 'Tour Nha Trang 2N1Đ', 'Tắm biển và VinWonders.', 2800000.00, 6, 'ongoing'),
+(5, 'Tour Hạ Long 3N2Đ', 'Du thuyền và hang Sửng Sốt.', 4500000.00, 7, 'ongoing'),
+(6, 'Tour Huế 2N1Đ', 'Tham quan Kinh Thành Huế.', 2500000.00, 7, 'ongoing'),
+(7, 'Tour Hội An 3N2Đ', 'Phố cổ và biển An Bàng.', 3200000.00, 7, 'ongoing'),
+(8, 'Tour Cần Thơ 2N1Đ', 'Chợ nổi Cái Răng.', 2600000.00, 6, 'ongoing'),
+(9, 'Tour Ninh Bình 2N1Đ', 'Tràng An - Tam Cốc.', 2800000.00, 6, 'ongoing'),
+(10, 'Tour Đà Nẵng 3N2Đ', 'Bà Nà Hills - Mỹ Khê.', 3900000.00, 7, 'ongoing');
 
 -- --------------------------------------------------------
 
@@ -269,24 +268,27 @@ CREATE TABLE `tour_guides` (
   `tour_id` int NOT NULL,
   `guide_id` int NOT NULL,
   `assigned_date` date DEFAULT NULL,
-  `status` enum('assigned','completed','cancelled') DEFAULT 'assigned'
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `status` enum('assigned','completed','cancelled') DEFAULT 'assigned',
+  `id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `tour_guides`
 --
 
-INSERT INTO `tour_guides` (`tour_id`, `guide_id`, `assigned_date`, `status`) VALUES
-(1, 1, '2025-01-05', 'assigned'),
-(2, 2, '2025-01-25', 'assigned'),
-(3, 3, '2024-12-15', 'completed'),
-(4, 4, '2024-12-04', 'completed'),
-(5, 5, '2025-03-10', 'assigned'),
-(6, 6, '2025-03-30', 'assigned'),
-(7, 7, '2025-05-05', 'assigned'),
-(8, 8, '2025-06-05', 'assigned'),
-(9, 9, '2025-07-10', 'assigned'),
-(10, 10, '2025-08-05', 'assigned');
+INSERT INTO `tour_guides` (`tour_id`, `guide_id`, `assigned_date`, `start_date`, `end_date`, `status`, `id`) VALUES
+(1, 1, '2025-01-05', NULL, NULL, 'assigned', 1),
+(2, 2, '2025-01-25', NULL, NULL, 'assigned', 2),
+(3, 3, '2024-12-15', NULL, NULL, 'completed', 3),
+(4, 4, '2024-12-04', NULL, NULL, 'completed', 4),
+(5, 5, '2025-03-10', NULL, NULL, 'assigned', 5),
+(6, 6, '2025-03-30', NULL, NULL, 'assigned', 6),
+(7, 7, '2025-05-05', NULL, NULL, 'assigned', 7),
+(8, 8, '2025-06-05', NULL, NULL, 'assigned', 8),
+(9, 9, '2025-07-10', NULL, NULL, 'assigned', 9),
+(10, 10, '2025-08-05', NULL, NULL, 'assigned', 10);
 
 -- --------------------------------------------------------
 
@@ -309,7 +311,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `name`, `email`, `phone`) VALUES
-(2, 'admin02', '123456', 'admin', 'Lê Thị Hoa', 'hoa@example.com', '0909000002'),
+(2, 'admin02', '123456', 'admin', 'Admin', 'hoa@example.com', '0909000002'),
 (3, 'guide01', '123456', 'guide', 'Phạm Văn Sơn', 'son@example.com', '0909000003'),
 (4, 'guide02', '123456', 'guide', 'Trần Thị Mai', 'mai@example.com', '0909000004'),
 (5, 'guide03', '123456', 'guide', 'Đỗ Văn Nam', 'nam@example.com', '0909000005'),
@@ -317,15 +319,16 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `name`, `email`,
 (7, 'guide05', '123456', 'guide', 'Lê Văn Huy', 'huy@example.com', '0909000007'),
 (8, 'guide06', '123456', 'guide', 'Ngô Minh', 'minh@example.com', '0909000008'),
 (9, 'guide07', '123456', 'guide', 'Bùi Thảo', 'thao@example.com', '0909000009'),
-(10, 'guide08', '123456', 'guide', 'Phan Hải', 'hai@example.com', '0909000010');
+(10, 'guide08', '123456', 'guide', 'Phan Hải', 'hai@example.com', '0909000010'),
+(12, '123123aa', '12313222', 'guide', 'abwkjb ăkdaw', '123123@gmail.com', '123123123');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `vehicle_services`
+-- Cấu trúc bảng cho bảng `vehicles`
 --
 
-CREATE TABLE `vehicle_services` (
+CREATE TABLE `vehicles` (
   `vehicle_service_id` int NOT NULL,
   `service_name` varchar(255) DEFAULT NULL,
   `seat` int DEFAULT NULL,
@@ -374,9 +377,9 @@ ALTER TABLE `guides`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Chỉ mục cho bảng `hotel_services`
+-- Chỉ mục cho bảng `hotels`
 --
-ALTER TABLE `hotel_services`
+ALTER TABLE `hotels`
   ADD PRIMARY KEY (`hotel_service_id`);
 
 --
@@ -409,7 +412,9 @@ ALTER TABLE `tours`
 -- Chỉ mục cho bảng `tour_guides`
 --
 ALTER TABLE `tour_guides`
-  ADD PRIMARY KEY (`tour_id`,`guide_id`),
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`),
+  ADD UNIQUE KEY `id_2` (`id`),
   ADD KEY `guide_id` (`guide_id`);
 
 --
@@ -420,9 +425,9 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Chỉ mục cho bảng `vehicle_services`
+-- Chỉ mục cho bảng `vehicles`
 --
-ALTER TABLE `vehicle_services`
+ALTER TABLE `vehicles`
   ADD PRIMARY KEY (`vehicle_service_id`);
 
 --
@@ -457,12 +462,12 @@ ALTER TABLE `discounts`
 -- AUTO_INCREMENT cho bảng `guides`
 --
 ALTER TABLE `guides`
-  MODIFY `guide_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `guide_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT cho bảng `hotel_services`
+-- AUTO_INCREMENT cho bảng `hotels`
 --
-ALTER TABLE `hotel_services`
+ALTER TABLE `hotels`
   MODIFY `hotel_service_id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -484,15 +489,21 @@ ALTER TABLE `tours`
   MODIFY `tour_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT cho bảng `tour_guides`
+--
+ALTER TABLE `tour_guides`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT cho bảng `vehicle_services`
+-- AUTO_INCREMENT cho bảng `vehicles`
 --
-ALTER TABLE `vehicle_services`
+ALTER TABLE `vehicles`
   MODIFY `vehicle_service_id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -505,8 +516,8 @@ ALTER TABLE `vehicle_services`
 ALTER TABLE `bookings`
   ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`tour_id`) REFERENCES `tours` (`tour_id`),
   ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
-  ADD CONSTRAINT `fk_booking_hotel_service` FOREIGN KEY (`hotel_service_id`) REFERENCES `hotel_services` (`hotel_service_id`),
-  ADD CONSTRAINT `fk_booking_vehicle_service` FOREIGN KEY (`vehicle_service_id`) REFERENCES `vehicle_services` (`vehicle_service_id`);
+  ADD CONSTRAINT `fk_booking_hotel_service` FOREIGN KEY (`hotel_service_id`) REFERENCES `hotels` (`hotel_service_id`),
+  ADD CONSTRAINT `fk_booking_vehicle_service` FOREIGN KEY (`vehicle_service_id`) REFERENCES `vehicles` (`vehicle_service_id`);
 
 --
 -- Các ràng buộc cho bảng `discounts`
@@ -547,8 +558,8 @@ ALTER TABLE `tours`
 -- Các ràng buộc cho bảng `tour_guides`
 --
 ALTER TABLE `tour_guides`
-  ADD CONSTRAINT `tour_guides_ibfk_1` FOREIGN KEY (`tour_id`) REFERENCES `tours` (`tour_id`),
-  ADD CONSTRAINT `tour_guides_ibfk_2` FOREIGN KEY (`guide_id`) REFERENCES `guides` (`guide_id`);
+  ADD CONSTRAINT `tour_guides_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tours` (`tour_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `tour_guides_ibfk_2` FOREIGN KEY (`id`) REFERENCES `guides` (`guide_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

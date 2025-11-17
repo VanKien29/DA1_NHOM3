@@ -3,47 +3,47 @@
         <h4 class="form-title text-center mb-4">Cập Nhật Phương Tiện</h4>
 
         <form method="POST">
-
             <?php if (!empty($err['empty'])): ?>
-                <div class="text-danger err"><?= $err['empty']; ?></div>
+            <div class="text-danger err"><?= $err['empty']; ?></div>
             <?php endif; ?>
 
-            <!-- Plate Number -->
+            <!-- Tên dịch vụ / xe -->
             <div class="form-group mb-3">
-                <label>Biển Số Xe</label>
-                <input type="text" name="plate_number" class="form-control"
-                       value="<?= htmlspecialchars($vehicles['plate_number']); ?>">
-                <?php if (!empty($err['plate_number'])): ?>
-                    <div class="text-danger err"><?= $err['plate_number']; ?></div>
+                <label>Tên Dịch Vụ / Xe</label>
+                <input type="text" name="service_name" class="form-control"
+                    value="<?= htmlspecialchars($vehicles['service_name'] ?? ''); ?>">
+                <?php if (!empty($err['service_name'])): ?>
+                <div class="text-danger err"><?= $err['service_name']; ?></div>
                 <?php endif; ?>
             </div>
 
-            <!-- Supplier ID -->
+            <!-- Số chỗ -->
             <div class="form-group mb-3">
-                <label>Nhà Cung Cấp (Supplier ID)</label>
-                <input type="number" name="supplier_id" class="form-control"
-                       value="<?= htmlspecialchars($vehicles['supplier_id']); ?>">
-                <?php if (!empty($err['supplier_id'])): ?>
-                    <div class="text-danger err"><?= $err['supplier_id']; ?></div>
+                <label>Số Chỗ Ngồi</label>
+                <input type="number" name="seat" class="form-control"
+                    value="<?= htmlspecialchars($vehicles['seat'] ?? ''); ?>">
+                <?php if (!empty($err['seat'])): ?>
+                <div class="text-danger err"><?= $err['seat']; ?></div>
                 <?php endif; ?>
             </div>
 
-            <!-- Type -->
+            <!-- Giá / ngày -->
             <div class="form-group mb-3">
-                <label>Loại Xe</label>
-                <select name="type" class="form-select">
-                    <option value="Bus" <?= ($vehicles['type'] == 'Bus') ? 'selected' : '' ?>>Bus</option>
-                    <option value="Car" <?= ($vehicles['type'] == 'Car') ? 'selected' : '' ?>>Car</option>
-                </select>
+                <label>Giá Mỗi Ngày</label>
+                <input type="number" step="0.01" name="price_per_day" class="form-control"
+                    value="<?= htmlspecialchars($vehicles['price_per_day'] ?? ''); ?>">
+                <?php if (!empty($err['price_per_day'])): ?>
+                <div class="text-danger err"><?= $err['price_per_day']; ?></div>
+                <?php endif; ?>
             </div>
 
-            <!-- Capacity -->
+            <!-- Mô tả -->
             <div class="form-group mb-3">
-                <label>Số Chỗ</label>
-                <input type="number" name="capacity" class="form-control"
-                       value="<?= htmlspecialchars($vehicles['capacity']); ?>">
-                <?php if (!empty($err['capacity'])): ?>
-                    <div class="text-danger err"><?= $err['capacity']; ?></div>
+                <label>Mô Tả</label>
+                <textarea name="description" class="form-control"
+                    rows="3"><?= htmlspecialchars($vehicles['description'] ?? ''); ?></textarea>
+                <?php if (!empty($err['description'])): ?>
+                <div class="text-danger err"><?= $err['description']; ?></div>
                 <?php endif; ?>
             </div>
 
@@ -51,7 +51,6 @@
                 <button type="submit" class="btn btn-primary px-5">Cập nhật</button>
                 <a href="?action=admin-listVehicles" class="btn btn-secondary ms-2 px-4">Quay lại</a>
             </div>
-
         </form>
     </div>
 </div>

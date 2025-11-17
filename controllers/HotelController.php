@@ -1,41 +1,43 @@
 <?php
 class HotelController
 {
-    private $hotelModel;
+    private $hotelQuery;
 
-    public function __construct()
+    function __construct()
     {
-        $this->hotelModel = new HotelQuery();
+        $this->hotelQuery = new HotelQuery();
     }
+
+    // ==== Danh sách Hotel ====
     public function listHotel()
     {
-        $hotel = $this->hotelModel->getAllHotel();
+        $hotels = $this->hotelQuery->getAllHotel();
         require './views/Hotel/listHotel.php';
     }
+
+    // ==== Thêm Hotel ====
     public function createHotel()
     {
         $err = [];
-        $success = "";
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            if (empty($_POST['hotel_name']) || empty($_POST['address']) || empty($_POST['rating'])) {
-                $err['empty'] = "Vui lòng điền đầy đủ thông tin!";
-            }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (empty($_POST['service_name']) || empty($_POST['room_type']) ||
+                empty($_POST['price_per_night']) || empty($_POST['description'])) {
 
-            if (!empty($_POST['rating']) && ($_POST['rating'] < 0 || $_POST['rating'] > 5)) {
-                $err['rating'] = "Rating phải từ 0 đến 5.";
+                $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
+            } else if ($_POST['price_per_night'] <= 0) {
+                $err['price_per_night'] = "Giá phải lớn hơn 0!";
             }
 
             if (empty($err)) {
-                $this->hotelModel->hotel_name = $_POST['hotel_name'];
-                $this->hotelModel->address    = $_POST['address'];
-                $this->hotelModel->rating     = $_POST['rating'];
+                $this->hotelQuery->service_name = $_POST['service_name'];
+                $this->hotelQuery->room_type = $_POST['room_type'];
+                $this->hotelQuery->price_per_night = $_POST['price_per_night'];
+                $this->hotelQuery->description = $_POST['description'];
 
-                if ($this->hotelModel->createHotel()) {
-                      echo "<script>
-                        alert('Thêm hotel thành công!');
-                        window.location.href='?action=admin-listHotel';
-                    </script>";
+                if ($this->hotelQuery->createHotel()) {
+                    echo "<script>alert('Thêm Hotel thành công!'); 
+                          window.location='?action=admin-listHotel'</script>";
                     exit;
                 }
             }
@@ -43,39 +45,42 @@ class HotelController
 
         require './views/Hotel/createHotel.php';
     }
+
+    // ==== Cập nhật Hotel ====
     public function updateHotel()
     {
-        $id = $_GET['id'] ?? null;
-        $hotel = $this->hotelModel->findHotel($id);
+        if (!isset($_GET['id'])) {
+            header("Location: ?action=admin-listHotel");
+            exit;
+        }
 
+        $id = $_GET['id'];
+        $hotel = $this->hotelQuery->findHotel($id);
         if (!$hotel) {
-            echo "<script>alert('Hotel không tồn tại!'); window.location='?action=admin-listHotel';</script>";
+            header("Location: ?action=admin-listHotel");
             exit;
         }
 
         $err = [];
-        $success = "";
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (empty($_POST['service_name']) || empty($_POST['room_type']) ||
+                empty($_POST['price_per_night']) || empty($_POST['description'])) {
 
-            if (empty($_POST['hotel_name']) || empty($_POST['address']) || empty($_POST['rating'])) {
-                $err['empty'] = "Vui lòng điền đầy đủ thông tin!";
-            }
-
-            if (!empty($_POST['rating']) && ($_POST['rating'] < 0 || $_POST['rating'] > 5)) {
-                $err['rating'] = "Rating phải từ 0 đến 5.";
+                $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
+            } else if ($_POST['price_per_night'] <= 0) {
+                $err['price_per_night'] = "Giá phải lớn hơn 0!";
             }
 
             if (empty($err)) {
-                $this->hotelModel->hotel_name = $_POST['hotel_name'];
-                $this->hotelModel->address    = $_POST['address'];
-                $this->hotelModel->rating     = $_POST['rating'];
+                $this->hotelQuery->service_name = $_POST['service_name'];
+                $this->hotelQuery->room_type = $_POST['room_type'];
+                $this->hotelQuery->price_per_night = $_POST['price_per_night'];
+                $this->hotelQuery->description = $_POST['description'];
 
-                if ($this->hotelModel->updateHotel($id)) {
-                    echo "<script>
-                        alert('Cập nhật hotel thành công!');
-                        window.location='?action=admin-listHotel';
-                    </script>";
+                if ($this->hotelQuery->updateHotel($id)) {
+                    echo "<script>alert('Cập nhật Hotel thành công!'); 
+                          window.location='?action=admin-listHotel'</script>";
                     exit;
                 }
             }
@@ -84,25 +89,20 @@ class HotelController
         require './views/Hotel/updateHotel.php';
     }
 
-
+    // ==== Xóa Hotel ====
     public function deleteHotel()
     {
-        $id = $_GET['id'] ?? null;
-
-        if ($id) {
-            if ($this->hotelModel->deleteHotel($id)) {
-                echo "<script>
-                    alert('Xóa hotel thành công!');
-                    window.location='?action=admin-listHotel';
-                </script>";
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            if ($this->hotelQuery->deleteHotel($id)) {
+                echo "<script>alert('Xóa thành công!'); 
+                      window.location='?action=admin-listHotel'</script>";
             } else {
-                echo "<script>
-                    alert('Không thể xóa hotel!');
-                    window.location='?action=admin-listHotel';
-                </script>";
+                echo "<script>alert('Không thể xóa vì Hotel đang được sử dụng trong Booking!'); 
+                      window.location='?action=admin-listHotel'</script>";
             }
-            exit;
         }
+        exit;
     }
 }
 ?>
