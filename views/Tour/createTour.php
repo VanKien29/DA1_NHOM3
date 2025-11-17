@@ -4,10 +4,10 @@
 
         <form method="POST">
             <?php if (!empty($err['empty'])): ?>
-                <div class="text-danger"><?= $err['empty'] ?></div>
+            <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
             <?php if (!empty($success)): ?>
-                <div class="text-danger"><?= $success ?></div>
+            <div class="text-danger"><?= $success ?></div>
             <?php endif; ?>
 
             <div class="mb-3">
@@ -27,7 +27,7 @@
                 <input type="number" name="price" class="form-control"
                     value="<?= htmlspecialchars($_POST['price'] ?? '') ?>">
                 <?php if (!empty($err['price'])): ?>
-                    <div class="text-danger err"><?= htmlspecialchars($err['price']) ?></div>
+                <div class="text-danger err"><?= htmlspecialchars($err['price']) ?></div>
                 <?php endif; ?>
             </div>
 
@@ -35,26 +35,13 @@
                 <label>Danh mục</label>
                 <select name="category_id" class="form-select">
                     <?php foreach ($categories as $cat): ?>
-                        <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
+                    <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>Ngày bắt đầu</label>
-                    <input type="date" name="start_date" class="form-control"
-                        value="<?= htmlspecialchars($_POST['start_date'] ?? '') ?>">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>Ngày kết thúc</label>
-                    <input type="date" name="end_date" class="form-control"
-                        value="<?= htmlspecialchars($_POST['end_date'] ?? '') ?>">
-                </div>
-            </div>
-
             <?php if (!empty($err['date'])): ?>
-                <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
+            <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
             <?php endif; ?>
 
             <div class="mb-3">

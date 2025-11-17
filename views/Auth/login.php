@@ -131,7 +131,7 @@
     <div class="login-container">
         <h2>Login</h2>
         <form method="POST">
-            <input type="text" name="user" placeholder="Enter your email" value="admin01" required>
+            <input type="text" name="user" placeholder="Enter your email" value="admin02" required>
             <input type="password" name="pass" placeholder="Enter your password" value="123456" required>
             <button type="submit">Log In</button>
 

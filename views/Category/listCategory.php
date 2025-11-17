@@ -9,14 +9,16 @@
     <table class="table table-hover align-middle">
         <thead class="table-light">
             <tr>
+                <th>#</th>
                 <th>ID</th>
                 <th>Tên Danh Mục</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($categories as $category): ?>
+            <?php $stt = 1; foreach ($categories as $category): ?>
             <tr>
+                <td><?= $stt++ ?></td>
                 <td><?= $category['category_id'] ?></td>
                 <td><?= htmlspecialchars($category['category_name']) ?></td>
                 <td>

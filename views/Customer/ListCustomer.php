@@ -11,7 +11,7 @@
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
-                        <th>STT</th>
+                        <th>#</th>
                         <th>ID</th>
                         <th>Họ và Tên</th>
                         <th>Email</th>
