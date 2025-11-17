@@ -23,23 +23,22 @@ class TourController
         $categories = $this->categoryModel->getAllCategories();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['tour_name']) || empty($_POST['price']) || empty($_POST['start_date']) || empty($_POST['end_date'])) {
+            if (empty($_POST['tour_name']) || empty($_POST['price']) || empty($_POST['tour_images'])) {
                 $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
             }
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
-            }
-            if ($_POST['start_date'] > $_POST['end_date']) {
-                $err['date'] = "Ngày kết thúc phải sau ngày bắt đầu.";
             }
             if (empty($err)) {
                 $this->tourQuery->tour_name = $_POST['tour_name'];
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->start_date = $_POST['start_date'];
-                $this->tourQuery->end_date = $_POST['end_date'];
                 $this->tourQuery->status = $_POST['status'];
+                $this->tourQuery->tour_images = $_FILES['tour_images'];
+                if (isset($_FILES['tour_images']) && $_FILES['tour_images']['size'] > 0) {
+                    $this->tourQuery->tour_images = upload_file('image/TourImages', $_FILES["tour_images"]);
+                }
 
                 if ($this->tourQuery->createTour()) {
                     echo "<script>
@@ -60,14 +59,11 @@ class TourController
         $tour = $this->tourQuery->findTour($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['tour_name']) || empty($_POST['price']) || empty($_POST['start_date']) || empty($_POST['end_date'])) {
+            if (empty($_POST['tour_name']) || empty($_POST['price'])) {
                 $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
             }
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
-            }
-            if ($_POST['start_date'] > $_POST['end_date']) {
-                $err['date'] = "Ngày kết thúc phải sau ngày bắt đầu.";
             }
             if (empty($err)) {
                 $this->tourQuery->tour_id = $id;
@@ -75,9 +71,12 @@ class TourController
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->start_date = $_POST['start_date'];
-                $this->tourQuery->end_date = $_POST['end_date'];
                 $this->tourQuery->status = $_POST['status'];
+                // Xử lý ảnh
+                if ($_FILES['tour_images']['size'] > 0) {
+                    $this->tourQuery->tour_images = upload_file('image/TourImages', $_FILES['tour_images']);
+                }
+
 
                 if ($this->tourQuery->updateTour()) {
                     echo "<script>
@@ -92,14 +91,15 @@ class TourController
     }
 
     // ===== Xóa tour =====
-    public function deleteTours($id){
+    public function deleteTours($id)
+    {
         if ($id) {
-            if($this->tourQuery->deleteTour($id)) {
-            echo "<script>
+            if ($this->tourQuery->deleteTour($id)) {
+                echo "<script>
                     alert('Xóa tour thành công!');
                     window.location.href='?action=admin-listTours';
             </script>";
-            exit; 
+                exit;
             } else {
                 echo "<script>
                     alert('Không thể xoá tour vì đang có khách hàng thuộc tour này!');
