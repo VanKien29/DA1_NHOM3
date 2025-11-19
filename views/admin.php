@@ -29,13 +29,13 @@ $user = $_SESSION['user'];
     switch ($action) {
         // Tours
         case 'admin-listTours':
+        case 'admin-searchTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/listTours.css">';
             break;
         case 'admin-createTours':
         case 'admin-updateTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/formTours.css">';
             break;
-
         // Users
         case 'admin-listUsers':
             echo '<link rel="stylesheet" href="assets/css/User/listUsers.css">';
@@ -80,7 +80,7 @@ $user = $_SESSION['user'];
         case 'admin-updateGuide':
             echo '<link rel="stylesheet" href="assets/css/Guide/formGuide.css">';
             break;
-            
+
         // Tour Guides
         case 'admin-listTourGuide':
             echo '<link rel="stylesheet" href="assets/css/TourGuide/listToursGuide.css">';
@@ -88,7 +88,7 @@ $user = $_SESSION['user'];
         case 'admin-createTourGuide':
         case 'admin-updateTourGuide':
             echo '<link rel="stylesheet" href="assets/css/TourGuide/formToursGuide.css">';
-    
+
         // Hotel
         case 'admin-listHotel':
             echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
@@ -202,9 +202,9 @@ $user = $_SESSION['user'];
             <small><?= $user['role'] == "admin" ? "Quản Trị Viên" : "Hướng Dẫn Viên" ?></small>
             <div class="auth-buttons">
                 <?php if (empty($user)) { ?>
-                <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
+                    <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
                 <?php } else { ?>
-                <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                 <?php } ?>
             </div>
         </div>
@@ -212,14 +212,17 @@ $user = $_SESSION['user'];
 
     <main class="main">
         <header class="topbar">
-            <div class="searchbar">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#6b7280" height="18" viewBox="0 0 20 20" width="18">
-                    <path
-                        d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387-1.414 1.414-4.387-4.387zm-5.4-1.956a6 6 0 100-8.485 6 6 0 000 8.485z" />
-                </svg>
-                <input type="text" placeholder="Search anything..." />
-            </div>
-
+            <form method="GET" style="width: 300px;">
+                <input type="hidden" name="action"
+                    value="<?= $action === 'admin-listTours' ? 'admin-searchTours' : $action ?>">
+                <div class="searchbar">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#6b7280" height="18" viewBox="0 0 20 20" width="18">
+                        <path
+                            d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387-1.414 1.414-4.387-4.387zm-5.4-1.956a6 6 0 100-8.485 6 6 0 000 8.485z" />
+                    </svg>
+                    <input type="text" name="keyword" placeholder="Search..." />
+                </div>
+            </form>
             <div class="topbar-right">
                 <button class="tb-btn" aria-label="Notifications">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" height="20" viewBox="0 0 24 24"
@@ -259,6 +262,9 @@ $user = $_SESSION['user'];
                     break;
                 case 'admin-deleteTours':
                     (new TourController)->deleteTours($id);
+                    break;
+                case 'admin-searchTours':
+                    (new TourController)->searchTours($id);
                     break;
 
                 // Users
@@ -316,34 +322,34 @@ $user = $_SESSION['user'];
                 case 'admin-deleteDiscount':
                     (new DiscountController)->deleteDiscount($id);
                     break;
- 
+
                 // hotel
                 case 'admin-listHotel':
                     (new HotelController)->listHotel();
-                break;
+                    break;
                 case 'admin-createHotel':
                     (new HotelController)->createHotel();
-                break;
+                    break;
                 case 'admin-updateHotel':
                     (new HotelController)->updateHotel();
-                break;
+                    break;
                 case 'admin-deleteHotel':
                     (new HotelController)->deleteHotel();
-                break;
+                    break;
 
                 // vehicles
                 case 'admin-listVehicles':
                     (new VehiclesController)->listVehicles();
-                break;
+                    break;
                 case 'admin-createVehicles':
                     (new VehiclesController)->createVehicles();
-                break;
+                    break;
                 case 'admin-updateVehicles':
                     (new VehiclesController)->updateVehicles();
-                break;
+                    break;
                 case 'admin-deleteVehicles':
                     (new VehiclesController)->deleteVehicles();
-                break;
+                    break;
 
                 // Guides 
                 case 'admin-listGuide':
@@ -358,7 +364,7 @@ $user = $_SESSION['user'];
                 case 'admin-deleteGuide':
                     (new GuideController)->deleteGuide($id);
                     break;
-                    
+
                 // Tour Guides 
                 case 'admin-listTourGuide':
                     (new TourGuideController)->listTourGuides();
@@ -372,7 +378,7 @@ $user = $_SESSION['user'];
                 case 'admin-deleteTourGuide':
                     (new TourGuideController)->deleteTourGuide($id);
                     break;
-                        
+
                 // Reports
                 case 'admin-listReport':
                     (new ReportController)->listReports();

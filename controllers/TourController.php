@@ -17,6 +17,13 @@ class TourController
         require './views/Tour/listTour.php';
     }
 
+    public function searchTours()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $tours = $this->tourQuery->searchTours($keyword);
+        require './views/Tour/listTour.php';
+    }
+
     // ===== Thêm tour =====
     public function createTours()
     {
