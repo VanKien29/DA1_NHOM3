@@ -80,7 +80,7 @@ $user = $_SESSION['user'];
         case 'admin-updateGuide':
             echo '<link rel="stylesheet" href="assets/css/Guide/formGuide.css">';
             break;
-            
+
         // Tour Guides
         case 'admin-listTourGuide':
             echo '<link rel="stylesheet" href="assets/css/TourGuide/listToursGuide.css">';
@@ -113,6 +113,18 @@ $user = $_SESSION['user'];
         case 'admin-updateReport':
             echo '<link rel="stylesheet" href="assets/css/Report/formReport.css">';
             break;
+        // Bookings
+        case 'admin-listBooking':
+            echo '<link rel="stylesheet" href="assets/css/Booking/listBooking.css">';
+            break;
+        case 'admin-detailBooking':
+            echo '<link rel="stylesheet" href="assets/css/Booking/detailBooking.css">';
+            break;
+        case 'admin-createBooking':
+        case 'admin-updateBooking':
+            echo '<link rel="stylesheet" href="assets/css/Booking/formBooking.css">';
+            break;
+        
     }
     ?>
 </head>
@@ -128,62 +140,69 @@ $user = $_SESSION['user'];
                     </a>
                 </li>
                 <li>
-                    <a href="?action=admin-listTours" class="<?= ($action == 'admin-listTours') ? 'active' : '' ?>">
+                    <a href="?action=admin-listTours"
+                        class="<?= ($action == 'admin-listTours' || $action == 'admin-createTour' || $action == 'admin-updateTour') ? 'active' : '' ?>">
                         <i class="fa-solid fa-suitcase-rolling"></i> Danh Sách Tour
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="?action=admin-listBooking"
+                        class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking') ? 'active' : '' ?>">
                         <i class="fa-solid fa-calendar-check"></i> Đặt Tour
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listCustomer"
-                        class="<?= ($action == 'admin-listCustomer') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listCustomer' || $action == 'admin-createCustomer' || $action == 'admin-updateCustomer') ? 'active' : '' ?>">
                         <i class="fa-solid fa-users"></i> Khách Hàng
                     </a>
                 </li>
                 <li>
-                    <a href="?action=admin-listUsers" class="<?= ($action == 'admin-listUsers') ? 'active' : '' ?>">
+                    <a href="?action=admin-listUsers"
+                        class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUser' || $action == 'admin-updateUser') ? 'active' : '' ?>">
                         <i class="fa-solid fa-user-tie"></i> Quản Trị Viên
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listDiscount"
-                        class="<?= ($action == 'admin-listDiscount') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listDiscount' || $action == 'admin-createDiscount' || $action == 'admin-updateDiscount') ? 'active' : '' ?>">
                         <i class="fa-solid fa-tags"></i> Mã Giảm Giá
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listCategory"
-                        class="<?= ($action == 'admin-listCategory') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listCategory' || $action == 'admin-createCategory' || $action == 'admin-updateCategory') ? 'active' : '' ?>">
                         <i class="fa-solid fa-coins"></i> Danh Mục
                     </a>
                 </li>
                 <li>
-                    <a href="?action=admin-listGuide" class="<?= ($action == 'admin-listGuide') ? 'active' : '' ?>">
+                    <a href="?action=admin-listGuide"
+                        class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide') ? 'active' : '' ?>">
                         <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listTourGuide"
-                        class="<?= ($action == 'admin-listTourGuide') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listTourGuide' || $action == 'admin-createTourGuide' || $action == 'admin-updateTourGuide') ? 'active' : '' ?>">
                         <i class="fa-solid fa-file-lines"></i> Trạng Thái HDV
                     </a>
                 </li>
                 <li>
-                    <a href="?action=admin-listReport">
-                        <i class="fa-solid fa-file-lines <?= ($action == 'admin-listReport') ? 'active' : '' ?>"></i>
+                    <a href="?action=admin-listReport"
+                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-file-lines"></i>
                         Báo Cáo HDV
                     </a>
                 </li>
                 <li>
-                    <a href="?action=admin-listVehicles">
-                        <i class="fa-solid fa-bus-simple"></i> Vehicles
+                    <a href="?action=admin-listVehicles"
+                        class="<?= ($action == 'admin-listVehicles' || $action == 'admin-createVehicles' || $action == 'admin-updateVehicles') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-bus-simple"></i> Phương Tiện
                     </a>
                 </li>
                 <li>
-                    <a href="?action=admin-listHotel">
+                    <a href="?action=admin-listHotel"
+                        class="<?= ($action == 'admin-listHotel' || $action == 'admin-createHotel' || $action == 'admin-updateHotel') ? 'active' : '' ?>">
                         <i class="fa-solid fa-truck-field"></i> Khách Sạn
                     </a>
                 </li>
@@ -376,6 +395,23 @@ $user = $_SESSION['user'];
                 // Reports
                 case 'admin-listReport':
                     (new ReportController)->listReports();
+                    break;
+                case 'admin-createReport':
+                    (new ReportController)->createReport();
+                    break;
+                case 'admin-updateReport':
+                    (new ReportController)->updateReport($id);
+                    break;
+                case 'admin-deleteReport':
+                    (new ReportController)->deleteReport($id);
+                    break;
+
+                // Bookings
+                case 'admin-listBooking':
+                    (new BookingController)->listBooking();
+                    break;
+                case 'admin-detailBooking':
+                    (new BookingController)->detailBooking();
                     break;
                 case 'admin-createReport':
                     (new ReportController)->createReport();

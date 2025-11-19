@@ -1,0 +1,149 @@
+/* =================== WRAPPER =================== */
+.main-content {
+  font-family: "Inter", sans-serif;
+  background: #f9fbff;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 0;
+  border: none;
+}
+
+.card-header {
+  background: #f1f5ff;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 14px 20px;
+  color: #0d6efd;
+  border-radius: 16px 16px 0 0;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.card-body {
+  padding: 22px 28px;
+  font-size: 15px;
+  color: #374151;
+}
+
+/* =================== TITLES =================== */
+h3.fw-bold {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+/* =================== BUTTONS =================== */
+
+.btn-secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+  transform: translateY(-2px);
+}
+
+/* =================== BADGE =================== */
+
+.badge {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.bg-warning {
+  background-color: #fef3c7 !important;
+  color: #d97706 !important;
+}
+
+.bg-success {
+  background-color: #dcfce7 !important;
+  color: #16a34a !important;
+}
+
+.bg-danger {
+  background-color: #fee2e2 !important;
+  color: #dc2626 !important;
+}
+
+.bg-primary {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.bg-info {
+  background-color: #cffafe !important;
+  color: #0e7490 !important;
+}
+
+/* =================== TABLE =================== */
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-top: 10px;
+}
+
+.table thead tr {
+  background-color: #f1f5ff;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.table thead th {
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.table tbody tr {
+  background: #ffffff;
+  box-shadow: 0 0 0 1px #e5e7eb;
+  transition: 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: #f8faff;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* =================== COUNT SUMMARY =================== */
+
+.fw-bold.mt-3 {
+  font-size: 15px;
+  color: #0d6efd;
+}
+
+/* =================== RESPONSIVE =================== */
+
+@media (max-width: 768px) {
+  .card-body {
+    padding: 18px;
+  }
+
+  h3.fw-bold {
+    font-size: 20px;
+  }
+
+  .table td,
+  .table th {
+    font-size: 13px;
+  }
+}

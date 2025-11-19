@@ -21,6 +21,7 @@ if (!function_exists('upload_file')) {
         throw new Exception('Upload file không thành công!');
     }
 }
+
 function delete_file($file){
     $pathDelete = PATH_ROOT . $file;
     if (file_exists($pathDelete)) {

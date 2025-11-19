@@ -37,9 +37,12 @@ class TourController
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->start_date = $_POST['start_date'];
-                $this->tourQuery->end_date = $_POST['end_date'];
                 $this->tourQuery->status = $_POST['status'];
+                $this->tourQuery->tour_img = $_FILES['tour_img'];
+
+                if(isset($_FILES["tour_img"]) && $_FILES["tour_img"]["size"] >0){
+                $product->tour_img = upload_file('productsUpload', $_FILES["tour_img"]);
+            }
 
                 if ($this->tourQuery->createTour()) {
                     echo "<script>
@@ -75,8 +78,6 @@ class TourController
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->start_date = $_POST['start_date'];
-                $this->tourQuery->end_date = $_POST['end_date'];
                 $this->tourQuery->status = $_POST['status'];
 
                 if ($this->tourQuery->updateTour()) {
