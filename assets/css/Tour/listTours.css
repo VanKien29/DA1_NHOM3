@@ -154,3 +154,64 @@ a {
     overflow-x: auto;
   }
 }
+
+/* ===== Hộp tìm kiếm ===== */
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* .search-container {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 45px 0 18px;
+  font-size: 15px;
+  border: 1.6px solid #d1d5db;
+  border-radius: 14px;
+  background: #ffffff;
+  transition: 0.25s ease-in-out;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.search-input:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+  outline: none;
+}
+
+.search-icon-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #444;
+  font-size: 18px;
+  padding: 0;
+}
+
+.search-icon-btn:hover {
+  color: #0d6efd;
+}
+
+.table-header .d-flex {
+  gap: 20px;
+  align-items: center;
+} */
