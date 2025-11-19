@@ -2,18 +2,23 @@
     <div class="admin-form-card">
         <h4 class="form-title text-center mb-4">Thêm Tour</h4>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <?php if (!empty($err['empty'])): ?>
-            <div class="text-danger"><?= $err['empty'] ?></div>
+                <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
             <?php if (!empty($success)): ?>
-            <div class="text-danger"><?= $success ?></div>
+                <div class="text-danger"><?= $success ?></div>
             <?php endif; ?>
 
             <div class="mb-3">
                 <label>Tên tour</label>
                 <input type="text" name="tour_name" class="form-control"
                     value="<?= htmlspecialchars($_POST['tour_name'] ?? '') ?>">
+            </div>
+
+            <div class="mb-3">
+                <label>Ảnh tour</label>
+                <input type="file" name="tour_images" class="form-control">
             </div>
 
             <div class="mb-3">
@@ -27,7 +32,7 @@
                 <input type="number" name="price" class="form-control"
                     value="<?= htmlspecialchars($_POST['price'] ?? '') ?>">
                 <?php if (!empty($err['price'])): ?>
-                <div class="text-danger err"><?= htmlspecialchars($err['price']) ?></div>
+                    <div class="text-danger err"><?= htmlspecialchars($err['price']) ?></div>
                 <?php endif; ?>
             </div>
 
@@ -35,13 +40,13 @@
                 <label>Danh mục</label>
                 <select name="category_id" class="form-select">
                     <?php foreach ($categories as $cat): ?>
-                    <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
+                        <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
             <?php if (!empty($err['date'])): ?>
-            <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
+                <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
             <?php endif; ?>
 
             <div class="mb-3">
