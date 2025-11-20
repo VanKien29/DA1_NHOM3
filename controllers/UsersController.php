@@ -13,6 +13,12 @@ class UsersController
         $users = $this->userQuery->getAllUsers();
         require './views/User/ListUser.php';
     }
+    public function searchUsers()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $users = $this->userQuery->searchUsers($keyword);
+        require './views/User/ListUser.php';
+    }
 
     public function createUsers()
     {
@@ -102,12 +108,12 @@ class UsersController
     public function deleteUsers($id)
     {
         if ($id) {
-            if($this->userQuery->deleteUser($id)) {
-            echo "<script>
+            if ($this->userQuery->deleteUser($id)) {
+                echo "<script>
                     alert('Xóa người dùng thành công!');
                     window.location.href='?action=admin-listUsers';
             </script>";
-            exit; 
+                exit;
             } else {
                 echo "<script>
                     alert('Không thể xoá người dùng vì đang có dữ liệu liên quan!');

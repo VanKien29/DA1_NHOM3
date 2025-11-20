@@ -1,5 +1,6 @@
 <?php
-class UsersQuery extends BaseModel {
+class UsersQuery extends BaseModel
+{
     public $user_id;
     public $username;
     public $password;
@@ -9,7 +10,8 @@ class UsersQuery extends BaseModel {
     public $phone;
 
     // ====== Lấy toàn bộ người dùng ======
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $sql = "SELECT * FROM users ORDER BY user_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
@@ -17,16 +19,31 @@ class UsersQuery extends BaseModel {
     }
 
     // ====== Tìm user theo ID ======
-    public function findUser($id) {
+    public function findUser($id)
+    {
         $sql = "SELECT * FROM users WHERE user_id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function searchUsers($keyword)
+    {
+        $sql = "SELECT * FROM users 
+        WHERE username LIKE :keyword
+        OR name LIKE :keyword 
+        OR email LIKE :keyword 
+        ORDER BY user_id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $likeKeyword = '%' . $keyword . '%';
+        $stmt->bindParam(':keyword', $likeKeyword);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     // ====== Thêm user ======
-    public function createUser() {
+    public function createUser()
+    {
         $sql = "INSERT INTO users (username, password, role, name, email, phone)
                 VALUES (:username, :password, :role, :name, :email, :phone)";
         $stmt = $this->pdo->prepare($sql);
@@ -40,7 +57,8 @@ class UsersQuery extends BaseModel {
     }
 
     // ====== Cập nhật user ======
-    public function updateUser() {
+    public function updateUser()
+    {
         $sql = "UPDATE users SET 
                     username = :username,
                     password = :password,
@@ -61,21 +79,23 @@ class UsersQuery extends BaseModel {
     }
 
     // ====== Xóa user ======
-    public function deleteUser($id) {
-    try {
-        $sql = "DELETE FROM users WHERE user_id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return true;
-    } catch (PDOException $e) {
-        if ($e->getCode() == "23000") {
-            return false;
+    public function deleteUser($id)
+    {
+        try {
+            $sql = "DELETE FROM users WHERE user_id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            if ($e->getCode() == "23000") {
+                return false;
+            }
         }
     }
-    }
 
-    public function checkLogin($username, $password){
+    public function checkLogin($username, $password)
+    {
         $sql = "SELECT * FROM users WHERE username = :username AND password = :password";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
