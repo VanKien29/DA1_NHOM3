@@ -106,6 +106,8 @@ class GuideController
 
     public function detailGuide($id){
         $guide = $this->guideQuery->findGuide($id);
+        $currentBookings = $this->guideQuery->getCurrentBookings($id);
+        $historyBookings = $this->guideQuery->getHistoryBookings($id);
         require './views/Guide/DetailGuide.php';
     }
 }
