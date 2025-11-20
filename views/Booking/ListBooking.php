@@ -38,8 +38,6 @@
                             <span class="badge bg-warning text-dark">Chờ duyệt</span>
                             <?php elseif ($b['status'] == 'dang_dien_ra'): ?>
                             <span class="badge bg-primary">Đang diễn ra</span>
-                            <?php elseif ($b['status'] == 'cho_hdv_xac_nhan'): ?>
-                            <span class="badge bg-info text-dark">Chờ HDV xác nhận</span>
                             <?php elseif ($b['status'] == 'da_hoan_thanh'): ?>
                             <span class="badge bg-success">Đã hoàn thành</span>
                             <?php elseif ($b['status'] == 'da_huy'): ?>
@@ -48,10 +46,10 @@
                         </td>
                         <td><?= date('d/m/Y', strtotime($b['created_at'])); ?></td>
                         <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>
-                        <td><?= date('d/m/Y', strtotime($b['end_date'])); ?></td>
+                        <td><?= empty($b['end_date']) ? '' : date('d/m/Y', strtotime($b['end_date'])); ?></td>
                         <td>
                             <a href="?action=admin-detailBooking&id=<?= $b['booking_id']; ?>"
-                                class="btn btn-sm btn-info">Chi tiết</a>
+                                class="btn btn-sm btn-outline-detail">Chi tiết</a>
                             <a href="?action=admin-updateBooking&id=<?= $b['booking_id']; ?>"
                                 class="btn btn-sm btn-outline-success">Sửa</a>
                             <a href="?action=admin-deleteBooking&id=<?= $b['booking_id']; ?>"

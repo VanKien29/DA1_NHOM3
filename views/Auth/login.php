@@ -131,9 +131,9 @@
     <div class="login-container">
         <h2>Login</h2>
         <form method="POST">
-            <input type="text" name="user" placeholder="Enter your email" value="admin02" required>
-            <input type="password" name="pass" placeholder="Enter your password" value="123456" required>
-            <button type="submit">Log In</button>
+            <input type="text" name="user" placeholder="Nhập tên người dùng" value="admin" required>
+            <input type="password" name="pass" placeholder="Nhập mật khẩu" value="123" required>
+            <button type="submit">Đăng nhập</button>
 
             <?php if (!empty($error)): ?>
             <div class="error"><?= $error ?></div>

@@ -26,7 +26,7 @@
                 <td><?= $g['guide_id'] ?></td>
                 <td>
                     <?php if (!empty($g['avatar'])): ?>
-                    <img src="<?= BASE_ASSETS_UPLOADS . $g['avatar'] ?>" width="100">
+                    <img src="<?= BASE_ASSETS_UPLOADS . $g['avatar'] ?>" width="60">
                     <?php endif; ?>
                 </td>
                 <td class="fw-semibold"><?= $g['name'] ?></td>

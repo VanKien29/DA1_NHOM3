@@ -87,14 +87,31 @@ class GuideQuery extends BaseModel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function detailGuide($id) {
-        $sql = "SELECT g.*, u.name, u.email, u.phone
-                FROM guides g
-                INNER JOIN users u ON g.user_id = u.user_id
-                WHERE g.guide_id = :id";
+    public function getCurrentBookings($id) {
+        $sql = "SELECT gt.id, gt.guide_id, gt.booking_id, t.tour_name, b.start_date, b.end_date, b.status AS booking_status
+                FROM guide_tours gt
+                JOIN bookings b ON gt.booking_id = b.booking_id
+                JOIN tours t ON b.tour_id = t.tour_id
+                WHERE gt.guide_id = :id
+                AND gt.status = 'current'
+                ORDER BY b.start_date ASC ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getHistoryBookings($id) {
+        $sql = "SELECT gt.id, gt.guide_id, gt.booking_id, t.tour_name, b.start_date, b.end_date, b.status AS booking_status
+                FROM guide_tours gt
+                JOIN bookings b ON gt.booking_id = b.booking_id
+                JOIN tours t ON b.tour_id = t.tour_id
+                WHERE gt.guide_id = :id
+                AND gt.status = 'history'
+                ORDER BY b.end_date DESC ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

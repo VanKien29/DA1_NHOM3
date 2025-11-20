@@ -1,130 +1,109 @@
+<link rel="stylesheet" href="./assets/css/admin.css">
+
 <div class="main-content p-4">
 
     <div class="mb-4 d-flex justify-content-between align-items-center">
-        <h3 class="fw-bold">Chi Tiết Booking #<?= $booking['booking_id'] ?></h3>
-        <a href="?action=admin-listBooking" class="btn btn-secondary" style="text-decoration:none">← Quay lại</a>
+        <h3 class="fw-bold">Chi Tiết Hướng Dẫn Viên</h3>
+        <a href="?action=admin-listGuide" class="btn btn-secondary" style="text-decoration:none">← Quay lại</a>
     </div>
 
     <div class="card mb-4">
-        <div class="card-header fw-bold">Thông Tin Booking</div>
-        <div class="card-body">
+        <div class="card-header fw-bold">Thông Tin Hướng Dẫn Viên</div>
+        <div class="card-body d-flex">
 
-            <p><strong>Mã Booking:</strong> <?= $booking['booking_id'] ?></p>
-            <p><strong>Tour:</strong> <?= $booking['tour_name'] ?></p>
-            <p><strong>Ngày tạo:</strong> <?= $booking['created_at'] ?></p>
-            <p><strong>Ngày bắt đầu:</strong> <?= $booking['start_date'] ?></p>
-
-            <p><strong>Trạng thái:</strong>
-                <?php if ($booking['status'] == 'cho_duyet'): ?>
-                <span class="badge bg-warning text-dark">Chờ duyệt</span>
-                <?php elseif ($booking['status'] == 'dang_dien_ra'): ?>
-                <span class="badge bg-primary">Đang diễn ra</span>
-                <?php elseif ($booking['status'] == 'cho_hdv_xac_nhan'): ?>
-                <span class="badge bg-info text-dark">Chờ HDV xác nhận</span>
-                <?php elseif ($booking['status'] == 'da_hoan_thanh'): ?>
-                <span class="badge bg-success">Đã hoàn thành</span>
-                <?php elseif ($booking['status'] == 'da_huy'): ?>
-                <span class="badge bg-danger">Đã hủy</span>
-                <?php endif; ?>
-            </p>
-
-            <p><strong>Ghi chú:</strong><br>
-                <?= nl2br($booking['report'] ?? '—'); ?>
-            </p>
-
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-header fw-bold">Hướng Dẫn Viên Phụ Trách</div>
-        <div class="card-body">
-            <?php if ($guide): ?>
-            <p><strong>Họ tên:</strong> <?= $guide['guide_name'] ?></p>
-            <p><strong>Email:</strong> <?= $guide['email'] ?></p>
-            <p><strong>SĐT:</strong> <?= $guide['phone'] ?></p>
-            <p><strong>Chuyên môn:</strong> <?= $guide['specialization'] ?></p>
-            <p><strong>Kinh nghiệm:</strong> <?= $guide['experience_years'] ?> năm</p>
-
-            <p><strong>Ngày bắt đầu tour:</strong> <?= $guide['start_date'] ?></p>
-            <p><strong>Ngày kết thúc tour:</strong> <?= $guide['end_date'] ?></p>
-
+            <?php if (!empty($guide['avatar'])): ?>
+            <img src="<?= BASE_ASSETS_UPLOADS . $guide['avatar'] ?>" width="120" class="rounded me-4 shadow-sm">
             <?php else: ?>
-            <p class="text-danger">Chưa phân hướng dẫn viên cho tour này.</p>
+            <div class="no-avatar me-4"
+                style="width:120px;height:120px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                <span>Không ảnh</span>
+            </div>
             <?php endif; ?>
+
+            <div>
+                <p><strong>Họ tên:</strong> <?= $guide['name'] ?></p>
+                <p><strong>Email:</strong> <?= $guide['email'] ?></p>
+                <p><strong>SĐT:</strong> <?= $guide['phone'] ?></p>
+                <p><strong>Chuyên môn:</strong> <?= $guide['specialization'] ?></p>
+                <p><strong>Kinh nghiệm:</strong> <?= $guide['experience_years'] ?> năm</p>
+            </div>
         </div>
     </div>
 
     <div class="card mb-4">
-        <div class="card-header fw-bold">Danh Sách Khách Đi Cùng</div>
+        <div class="card-header fw-bold">Tour Đang Dẫn</div>
         <div class="card-body">
 
-            <?php if (count($customers) > 0): ?>
+            <?php if (!empty($currentBookings)): ?>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>Họ tên</th>
-                        <th>Email</th>
-                        <th>SĐT</th>
+                        <th>Mã Booking</th>
+                        <th>Tên Tour</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($customers as $c): ?>
+                    <?php foreach ($currentBookings as $b): ?>
                     <tr>
-                        <td><?= $c['full_name'] ?></td>
-                        <td><?= $c['email'] ?></td>
-                        <td><?= $c['phone'] ?></td>
+                        <td>#<?= $b['booking_id'] ?></td>
+                        <td class="fw-semibold"><?= $b['tour_name'] ?></td>
+                        <td><?= date("d/m/Y", strtotime($b['start_date'])) ?></td>
+                        <td><?= empty($b['end_date']) ? '' : date("d/m/Y", strtotime($b['end_date'])) ?></td>
+                        <td>
+                            <a href="?action=admin-detailBooking&id=<?= $b['booking_id'] ?>"
+                                class="btn btn-info btn-sm">Chi tiết</a>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
-            <p class="fw-bold mt-3">Tổng số khách: <?= count($customers) ?> người</p>
-
             <?php else: ?>
-            <p class="text-muted">Chưa thêm khách nào cho booking này.</p>
+            <p class="text-muted">Hướng dẫn viên chưa được phân tour nào.</p>
             <?php endif; ?>
 
         </div>
     </div>
 
     <div class="card mb-4">
-        <div class="card-header fw-bold">Tình Trạng Điểm Danh</div>
+        <div class="card-header fw-bold">Lịch Sử Dẫn Tour</div>
         <div class="card-body">
 
-            <?php if (count($attendance) > 0): ?>
-
-            <table class="table table-bordered">
+            <?php if (!empty($historyBookings)): ?>
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>Họ tên</th>
+                        <th>Mã Booking</th>
+                        <th>Tên Tour</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
                         <th>Trạng thái</th>
-                        <th>Ghi chú</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($attendance as $a): ?>
+                    <?php foreach ($historyBookings as $b): ?>
                     <tr>
-                        <td><?= $a['full_name'] ?></td>
+                        <td>#<?= $b['booking_id'] ?></td>
+                        <td class="fw-semibold"><?= $b['tour_name'] ?></td>
+                        <td><?= date("d/m/Y", strtotime($b['start_date'])) ?></td>
+                        <td><?= date("d/m/Y", strtotime($b['end_date'])) ?></td>
                         <td>
-                            <?php if ($a['status'] == 'present'): ?>
-                            <span class="badge bg-success">Có mặt</span>
-                            <?php else: ?>
-                            <span class="badge bg-danger">Vắng</span>
+                            <?php if ($b['booking_status'] == 'da_hoan_thanh'): ?>
+                            <span class="badge bg-success">Hoàn thành</span>
+                            <?php elseif ($b['booking_status'] == 'da_huy'): ?>
+                            <span class="badge bg-danger">Đã hủy</span>
                             <?php endif; ?>
                         </td>
-                        <td><?= $a['note'] ?: '—' ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <!-- 
-            <p class="fw-bold mt-3">
-                Có mặt: <?= count(array_filter($attendance, fn($x) => $x['status'] == 'present')) ?> /
-                <?= count($attendance) ?> khách
-            </p> -->
 
             <?php else: ?>
-            <p class="text-muted">Chưa có dữ liệu điểm danh.</p>
+            <p class="text-muted">Chưa có lịch sử dẫn tour.</p>
             <?php endif; ?>
 
         </div>
