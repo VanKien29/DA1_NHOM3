@@ -14,9 +14,7 @@ class BookingController
         require './views/Booking/ListBooking.php';
     }
 
-    public function detailBooking() {
-    $id = $_GET['id'];
-
+    public function detailBooking($id) {
     $booking = $this->bookingQuery->getBooking($id);
     $guide = $this->bookingQuery->getGuideByBooking($id);
     $customers = $this->bookingQuery->getBookingCustomers($id);

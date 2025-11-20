@@ -7,10 +7,9 @@ class GuideQuery extends BaseModel {
     public $note;
 
     public function getAllGuides() {
-    $sql = "SELECT g.*, u.name, u.email, u.phone, tg.status AS tour_status
+    $sql = "SELECT g.*, u.name, u.email, u.phone
             FROM guides g
-            INNER JOIN users u ON g.user_id = u.user_id
-            LEFT JOIN tour_guides tg ON g.guide_id = tg.guide_id
+            INNER JOIN users u ON g.user_id = u.user_id 
             ORDER BY g.guide_id DESC";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute();
@@ -30,13 +29,14 @@ class GuideQuery extends BaseModel {
     }
 
     public function createGuide() {
-        $sql = "INSERT INTO guides (user_id, experience_years, specialization, note)
-                VALUES (:user_id, :experience_years, :specialization, :note)";
+        $sql = "INSERT INTO guides (user_id, experience_years, specialization, note, avatar)
+                VALUES (:user_id, :experience_years, :specialization, :note, :avatar)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':experience_years', $this->experience_years);
         $stmt->bindParam(':specialization', $this->specialization);
         $stmt->bindParam(':note', $this->note);
+        $stmt->bindParam(':avatar', $this->avatar);
         return $stmt->execute();
     }
 
@@ -45,7 +45,8 @@ class GuideQuery extends BaseModel {
                 user_id = :user_id,
                 experience_years = :experience_years,
                 specialization = :specialization,
-                note = :note
+                note = :note,
+                avatar = :avatar
                 WHERE guide_id = :guide_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':guide_id', $this->guide_id);
@@ -53,6 +54,7 @@ class GuideQuery extends BaseModel {
         $stmt->bindParam(':experience_years', $this->experience_years);
         $stmt->bindParam(':specialization', $this->specialization);
         $stmt->bindParam(':note', $this->note);
+        $stmt->bindParam(':avatar', $this->avatar);
         return $stmt->execute();
     }
 
@@ -85,4 +87,14 @@ class GuideQuery extends BaseModel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function detailGuide($id) {
+        $sql = "SELECT g.*, u.name, u.email, u.phone
+                FROM guides g
+                INNER JOIN users u ON g.user_id = u.user_id
+                WHERE g.guide_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

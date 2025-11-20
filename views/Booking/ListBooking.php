@@ -19,9 +19,9 @@
                         <th>Phương tiện</th>
                         <th>Trạng thái</th>
                         <th>Ngày tạo</th>
-                        <th>Số ngày</th>
-                        <th>Số đêm</th>
-                        <th>Hành động</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th style="text-align: center;">Hành động</th>
                     </tr>
                 </thead>
 
@@ -30,34 +30,30 @@
                     <tr>
                         <td><?= $i++; ?></td>
                         <td><?= $b['booking_id']; ?></td>
-                        <td><?= htmlspecialchars($b['tour_name'] ?? 'Không có'); ?></td>
-                        <td><?= htmlspecialchars($b['hotel_name'] ?? 'Không chọn'); ?></td>
-                        <td><?= htmlspecialchars($b['vehicle_name'] ?? 'Không chọn'); ?></td>
+                        <td><?= htmlspecialchars($b['tour_name']); ?></td>
+                        <td><?= htmlspecialchars($b['hotel_name']); ?></td>
+                        <td><?= htmlspecialchars($b['vehicle_name']); ?></td>
                         <td>
-                            <?php if ($b['status'] == 'pending'): ?>
+                            <?php if ($b['status'] == 'cho_duyet'): ?>
                             <span class="badge bg-warning text-dark">Chờ duyệt</span>
-
-                            <?php elseif ($b['status'] == 'confirmed'): ?>
-                            <span class="badge bg-success">Đã xác nhận</span>
-
-                            <?php elseif ($b['status'] == 'completed'): ?>
-                            <span class="badge bg-primary">Hoàn thành</span>
-
-                            <?php else: ?>
+                            <?php elseif ($b['status'] == 'dang_dien_ra'): ?>
+                            <span class="badge bg-primary">Đang diễn ra</span>
+                            <?php elseif ($b['status'] == 'cho_hdv_xac_nhan'): ?>
+                            <span class="badge bg-info text-dark">Chờ HDV xác nhận</span>
+                            <?php elseif ($b['status'] == 'da_hoan_thanh'): ?>
+                            <span class="badge bg-success">Đã hoàn thành</span>
+                            <?php elseif ($b['status'] == 'da_huy'): ?>
                             <span class="badge bg-danger">Đã hủy</span>
                             <?php endif; ?>
                         </td>
                         <td><?= date('d/m/Y', strtotime($b['created_at'])); ?></td>
-
-                        <td><?= $b['days']; ?></td>
-                        <td><?= $b['nights']; ?></td>
+                        <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>
+                        <td><?= date('d/m/Y', strtotime($b['end_date'])); ?></td>
                         <td>
                             <a href="?action=admin-detailBooking&id=<?= $b['booking_id']; ?>"
                                 class="btn btn-sm btn-info">Chi tiết</a>
-
                             <a href="?action=admin-updateBooking&id=<?= $b['booking_id']; ?>"
                                 class="btn btn-sm btn-outline-success">Sửa</a>
-
                             <a href="?action=admin-deleteBooking&id=<?= $b['booking_id']; ?>"
                                 onclick="return confirm('Xác nhận xóa booking này?')"
                                 class="btn btn-sm btn-outline-danger">Xóa</a>

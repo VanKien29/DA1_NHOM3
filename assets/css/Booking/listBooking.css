@@ -2,14 +2,37 @@ a {
   text-decoration: none;
 }
 
-/* .table-container {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 24px;
-  overflow-x: auto;
-} */
+.badge {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 20px;
+  font-weight: 500;
+}
 
+.bg-warning {
+  background-color: #fef3c7 !important;
+  color: #d97706 !important;
+}
+
+.bg-success {
+  background-color: #dcfce7 !important;
+  color: #16a34a !important;
+}
+
+.bg-danger {
+  background-color: #fee2e2 !important;
+  color: #dc2626 !important;
+}
+
+.bg-primary {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.bg-info {
+  background-color: #cffafe !important;
+  color: #0e7490 !important;
+}
 .table-container h4 {
   font-size: 20px;
   font-weight: 600;

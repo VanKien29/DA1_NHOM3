@@ -28,7 +28,7 @@ $user = $_SESSION['user'];
     <?php
     switch ($action) {
         // Tours
-        case 'admin-listTours':
+        case 'admin-listTours': 
             echo '<link rel="stylesheet" href="assets/css/Tour/listTours.css">';
             break;
         case 'admin-createTours':
@@ -76,35 +76,32 @@ $user = $_SESSION['user'];
         case 'admin-listGuide':
             echo '<link rel="stylesheet" href="assets/css/Guide/listGuide.css">';
             break;
+        case 'admin-detailGuide':
+            echo '<link rel="stylesheet" href="assets/css/Guide/detailGuide.css">';
+            break;
         case 'admin-createGuide':
         case 'admin-updateGuide':
             echo '<link rel="stylesheet" href="assets/css/Guide/formGuide.css">';
             break;
 
-        // Tour Guides
-        case 'admin-listTourGuide':
-            echo '<link rel="stylesheet" href="assets/css/TourGuide/listToursGuide.css">';
-            break;
-        case 'admin-createTourGuide':
-        case 'admin-updateTourGuide':
-            echo '<link rel="stylesheet" href="assets/css/TourGuide/formToursGuide.css">';
-    
-        // Hotel
-        case 'admin-listHotel':
-            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
-            break;
-        case 'admin-createHotel':
-        case 'admin-updateHotel':
-            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
-            break;
         // Hotel
         case 'admin-listVehicles':
-            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
+            echo '<link rel="stylesheet" href="assets/css/Vehicles/listVehicles.css">';
             break;
         case 'admin-createVehicles':
         case 'admin-updateVehicles':
-            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
-
+            echo '<link rel="stylesheet" href="assets/css/Vehicles/formVehicles.css">';
+            break;
+        
+        // Hotel
+        case 'admin-listHotel':
+            echo '<link rel="stylesheet" href="assets/css/Hotel/listHotel.css">';
+            break;
+        case 'admin-createHotel':
+        case 'admin-updateHotel':
+            echo '<link rel="stylesheet" href="assets/css/Hotel/formHotel.css">';
+            break;
+            
         // Reports
         case 'admin-listReport':
             echo '<link rel="stylesheet" href="assets/css/Report/listReport.css">';
@@ -179,12 +176,6 @@ $user = $_SESSION['user'];
                     <a href="?action=admin-listGuide"
                         class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide') ? 'active' : '' ?>">
                         <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
-                    </a>
-                </li>
-                <li>
-                    <a href="?action=admin-listTourGuide"
-                        class="<?= ($action == 'admin-listTourGuide' || $action == 'admin-createTourGuide' || $action == 'admin-updateTourGuide') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-file-lines"></i> Trạng Thái HDV
                     </a>
                 </li>
                 <li>
@@ -377,21 +368,10 @@ $user = $_SESSION['user'];
                 case 'admin-deleteGuide':
                     (new GuideController)->deleteGuide($id);
                     break;
+                case 'admin-detailGuide':
+                    (new GuideController)->detailGuide($id);
+                    break;
                     
-                // Tour Guides 
-                case 'admin-listTourGuide':
-                    (new TourGuideController)->listTourGuides();
-                    break;
-                case 'admin-createTourGuide':
-                    (new TourGuideController)->createTourGuide();
-                    break;
-                case 'admin-updateTourGuide':
-                    (new TourGuideController)->updateTourGuide($id);
-                    break;
-                case 'admin-deleteTourGuide':
-                    (new TourGuideController)->deleteTourGuide($id);
-                    break;
-                        
                 // Reports
                 case 'admin-listReport':
                     (new ReportController)->listReports();
@@ -411,7 +391,7 @@ $user = $_SESSION['user'];
                     (new BookingController)->listBooking();
                     break;
                 case 'admin-detailBooking':
-                    (new BookingController)->detailBooking();
+                    (new BookingController)->detailBooking($id);
                     break;
                 case 'admin-createReport':
                     (new ReportController)->createReport();

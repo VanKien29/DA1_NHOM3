@@ -47,19 +47,18 @@ class BookingQuery extends BaseModel {
                     u.name AS guide_name, 
                     u.phone, 
                     u.email,
-                    tg.start_date, 
-                    tg.end_date, 
-                    tg.status
+                    b.status,
+                    b.start_date,
+                    b.end_date
                 FROM bookings b
-                JOIN tour_guides tg ON b.tour_id = tg.tour_id
-                JOIN guides g ON tg.guide_id = g.guide_id
-                JOIN users u ON g.user_id = u.user_id
+                LEFT JOIN guides g ON b.guide_id = g.guide_id
+                LEFT JOIN users u ON g.user_id = u.user_id
                 WHERE b.booking_id = ?";
-
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$booking_id]);
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
+
 
     public function getBookingCustomers($booking_id) {
         $sql = "SELECT 

@@ -23,7 +23,7 @@ class TourController
         $categories = $this->categoryModel->getAllCategories();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['tour_name']) || empty($_POST['price']) || empty($_POST['tour_images'])) {
+            if (empty($_POST['tour_name']) || empty($_POST['price'])  || $_FILES['tour_images']['size'] <= 0) {
                 $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
             }
             if (empty($_POST['price']) || $_POST['price'] < 0) {
@@ -34,12 +34,11 @@ class TourController
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->status = $_POST['status'];
-                $this->tourQuery->tour_img = $_FILES['tour_img'];
+                $this->tourQuery->tour_images = $_FILES['tour_images'];
 
-                if(isset($_FILES["tour_img"]) && $_FILES["tour_img"]["size"] >0){
-                $product->tour_img = upload_file('productsUpload', $_FILES["tour_img"]);
-            }
+                if(isset($_FILES["tour_images"]) && $_FILES["tour_images"]["size"] >0){
+                    $this->tourQuery->tour_images = upload_file('image/TourImages', $_FILES["tour_images"]);
+                }
 
                 if ($this->tourQuery->createTour()) {
                     echo "<script>
@@ -72,8 +71,6 @@ class TourController
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->status = $_POST['status'];
-                // Xử lý ảnh
                 if ($_FILES['tour_images']['size'] > 0) {
                     $this->tourQuery->tour_images = upload_file('image/TourImages', $_FILES['tour_images']);
                 }else {
