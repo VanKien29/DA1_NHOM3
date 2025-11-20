@@ -1,13 +1,29 @@
-<div class="admin-table-container">
-    <div class="table-header d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold">Danh sách Tour</h4>
+<div class="table-header d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold">Danh sách Tour</h4>
+
+    <div class="action-group d-flex align-items-center gap-3">
         <a href="?action=admin-createTours" class="btn btn-primary">
             Thêm Tour
         </a>
     </div>
-
-    <table class="table table-hover align-middle">
-        <thead class="table-light">
+</div>
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>#</th>
+            <th>ID</th>
+            <th>Tên tour</th>
+            <th>Ảnh tour</th>
+            <th>Danh mục</th>
+            <th>Giá</th>
+            <th>Mô Tả</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $stt = 1;
+        foreach ($tours as $tour): ?>
             <tr>
                 <th>#</th>
                 <th>ID</th>

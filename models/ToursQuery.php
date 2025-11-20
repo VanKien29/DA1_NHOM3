@@ -40,6 +40,19 @@ class ToursQuery extends BaseModel
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function searchTours($keyword)
+    {
+        $sql = "SELECT t.*, c.category_name 
+            FROM tours t
+            INNER JOIN categories c ON t.category_id = c.category_id
+            WHERE LOWER(t.tour_name) LIKE :keyword
+            ORDER BY t.tour_id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $like = '%' . strtolower($keyword) . '%';
+        $stmt->bindParam(':keyword', $like);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function createTour()
     {
         $sql = "INSERT INTO tours (tour_name, description, price, category_id, tour_images)
