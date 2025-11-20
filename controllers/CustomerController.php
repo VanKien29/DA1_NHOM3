@@ -13,6 +13,12 @@ class CustomerController
         $customers = $this->customerModel->getAllCustomers();
         require './views/Customer/listCustomer.php';
     }
+    public function searchCustomer()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $customers = $this->customerModel->searchCustomers($keyword);
+        require './views/Customer/listCustomer.php';
+    }
 
     public function createCustomer()
     {
@@ -86,12 +92,12 @@ class CustomerController
     public function deleteCustomer($id)
     {
         if ($id) {
-            if($this->customerModel->deleteCustomer($id)) {
-            echo "<script>
+            if ($this->customerModel->deleteCustomer($id)) {
+                echo "<script>
                     alert('Xóa khách hàng thành công!');
                     window.location.href='?action=admin-listCustomer';
             </script>";
-            exit; 
+                exit;
             } else {
                 echo "<script>
                     alert('Không thể xoá vì khách hàng này đang trong một tour!');
