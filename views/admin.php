@@ -28,7 +28,8 @@ $user = $_SESSION['user'];
     <?php
     switch ($action) {
         // Tours
-        case 'admin-listTours': 
+        case 'admin-listTours':
+        case 'admin-searchTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/listTours.css">';
             break;
         case 'admin-createTours':
@@ -37,6 +38,7 @@ $user = $_SESSION['user'];
             break;
         // Users
         case 'admin-listUsers':
+        case 'admin-searchUsers':
             echo '<link rel="stylesheet" href="assets/css/User/listUsers.css">';
             break;
         case 'admin-createUsers':
@@ -91,7 +93,7 @@ $user = $_SESSION['user'];
         case 'admin-updateVehicles':
             echo '<link rel="stylesheet" href="assets/css/Vehicles/formVehicles.css">';
             break;
-        
+
         // Hotel
         case 'admin-listHotel':
             echo '<link rel="stylesheet" href="assets/css/Hotel/listHotel.css">';
@@ -100,7 +102,7 @@ $user = $_SESSION['user'];
         case 'admin-updateHotel':
             echo '<link rel="stylesheet" href="assets/css/Hotel/formHotel.css">';
             break;
-            
+
         // Reports
         case 'admin-listReport':
             echo '<link rel="stylesheet" href="assets/css/Report/listReport.css">';
@@ -120,7 +122,7 @@ $user = $_SESSION['user'];
         case 'admin-updateBooking':
             echo '<link rel="stylesheet" href="assets/css/Booking/formBooking.css">';
             break;
-        
+
     }
     ?>
 </head>
@@ -222,8 +224,8 @@ $user = $_SESSION['user'];
     <main class="main">
         <header class="topbar">
             <form method="GET" style="width: 300px;">
-                <input type="hidden" name="action"
-                    value="<?= $action === 'admin-listTours' ? 'admin-searchTours' : $action ?>">
+                <input type="hidden" name="action" value="<?= str_replace('list', 'search', $action) ?>">
+
                 <div class="searchbar">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#6b7280" height="18" viewBox="0 0 20 20" width="18">
                         <path
@@ -288,6 +290,9 @@ $user = $_SESSION['user'];
                     break;
                 case 'admin-deleteUsers':
                     (new UsersController)->deleteUsers($id);
+                    break;
+                case 'admin-searchUsers':
+                    (new UsersController)->searchUsers($id);
                     break;
 
                 // Categories
@@ -376,7 +381,7 @@ $user = $_SESSION['user'];
                 case 'admin-detailGuide':
                     (new GuideController)->detailGuide($id);
                     break;
-                    
+
                 // Reports
                 case 'admin-listReport':
                     (new ReportController)->listReports();
