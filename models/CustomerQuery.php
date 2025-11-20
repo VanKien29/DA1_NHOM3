@@ -1,5 +1,6 @@
 <?php
-class CustomerQuery extends BaseModel {
+class CustomerQuery extends BaseModel
+{
     public $customer_id;
     public $full_name;
     public $email;
@@ -7,7 +8,8 @@ class CustomerQuery extends BaseModel {
     public $address;
 
     // ====== Lấy toàn bộ khách hàng ======
-    public function getAllCustomers() {
+    public function getAllCustomers()
+    {
         $sql = "SELECT * FROM customers ORDER BY customer_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
@@ -15,16 +17,31 @@ class CustomerQuery extends BaseModel {
     }
 
     // ====== Tìm khách hàng theo ID ======
-    public function findCustomer($id) {
+    public function findCustomer($id)
+    {
         $sql = "SELECT * FROM customers WHERE customer_id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function searchCustomers($keyword)
+    {
+        $sql = "SELECT * FROM customers 
+        WHERE full_name LIKE :keyword
+        OR email LIKE :keyword 
+        OR phone LIKE :keyword 
+        ORDER BY customer_id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $likeKeyword = '%' . $keyword . '%';
+        $stmt->bindParam(':keyword', $likeKeyword);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     // ====== Thêm khách hàng ======
-    public function createCustomer() {
+    public function createCustomer()
+    {
         $sql = "INSERT INTO customers (full_name, email, phone, address)
                 VALUES (:full_name, :email, :phone, :address)";
         $stmt = $this->pdo->prepare($sql);
@@ -36,7 +53,8 @@ class CustomerQuery extends BaseModel {
     }
 
     // ====== Cập nhật khách hàng ======
-    public function updateCustomer() {
+    public function updateCustomer()
+    {
         $sql = "UPDATE customers SET 
                     full_name = :full_name,
                     email = :email,
@@ -53,18 +71,19 @@ class CustomerQuery extends BaseModel {
     }
 
     // ====== Xóa khách hàng ======
-    public function deleteCustomer($id) {
-    try {
-        $sql = "DELETE FROM customers WHERE customer_id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return true;
-    } catch (PDOException $e) {
-        if ($e->getCode() == "23000") {
-            return false;
+    public function deleteCustomer($id)
+    {
+        try {
+            $sql = "DELETE FROM customers WHERE customer_id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            if ($e->getCode() == "23000") {
+                return false;
+            }
         }
-    }
     }
 }
 ?>

@@ -57,6 +57,7 @@ $user = $_SESSION['user'];
 
         // Customers
         case 'admin-listCustomer':
+        case 'admin-searchCustomer';
             echo '<link rel="stylesheet" href="assets/css/Customer/listCustomer.css">';
             break;
         case 'admin-createCustomer':
@@ -321,6 +322,9 @@ $user = $_SESSION['user'];
                     break;
                 case 'admin-deleteCustomer':
                     (new CustomerController)->deleteCustomer($id);
+                    break;
+                case 'admin-searchCustomer':
+                    (new CustomerController)->searchCustomer($id);
                     break;
 
                 // Discounts
