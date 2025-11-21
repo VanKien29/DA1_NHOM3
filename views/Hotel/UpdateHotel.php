@@ -2,11 +2,18 @@
     <div class="admin-form-card">
         <h4 class="form-title text-center mb-4">Cập Nhật Hotel</h4>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             <?php if (!empty($err['empty'])): ?>
             <div class="text-danger err"><?= $err['empty']; ?></div>
             <?php endif; ?>
-
+            
+            <div class="mb-3">
+                <label>Ảnh Khách Sạn</label>
+                <input type="file" name="hotel_image" class="form-control">
+                <?php if (!empty($hotel['hotel_image'])): ?>
+                <img src="<?= BASE_ASSETS_UPLOADS . $hotel['hotel_image'] ?>" width="120" class="mt-2">
+                <?php endif; ?>
+            </div>
             <!-- Tên dịch vụ / hotel -->
             <div class="form-group mb-3">
                 <label>Tên Hotel / Dịch vụ</label>
@@ -46,15 +53,6 @@
                 <div class="text-danger err"><?= $err['description']; ?></div>
                 <?php endif; ?>
             </div>
-            <div class="mb-3">
-                <label>Ảnh Khách Sạn</label>
-                <input type="file" name="hotel_image" class="form-control">
-                <?php if (!empty($guide['hotel_image'])): ?>
-                <img src="<?= BASE_ASSETS_UPLOADS . $guide['hotel_image'] ?>" width="120" class="mt-2">
-                <?php endif; ?>
-            </div>
-
-
             <div class="form-action text-center">
                 <button type="submit" class="btn btn-primary px-5">Cập nhật</button>
                 <a href="?action=admin-listHotel" class="btn btn-secondary ms-2 px-4">Quay lại</a>
