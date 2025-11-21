@@ -72,7 +72,6 @@
 
         <div class="card">
             <h4>Dịch Vụ</h4>
-
             <div class="form-group">
                 <label>Khách Sạn</label>
                 <select name="hotel_id" class="form-select">
@@ -102,7 +101,6 @@
 
         <div class="card card-full">
             <h4>Danh Sách Khách</h4>
-
             <div class="form-group">
                 <label>Khách Tham Gia</label>
                 <select name="customers[]" multiple class="form-select multi">

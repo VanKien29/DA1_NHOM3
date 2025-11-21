@@ -57,6 +57,10 @@
     <div class="card mb-4">
         <div class="card-header fw-bold">Danh Sách Khách</div>
         <div class="card-body">
+            <button class="btn btn-primary btn-sm"
+                onclick="document.getElementById('addCustomerForm').style.display='block'">
+                + Thêm khách
+            </button>
 
             <?php if (count($customers) > 0): ?>
             <table class="table table-bordered table-striped">
@@ -84,6 +88,29 @@
             <p class="text-muted">Chưa thêm khách nào cho booking này.</p>
             <?php endif; ?>
 
+            <div id="addCustomerForm" style="display:none;" class="border rounded p-3 mb-3 bg-light">
+
+                <form method="POST">
+                    <input type="hidden" name="action_add_customer" value="1">
+
+                    <label class="fw-semibold">Chọn khách để thêm:</label>
+                    <select name="add_customer_id" class="form-select mb-3">
+                        <option value="">-- Chọn khách --</option>
+
+                        <?php foreach ($customers_all as $c): ?>
+                        <option value="<?= $c['customer_id'] ?>">
+                            <?= $c['full_name'] ?> - <?= $c['phone'] ?>
+                        </option>
+                        <?php endforeach; ?>
+
+                    </select>
+
+                    <button type="submit" class="btn btn-success">Lưu khách</button>
+                    <button type="button" class="btn btn-secondary"
+                        onclick="document.getElementById('addCustomerForm').style.display='none'">Hủy</button>
+                </form>
+
+            </div>
         </div>
     </div>
 

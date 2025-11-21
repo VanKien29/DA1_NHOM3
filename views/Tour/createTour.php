@@ -30,7 +30,9 @@
                 <label>Số ngày</label>
                 <input type="number" name="duration_days" class="form-control"
                     value="<?= $_POST['duration_days'] ?? '' ?>">
-                <div class="text-danger err"><?= htmlspecialchars($err['duration_days']) ?></div>
+                <?php if (!empty($err['duration_nights'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['duration_nights']) ?></div>
+                <?php endif; ?>
                 <?php if (!empty($err['duration_time'])): ?>
                 <div class="text-danger err"><?= htmlspecialchars($err['duration_time']) ?>
                 </div><?php endif; ?>
