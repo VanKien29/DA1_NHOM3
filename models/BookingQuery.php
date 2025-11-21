@@ -16,13 +16,26 @@ class BookingQuery extends BaseModel {
                     b.*,
                     t.tour_name,
                     h.service_name AS hotel_name,
-                    v.service_name AS vehicle_name
+                    v.service_name AS vehicle_name,
+                    u.name AS guide_name,
+                    COUNT(bc.customer_id) AS total_customers
                 FROM bookings b
                 LEFT JOIN tours t ON b.tour_id = t.tour_id
                 LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
                 LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
-                ORDER BY b.booking_id DESC";
-
+                LEFT JOIN guides g ON b.guide_id = g.guide_id
+                LEFT JOIN users u ON g.user_id = u.user_id
+                LEFT JOIN booking_customers bc ON b.booking_id = bc.booking_id
+                GROUP BY b.booking_id
+                ORDER BY 
+                    CASE b.status
+                        WHEN 'dang_dien_ra' THEN 1
+                        WHEN 'cho_duyet' THEN 2
+                        WHEN 'da_huy' THEN 3
+                        WHEN 'da_hoan_thanh' THEN 4
+                        ELSE 5
+                    END,
+                    b.booking_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

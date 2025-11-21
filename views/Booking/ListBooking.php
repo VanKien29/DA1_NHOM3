@@ -13,11 +13,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>ID</th>
                         <th>Tour</th>
                         <th>Khách sạn</th>
                         <th>Phương tiện</th>
-                        <th>Ngày tạo</th>
+                        <th>HDV phụ trách</th>
+                        <th>Số khách</th>
                         <th>Ngày bắt đầu</th>
                         <th>Ngày kết thúc</th>
                         <th>Trạng thái</th>
@@ -29,11 +29,11 @@
                     <?php $i = 1; foreach ($bookings as $b): ?>
                     <tr>
                         <td><?= $i++; ?></td>
-                        <td><?= $b['booking_id']; ?></td>
                         <td><?= htmlspecialchars($b['tour_name']); ?></td>
                         <td><?= htmlspecialchars($b['hotel_name']); ?></td>
                         <td><?= htmlspecialchars($b['vehicle_name']); ?></td>
-                        <td><?= date('d/m/Y', strtotime($b['created_at'])); ?></td>
+                        <td><?= htmlspecialchars($b['guide_name']); ?></td>
+                        <td><?= htmlspecialchars($b['total_customers']); ?></td>
                         <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>
                         <td><?= empty($b['end_date']) ? '' : date('d/m/Y', strtotime($b['end_date'])); ?></td>
                         <td>

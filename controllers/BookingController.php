@@ -22,8 +22,29 @@ class BookingController
         $guide = $this->bookingQuery->getGuideByBooking($id);
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
+        $customers_all = $this->CustomerQuery->getAllCustomers();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $new_customer = $_POST['add_customer_id'];
+            if (!empty($new_customer)) {
+                foreach ($customers as $c) {
+                    if ($c['customer_id'] == $new_customer) {
+                        echo "<script>alert('Khách này đã có trong booking!');</script>";
+                        require './views/Booking/DetailBooking.php';
+                        return;
+                    }
+                }
+                $this->bookingQuery->addBookingCustomers($id, $new_customer, 0);
+                $this->bookingQuery->addAttendance($id, $new_customer);
+
+                echo "<script>alert('Thêm khách thành công!'); window.location.reload();</script>";
+                exit;
+            }
+        }
+
         require './views/Booking/DetailBooking.php';
     }
+
 
     function createBooking(){
         $guides = $this->GuideQuery->getAllGuides();

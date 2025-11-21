@@ -42,7 +42,7 @@ class TourController
             if ($_POST['duration_nights'] < 0) {
                 $err['duration_nights'] = "Số đêm không được âm.";
             }
-            if ($_POST['duration_days'] != $_POST['duration_nights'] + 1) {
+            if ((int)$_POST['duration_days'] != (int)$_POST['duration_nights'] + 1) {
                 $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
             }
             if (empty($err)) {
@@ -89,7 +89,7 @@ class TourController
             if ($_POST['duration_nights'] < 0) {
                 $err['duration_nights'] = "Số đêm không được âm.";
             }
-            if ($_POST['duration_days'] != $_POST['duration_nights'] + 1) {
+            if ((int)$_POST['duration_days'] != (int)$_POST['duration_nights'] + 1) {
                 $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
             }
             if (empty($err)) {
