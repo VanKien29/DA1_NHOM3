@@ -62,12 +62,12 @@ class BookingQuery extends BaseModel {
 
     public function getBookingCustomers($booking_id) {
         $sql = "SELECT 
-                    c.*, 
-                    bc.id AS bc_id
-                FROM booking_customers bc
-                JOIN customers c ON bc.customer_id = c.customer_id
-                WHERE bc.booking_id = ?";
-
+                c.*, 
+                bc.id AS bc_id,
+                bc.is_main
+            FROM booking_customers bc
+            JOIN customers c ON bc.customer_id = c.customer_id
+            WHERE bc.booking_id = ?";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$booking_id]);
         return $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -80,11 +80,152 @@ class BookingQuery extends BaseModel {
                 FROM attendance a
                 JOIN customers c ON a.customer_id = c.customer_id
                 WHERE a.booking_id = ?";
-
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$booking_id]);
         return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function createBooking() {
+        $sql = "INSERT INTO bookings 
+                (tour_id, guide_id, hotel_id, vehicle_id, status, report, created_at, start_date, end_date) VALUES 
+                (:tour_id, :guide_id, :hotel_id, :vehicle_id, :status, :report, :created_at, :start_date, :end_date)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':tour_id', $this->tour_id);
+        $stmt->bindParam(':guide_id', $this->guide_id);
+        $stmt->bindParam(':hotel_id', $this->hotel_id);
+        $stmt->bindParam(':vehicle_id', $this->vehicle_id);
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':report', $this->report);
+        $stmt->bindParam(':created_at', $this->created_at);
+        $stmt->bindParam(':start_date', $this->start_date);
+        $stmt->bindParam(':end_date', $this->end_date);
+        $stmt->execute();
+        return $this->pdo->lastInsertId();
+    }
+
+    public function addBookingCustomers($booking_id, $customer_id, $is_main) {
+        $sql = "INSERT INTO booking_customers (booking_id, customer_id, is_main) VALUES (:booking_id, :customer_id, :is_main)";
+        $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':booking_id', $booking_id);
+            $stmt->bindParam(':customer_id', $customer_id);
+            $stmt->bindParam(':is_main', $is_main);
+            $stmt->execute();
+    }
+
+    public function addGuideTour($guide_id, $booking_id, $tour_id) {
+        $sql = "INSERT INTO guide_tours (guide_id, booking_id, tour_id, status) VALUES (:guide_id, :booking_id, :tour_id, :status)";
+        $status = 'current';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':guide_id', $guide_id);
+        $stmt->bindParam(':booking_id', $booking_id);
+        $stmt->bindParam(':tour_id', $tour_id);
+        $stmt->bindParam(':status', $status);
+        return $stmt->execute();
+    }
+
+    public function addAttendance($booking_id, $customer_id){
+        $sql = "INSERT INTO attendance (booking_id, customer_id, status) VALUES (:booking_id, :customer_id, :status)";
+        $status = 'absent';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':booking_id', $booking_id);
+        $stmt->bindParam(':customer_id', $customer_id);
+        $stmt->bindParam(':status', $status);
+        return $stmt->execute();
+    }
+    
+    public function checkGuideConflict($guide_id, $start, $end, $booking_id = null){
+        $sql = "SELECT * FROM bookings 
+                WHERE guide_id = :guide_id
+                AND start_date <= :end
+                AND end_date >= :start";
+        if ($booking_id) {
+            $sql .= " AND booking_id != :booking_id";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':guide_id', $guide_id);
+        $stmt->bindParam(':start', $start);
+        $stmt->bindParam(':end', $end);
+        if ($booking_id){
+            $stmt->bindParam(':booking_id', $booking_id);
+        };
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function checkCustomerConflict($customer_id, $start, $end, $booking_id = null){
+        $sql = "SELECT * FROM bookings b
+                JOIN booking_customers bc ON b.booking_id = bc.booking_id
+                WHERE bc.customer_id = :customer_id
+                AND b.start_date <= :end
+                AND b.end_date >= :start";
+        if ($booking_id) {
+            $sql .= " AND b.booking_id != :booking_id";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':customer_id', $customer_id);
+        $stmt->bindParam(':start', $start);
+        $stmt->bindParam(':end', $end);
+        if ($booking_id){
+            $stmt->bindParam(':booking_id', $booking_id);
+        };
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateBooking($id, $tour_id, $guide_id, $hotel_id, $vehicle_id, $status, $start_date, $end_date){
+        $sql = "UPDATE bookings SET 
+                    tour_id = :tour_id, 
+                    guide_id = :guide_id, 
+                    hotel_id = :hotel_id, 
+                    vehicle_id = :vehicle_id, 
+                    status = :status, 
+                    start_date = :start_date, 
+                    end_date = :end_date
+                WHERE booking_id = :booking_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':tour_id', $tour_id);
+        $stmt->bindParam(':guide_id', $guide_id);
+        $stmt->bindParam(':hotel_id', $hotel_id);
+        $stmt->bindParam(':vehicle_id', $vehicle_id);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':start_date', $start_date);
+        $stmt->bindParam(':end_date', $end_date);
+        $stmt->bindParam(':booking_id', $id);
+        return $stmt->execute();
+    }
+
+
+    public function deleteBookingCustomersOnly($booking_id){
+        $sql = "DELETE FROM booking_customers WHERE booking_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$booking_id]);
+    }
+    
+    public function deleteAttendanceOnly($booking_id){
+        $sql = "DELETE FROM attendance WHERE booking_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$booking_id]);
+    }
+
+    public function deleteBooking($booking_id){
+        $sql = "DELETE FROM attendance WHERE booking_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$booking_id]);
+
+        $sql = "DELETE FROM booking_customers WHERE booking_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$booking_id]);
+
+        $sql = "DELETE FROM guide_tours WHERE booking_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$booking_id]);
+
+        $sql = "DELETE FROM bookings WHERE booking_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        
+        return $stmt->execute([$booking_id]);
+    }
+
 
 }
 ?>

@@ -26,6 +26,23 @@
                 <textarea name="description" class="form-control"
                     rows="3"><?= htmlspecialchars($_POST['description'] ?? '') ?></textarea>
             </div>
+            <div class="mb-3">
+                <label>Số ngày</label>
+                <input type="number" name="duration_days" class="form-control"
+                    value="<?= $_POST['duration_days'] ?? '' ?>">
+                <div class="text-danger err"><?= htmlspecialchars($err['duration_days']) ?></div>
+                <?php if (!empty($err['duration_time'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['duration_time']) ?>
+                </div><?php endif; ?>
+            </div>
+            <div class="mb-3">
+                <label>Số đêm</label>
+                <input type="number" name="duration_nights" class="form-control"
+                    value="<?= $_POST['duration_nights'] ?? '' ?>">
+                <?php if (!empty($err['duration_nights'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['duration_nights']) ?></div>
+                <?php endif; ?>
+            </div>
 
             <div class="mb-3">
                 <label>Giá</label>

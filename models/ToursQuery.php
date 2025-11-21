@@ -9,6 +9,7 @@ class ToursQuery extends BaseModel
     public $status;
     public $category_name;
     public $tour_images;
+    
     public function getAllTours()
     {
         $sql = "SELECT t.*, c.category_name 
@@ -53,36 +54,42 @@ class ToursQuery extends BaseModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function createTour()
-    {
-        $sql = "INSERT INTO tours (tour_name, description, price, category_id, tour_images)
-                VALUES (:tour_name, :description, :price, :category_id, :tour_images)";
+    public function createTour(){
+        $sql = "INSERT INTO tours (tour_name, description, duration_days, duration_nights, price, category_id, tour_images)
+                VALUES (:tour_name, :description, :duration_days, :duration_nights, :price, :category_id, :tour_images)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':tour_name', $this->tour_name);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':duration_days', $this->duration_days);
+        $stmt->bindParam(':duration_nights', $this->duration_nights);
         $stmt->bindParam(':price', $this->price);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':tour_images', $this->tour_images);
         return $stmt->execute();
     }
+
     public function updateTour(){
         $sql = "UPDATE tours SET 
-                tour_name = :tour_name,
-                description = :description,
-                price = :price,
-                category_id = :category_id,
-                tour_images = :tour_images
-            WHERE tour_id = :tour_id";
-
+                    tour_name = :tour_name,
+                    description = :description,
+                    duration_days = :duration_days,
+                    duration_nights = :duration_nights,
+                    price = :price,
+                    category_id = :category_id,
+                    tour_images = :tour_images
+                WHERE tour_id = :tour_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':tour_id', $this->tour_id);
         $stmt->bindParam(':tour_name', $this->tour_name);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':duration_days', $this->duration_days);
+        $stmt->bindParam(':duration_nights', $this->duration_nights);
         $stmt->bindParam(':price', $this->price);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':tour_images', $this->tour_images);
         return $stmt->execute();
     }
+
 
     public function deleteTour($id)
     {

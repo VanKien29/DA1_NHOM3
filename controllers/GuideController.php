@@ -82,7 +82,6 @@ class GuideController
                 }
             }
         }
-
         require './views/Guide/UpdateGuide.php';
     }
 
