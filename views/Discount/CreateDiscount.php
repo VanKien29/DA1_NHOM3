@@ -49,15 +49,23 @@
                 <div class="col-md-6 mb-3">
                     <label>Ngày bắt đầu</label>
                     <input type="date" name="start_date" class="form-control"
-                        value="<?= htmlspecialchars($_POST['start_date'] ?? '') ?>">
+                        value="<?= $_POST['start_date'] ?? '' ?>">
+                    <?php if (!empty($err['start_date'])): ?>
+                    <div class="text-danger err"><?= $err['start_date'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Ngày kết thúc</label>
                     <input type="date" name="end_date" class="form-control"
-                        value="<?= htmlspecialchars($_POST['end_date'] ?? '') ?>">
+                        value="<?= $_POST['end_date'] ?? '' ?>">
+                    <?php if (!empty($err['end_date'])): ?>
+                    <div class="text-danger err"><?= $err['end_date'] ?></div>
+                    <?php endif; ?>
+                    <?php if (!empty($err['date'])): ?>
+                    <div class="text-danger err"><?= $err['date'] ?></div>
+                    <?php endif; ?>
                 </div>
             </div>
-
             <?php if (!empty($err['date'])): ?>
             <div class="text-danger small ps-1 err"><?= htmlspecialchars($err['date']) ?></div>
             <?php endif; ?>
