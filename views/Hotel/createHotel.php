@@ -54,6 +54,9 @@
             <div class="form-group mb-3">
                 <label>Ảnh Hotel</label>
                 <input type="file" name="hotel_image" class="form-control">
+                <?php if (!empty($err['hotel_image'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['hotel_image']) ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="form-action text-center">
