@@ -24,17 +24,14 @@ class DiscountController
 if (empty($_POST['code'])) {
     $err['code'] = "Mã giảm giá không được để trống.";
 }
-// NGÀY BẮT ĐẦU
 if (empty($_POST['start_date'])) {
     $err['start_date'] = "Ngày bắt đầu không được để trống.";
 }
 
-// NGÀY KẾT THÚC
 if (empty($_POST['end_date'])) {
     $err['end_date'] = "Ngày kết thúc không được để trống.";
 }
 
-// NGÀY KẾT THÚC > NGÀY BẮT ĐẦU
 if (!empty($_POST['start_date']) && !empty($_POST['end_date'])) {
     if ($_POST['start_date'] > $_POST['end_date']) {
         $err['date'] = "Ngày kết thúc phải sau ngày bắt đầu.";
