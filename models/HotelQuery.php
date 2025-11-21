@@ -1,11 +1,11 @@
 <?php
 class HotelQuery extends BaseModel
 {
-    // Map đúng với bảng hotels
     public $service_name;
     public $room_type;
     public $price_per_night;
     public $description;
+    public $hotel_image; // đúng tên cột trong DB
 
     // Lấy tất cả hotel
     public function getAllHotel()
@@ -28,14 +28,18 @@ class HotelQuery extends BaseModel
     // Thêm hotel mới
     public function createHotel()
     {
-        $sql = "INSERT INTO hotels (service_name, room_type, price_per_night, description)
-                VALUES (:service_name, :room_type, :price_per_night, :description)";
+        $sql = "INSERT INTO hotels 
+                    (service_name, room_type, price_per_night, description, hotel_image)
+                VALUES 
+                    (:service_name, :room_type, :price_per_night, :description, :hotel_image)";
+
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindParam(':service_name', $this->service_name);
         $stmt->bindParam(':room_type', $this->room_type);
         $stmt->bindParam(':price_per_night', $this->price_per_night);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':hotel_image', $this->hotel_image);
 
         return $stmt->execute();
     }
@@ -47,14 +51,17 @@ class HotelQuery extends BaseModel
                     service_name = :service_name,
                     room_type = :room_type,
                     price_per_night = :price_per_night,
-                    description = :description
+                    description = :description,
+                    hotel_image = :hotel_image
                 WHERE hotel_service_id = :id";
+
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindParam(':service_name', $this->service_name);
         $stmt->bindParam(':room_type', $this->room_type);
         $stmt->bindParam(':price_per_night', $this->price_per_night);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':hotel_image', $this->hotel_image);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -71,7 +78,7 @@ class HotelQuery extends BaseModel
             return true;
         } catch (PDOException $e) {
             if ($e->getCode() === "23000") {
-                return false;
+                return false; // FK conflict
             }
             throw $e;
         }
