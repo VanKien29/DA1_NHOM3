@@ -49,8 +49,8 @@
             <div class="mb-3">
                 <label>Ảnh Khách Sạn</label>
                 <input type="file" name="hotel_image" class="form-control">
-                <?php if (!empty($guide['hotel_image'])): ?>
-                <img src="<?= BASE_ASSETS_UPLOADS . $guide['hotel_image'] ?>" width="120" class="mt-2">
+               <?php if (!empty($err['hotel_image'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['hotel_image']) ?></div>
                 <?php endif; ?>
             </div>
 
