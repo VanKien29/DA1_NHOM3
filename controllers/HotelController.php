@@ -8,14 +8,12 @@ class HotelController
         $this->hotelQuery = new HotelQuery();
     }
 
-    // ==== Danh sách Hotel ====
     public function listHotel()
     {
         $hotels = $this->hotelQuery->getAllHotel();
         require './views/Hotel/listHotel.php';
     }
 
-    // ==== Thêm Hotel ====
     public function createHotel()
 {
     $err = [];
@@ -58,8 +56,6 @@ class HotelController
     require './views/Hotel/createHotel.php';
 }
 
-
-    // ==== Cập nhật Hotel ====
     public function updateHotel()
     {
         if (!isset($_GET['id'])) {
@@ -108,7 +104,6 @@ class HotelController
         require './views/Hotel/updateHotel.php';
     }
 
-    // ==== Xóa Hotel ====
     public function deleteHotel()
     {
         if (isset($_GET['id'])) {

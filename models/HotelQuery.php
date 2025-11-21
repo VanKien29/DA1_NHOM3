@@ -5,9 +5,8 @@ class HotelQuery extends BaseModel
     public $room_type;
     public $price_per_night;
     public $description;
-    public $hotel_image; // đúng tên cột trong DB
+    public $hotel_image;
 
-    // Lấy tất cả hotel
     public function getAllHotel()
     {
         $sql = "SELECT * FROM hotels ORDER BY hotel_service_id DESC";
@@ -15,7 +14,6 @@ class HotelQuery extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Tìm hotel theo id
     public function findHotel($id)
     {
         $sql = "SELECT * FROM hotels WHERE hotel_service_id = :id";
@@ -25,7 +23,6 @@ class HotelQuery extends BaseModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Thêm hotel mới
     public function createHotel()
     {
         $sql = "INSERT INTO hotels 
@@ -44,7 +41,6 @@ class HotelQuery extends BaseModel
         return $stmt->execute();
     }
 
-    // Cập nhật hotel
     public function updateHotel($id)
     {
         $sql = "UPDATE hotels SET
@@ -67,7 +63,6 @@ class HotelQuery extends BaseModel
         return $stmt->execute();
     }
 
-    // Xoá hotel
     public function deleteHotel($id)
     {
         try {
@@ -78,7 +73,7 @@ class HotelQuery extends BaseModel
             return true;
         } catch (PDOException $e) {
             if ($e->getCode() === "23000") {
-                return false; // FK conflict
+                return false;
             }
             throw $e;
         }
