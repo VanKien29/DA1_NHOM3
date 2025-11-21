@@ -30,21 +30,28 @@ class TourController
         $categories = $this->categoryModel->getAllCategories();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['tour_name']) || empty($_POST['price']) || empty($_POST['duration_days']) || empty($_POST['duration_nights'])  || $_FILES['tour_images']['size'] <= 0) {
-                $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
+            if (empty($_POST['tour_name']) ) {
+                $err['tour_name'] = "Tên tour khong được để trống!";
+            }
+            if ($_FILES['tour_images']['size'] <= 0 ) {
+                $err['tour_images'] = "Thêm Ảnh tour!";
             }
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
             }
-            if ($_POST['duration_days'] <= 0) {
-                $err['duration_days'] = "Số ngày phải lớn hơn 0.";
+            $days = isset($_POST['duration_days']) ? (int)$_POST['duration_days'] : 0;
+            $nights = isset($_POST['duration_nights']) ? (int)$_POST['duration_nights'] : 0;
+            if ($days <= 0) {
+            $err['duration_days'] = "Số ngày phải lớn hơn 0.";
+            } 
+            else if ($days !== $nights + 1) {
+            $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
             }
-            if ($_POST['duration_nights'] < 0) {
-                $err['duration_nights'] = "Số đêm không được âm.";
+            if ($nights < 0) {
+            $err['duration_nights'] = "Số đêm không được âm.";
             }
-            if ((int)$_POST['duration_days'] != (int)$_POST['duration_nights'] + 1) {
-                $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
-            }
+
+
             if (empty($err)) {
                 $this->tourQuery->tour_name = $_POST['tour_name'];
                 $this->tourQuery->description = $_POST['description'];
@@ -77,21 +84,27 @@ class TourController
         $tour = $this->tourQuery->findTour($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['tour_name']) || empty($_POST['duration_nights'])) {
-                $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
+            if (empty($_POST['tour_name']) ) {
+                $err['tour_name'] = "Tên tour khong được để trống!";
+            }
+            if ($_FILES['tour_images']['size'] <= 0 ) {
+                $err['tour_images'] = "Thêm Ảnh tour!";
             }
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
             }
-            if ($_POST['duration_days'] <= 0) {
-                $err['duration_days'] = "Số ngày phải lớn hơn 0.";
-            }
-            if ($_POST['duration_nights'] < 0) {
-                $err['duration_nights'] = "Số đêm không được âm.";
-            }
-            if ((int)$_POST['duration_days'] != (int)$_POST['duration_nights'] + 1) {
-                $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
-            }
+            $days = isset($_POST['duration_days']) ? (int)$_POST['duration_days'] : 0;
+$nights = isset($_POST['duration_nights']) ? (int)$_POST['duration_nights'] : 0;
+if ($days <= 0) {
+    $err['duration_days'] = "Số ngày phải lớn hơn 0.";
+} 
+else if ($days !== $nights + 1) {
+    $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
+}
+if ($nights < 0) {
+    $err['duration_nights'] = "Số đêm không được âm.";
+}
+
             if (empty($err)) {
                 $this->tourQuery->tour_id = $id;
                 $this->tourQuery->tour_name = $_POST['tour_name'];

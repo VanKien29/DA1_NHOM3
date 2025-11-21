@@ -14,11 +14,17 @@
                 <label>Tên tour</label>
                 <input type="text" name="tour_name" class="form-control"
                     value="<?= htmlspecialchars($_POST['tour_name'] ?? '') ?>">
+                    <?php if (!empty($err['tour_name'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['tour_name']) ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
                 <label>Ảnh tour</label>
                 <input type="file" name="tour_images" class="form-control">
+                <?php if (!empty($err['tour_images'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['tour_images']) ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">
@@ -30,13 +36,14 @@
                 <label>Số ngày</label>
                 <input type="number" name="duration_days" class="form-control"
                     value="<?= $_POST['duration_days'] ?? '' ?>">
-                <?php if (!empty($err['duration_nights'])): ?>
-                <div class="text-danger err"><?= htmlspecialchars($err['duration_nights']) ?></div>
+                <?php if (!empty($err['duration_days'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['duration_days']) ?></div>
                 <?php endif; ?>
                 <?php if (!empty($err['duration_time'])): ?>
-                <div class="text-danger err"><?= htmlspecialchars($err['duration_time']) ?>
-                </div><?php endif; ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['duration_time']) ?></div>
+                <?php endif; ?>
             </div>
+
             <div class="mb-3">
                 <label>Số đêm</label>
                 <input type="number" name="duration_nights" class="form-control"
