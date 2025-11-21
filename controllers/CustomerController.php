@@ -24,17 +24,17 @@ class CustomerController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['full_name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['address'])) {
-                $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
-            }
             if (strpbrk($_POST['full_name'], '0123456789') || strlen($_POST['full_name']) <= 6) {
-                $err['full_name'] = "Tên phải trên 6 kí tự và không chứa số.";
+                $err['full_name'] = "Vui lòng nhập tên.";
             }
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
-                $err['phone'] = "Số điện thoại không hợp lệ.";
+                $err['phone'] = "Vui lòng nhập số điện thoại.";
             }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
-                $err['email'] = "Email không hợp lệ.";
+                $err['email'] = "Vui lòng nhập email.";
+            }
+            if (empty($_POST['address'])) {
+                $err['address'] = "Vui lòng nhập địa chỉ.";
             }
 
             if (empty($err)) {
@@ -59,17 +59,17 @@ class CustomerController
         $customer = $this->customerModel->findCustomer($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['full_name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['address'])) {
-                $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
-            }
             if (strpbrk($_POST['full_name'], '0123456789') || strlen($_POST['full_name']) <= 6) {
-                $err['full_name'] = "Tên phải trên 6 kí tự và không chứa số.";
+                $err['full_name'] = "Vui lòng nhập tên .";
             }
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
-                $err['phone'] = "Số điện thoại không hợp lệ.";
+                $err['phone'] = "Vui lòng nhập số điện thoại.";
             }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
-                $err['email'] = "Email không hợp lệ.";
+                $err['email'] = "Vui lòng nhập email.";
+            }
+            if (empty($_POST['address'])) {
+                $err['address'] = "Vui lòng nhập địa chỉ.";
             }
             if (empty($err)) {
                 $this->customerModel->customer_id = $id;
