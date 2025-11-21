@@ -133,6 +133,18 @@ a {
   align-items: center;
 }
 
+.btn-outline-detail {
+  margin-right: 5px;
+  border: 2px solid #fd810d;
+  color: #fd810d;
+  background: #eaf1ff;
+}
+
+.btn-outline-detail:hover {
+  background-color: #fd810d;
+  color: #fff;
+}
+
 .btn-success:hover {
   background-color: #0b5ed7;
   transform: translateY(-1px);

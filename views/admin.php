@@ -112,6 +112,7 @@ $user = $_SESSION['user'];
         case 'admin-updateReport':
             echo '<link rel="stylesheet" href="assets/css/Report/formReport.css">';
             break;
+            
         // Bookings
         case 'admin-listBooking':
             echo '<link rel="stylesheet" href="assets/css/Booking/listBooking.css">';
@@ -146,7 +147,7 @@ $user = $_SESSION['user'];
                 </li>
                 <li>
                     <a href="?action=admin-listBooking"
-                        class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking' || $action == 'admin-detailBooking') ? 'active' : '' ?>">
                         <i class="fa-solid fa-calendar-check"></i> Đặt Tour
                     </a>
                 </li>
@@ -176,7 +177,7 @@ $user = $_SESSION['user'];
                 </li>
                 <li>
                     <a href="?action=admin-listGuide"
-                        class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide' || $action == 'admin-detailGuide') ? 'active' : '' ?>">
                         <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
                     </a>
                 </li>
@@ -400,14 +401,14 @@ $user = $_SESSION['user'];
                 case 'admin-detailBooking':
                     (new BookingController)->detailBooking($id);
                     break;
-                case 'admin-createReport':
-                    (new ReportController)->createReport();
+                case 'admin-createBooking':
+                    (new BookingController)->createBooking();
                     break;
-                case 'admin-updateReport':
-                    (new ReportController)->updateReport($id);
+                case 'admin-updateBooking':
+                    (new BookingController)->updateBooking($id);
                     break;
-                case 'admin-deleteReport':
-                    (new ReportController)->deleteReport($id);
+                case 'admin-deleteBooking':
+                    (new BookingController)->deleteBooking($id);
                     break;
             }
             ?>

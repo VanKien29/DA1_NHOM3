@@ -29,7 +29,7 @@
             </p>
 
             <p><strong>Ghi chú:</strong><br>
-                <?= nl2br($booking['report'] ?? '—'); ?>
+                <?= $booking['report'] == null ? '—' : $booking['report']; ?>
             </p>
 
         </div>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="card mb-4">
-        <div class="card-header fw-bold">Danh Sách Khách Đi Cùng</div>
+        <div class="card-header fw-bold">Danh Sách Khách</div>
         <div class="card-body">
 
             <?php if (count($customers) > 0): ?>

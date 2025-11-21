@@ -15,7 +15,7 @@
                 <th>Kinh nghiệm</th>
                 <th>Chuyên môn</th>
                 <th>Ghi chú</th>
-                <th>Hành động</th>
+                <th style="text-align: center;">Hành động</th>
             </tr>
         </thead>
 
@@ -36,7 +36,8 @@
                 <td><?= $g['specialization'] ?></td>
                 <td><?= $g['note'] ?></td>
                 <td>
-                    <a href="?action=admin-detailGuide&id=<?= $g['guide_id']; ?>" class="btn btn-sm btn-info">Chi
+                    <a href="?action=admin-detailGuide&id=<?= $g['guide_id']; ?>"
+                        class="btn btn-sm btn-info btn-outline-detail">Chi
                         tiết</a>
                     <a href="?action=admin-updateGuide&id=<?= $g['guide_id'] ?>"
                         class="btn btn-outline-success btn-sm">Sửa</a>

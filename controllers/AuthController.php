@@ -33,12 +33,15 @@ class AuthController
     require "./views/auth/login.php";
 }
 
-   public function logout()
-{
-    session_start();
-    session_destroy();
-    header("Location: ?action=login");
-    exit();
-}
+    public function logout(){
+        session_start();
+        session_destroy();
+        header("Location: ?action=login");
+        exit();
+    }
+    public function Home()
+    {
+        require_once './views/admin.php';
+    }
 }
 ?>

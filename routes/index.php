@@ -2,7 +2,7 @@
 $action = $_GET['action'] ?? '/';
 
 match ($action) {
-    '/' => (new ProductController)->home(),
+    '/' => (new AuthController)->home(),
 
     // Admin Home
     'admin' => require './views/admin.php',

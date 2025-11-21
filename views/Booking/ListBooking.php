@@ -17,10 +17,10 @@
                         <th>Tour</th>
                         <th>Khách sạn</th>
                         <th>Phương tiện</th>
-                        <th>Trạng thái</th>
                         <th>Ngày tạo</th>
                         <th>Ngày bắt đầu</th>
                         <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
                         <th style="text-align: center;">Hành động</th>
                     </tr>
                 </thead>
@@ -33,6 +33,9 @@
                         <td><?= htmlspecialchars($b['tour_name']); ?></td>
                         <td><?= htmlspecialchars($b['hotel_name']); ?></td>
                         <td><?= htmlspecialchars($b['vehicle_name']); ?></td>
+                        <td><?= date('d/m/Y', strtotime($b['created_at'])); ?></td>
+                        <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>
+                        <td><?= empty($b['end_date']) ? '' : date('d/m/Y', strtotime($b['end_date'])); ?></td>
                         <td>
                             <?php if ($b['status'] == 'cho_duyet'): ?>
                             <span class="badge bg-warning text-dark">Chờ duyệt</span>
@@ -44,9 +47,6 @@
                             <span class="badge bg-danger">Đã hủy</span>
                             <?php endif; ?>
                         </td>
-                        <td><?= date('d/m/Y', strtotime($b['created_at'])); ?></td>
-                        <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>
-                        <td><?= empty($b['end_date']) ? '' : date('d/m/Y', strtotime($b['end_date'])); ?></td>
                         <td>
                             <a href="?action=admin-detailBooking&id=<?= $b['booking_id']; ?>"
                                 class="btn btn-sm btn-outline-detail">Chi tiết</a>
