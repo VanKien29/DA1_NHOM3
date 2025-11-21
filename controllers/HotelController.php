@@ -22,7 +22,7 @@ class HotelController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (empty($_POST['service_name']) || empty($_POST['room_type']) ||
-                empty($_POST['price_per_night']) || empty($_POST['description'])) {
+                empty($_POST['price_per_night']) || empty($_POST['description'])  || $_FILES['hotel_image']['size'] > 0) {
 
                 $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
             } else if ($_POST['price_per_night'] <= 0) {
@@ -34,6 +34,10 @@ class HotelController
                 $this->hotelQuery->room_type = $_POST['room_type'];
                 $this->hotelQuery->price_per_night = $_POST['price_per_night'];
                 $this->hotelQuery->description = $_POST['description'];
+                
+                 if(isset($_FILES["hotel_image"]) && $_FILES["hotel_image"]["size"] >0){
+                    $this->hotelQuery->hotel_image = upload_file('image/HotelImages', $_FILES["hotel_image"]);
+                }
 
                 if ($this->hotelQuery->createHotel()) {
                     echo "<script>alert('Thêm Hotel thành công!'); 
@@ -77,6 +81,12 @@ class HotelController
                 $this->hotelQuery->room_type = $_POST['room_type'];
                 $this->hotelQuery->price_per_night = $_POST['price_per_night'];
                 $this->hotelQuery->description = $_POST['description'];
+
+                if ($_FILES['hotel_image']['size'] > 0) {
+                    $this->hotelQuery->hotel_image = upload_file('image/HotelImages', $_FILES['hotel_image']);
+                } else {
+                    $this->hotelQuery->hotel_image = $hotel["hotel_image"];
+                }
 
                 if ($this->hotelQuery->updateHotel($id)) {
                     echo "<script>alert('Cập nhật Hotel thành công!'); 
