@@ -92,6 +92,7 @@ class TourController
             if ((int)$_POST['duration_days'] != (int)$_POST['duration_nights'] + 1) {
                 $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
             }
+
             if (empty($err)) {
                 $this->tourQuery->tour_id = $id;
                 $this->tourQuery->tour_name = $_POST['tour_name'];
