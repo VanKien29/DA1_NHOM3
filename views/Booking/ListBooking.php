@@ -40,9 +40,9 @@
                             <?php if ($b['status'] == 'cho_duyet'): ?>
                             <span class="badge bg-warning text-dark">Chờ duyệt</span>
                             <?php elseif ($b['status'] == 'dang_dien_ra'): ?>
-                            <span class="badge bg-primary">Đang diễn ra</span>
+                            <span class="badge bg-success">Đang diễn ra</span>
                             <?php elseif ($b['status'] == 'da_hoan_thanh'): ?>
-                            <span class="badge bg-success">Đã hoàn thành</span>
+                            <span class="badge bg-primary">Đã hoàn thành</span>
                             <?php elseif ($b['status'] == 'da_huy'): ?>
                             <span class="badge bg-danger">Đã hủy</span>
                             <?php endif; ?>

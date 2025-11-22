@@ -1,8 +1,7 @@
 <?php
 class BookingController
 {
-    private $bookingQuery;
-
+    public $bookingQuery;
     function __construct(){
         $this->bookingQuery = new BookingQuery();
         $this->GuideQuery = new GuideQuery();
@@ -16,6 +15,17 @@ class BookingController
         $bookings = $this->bookingQuery->getAllBooking();
         require './views/Booking/ListBooking.php';
     }
+    
+    public function deleteCustomer($bc_id, $booking_id){
+        $info = $this->bookingQuery->getCustomerIdByBCId($bc_id);
+        $customer_id = $info['customer_id'];
+        
+        $this->bookingQuery->deleteCustomerFromBooking($bc_id);
+        $this->bookingQuery->deleteAttendanceByCustomer($booking_id, $customer_id);
+        $_SESSION['message'] = "Xóa khách thành công!";
+        header("Location: ?action=admin-detailBooking&id=" . $booking_id);
+        exit;
+    }
 
     public function detailBooking($id) {
         $booking = $this->bookingQuery->getBooking($id);
@@ -24,27 +34,33 @@ class BookingController
         $attendance = $this->bookingQuery->getAttendance($id);
         $customers_all = $this->CustomerQuery->getAllCustomers();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_add_customer'])) {
             $new_customer = $_POST['add_customer_id'];
-            if (!empty($new_customer)) {
-                foreach ($customers as $c) {
-                    if ($c['customer_id'] == $new_customer) {
-                        echo "<script>alert('Khách này đã có trong booking!');</script>";
-                        require './views/Booking/DetailBooking.php';
-                        return;
-                    }
-                }
-                $this->bookingQuery->addBookingCustomers($id, $new_customer, 0);
-                $this->bookingQuery->addAttendance($id, $new_customer);
-
-                echo "<script>alert('Thêm khách thành công!'); window.location.reload();</script>";
+            if (empty($new_customer)) {
+                $_SESSION['error'] = "Vui lòng chọn khách cần thêm.";
+                header("Location: ?action=admin-detailBooking&id=" . $id);
                 exit;
             }
+            foreach ($customers as $c) {
+                if ($c['customer_id'] == $new_customer) {
+                    $_SESSION['error'] = "Khách này đã có trong booking!";
+                    header("Location: ?action=admin-detailBooking&id=" . $id);
+                    exit;
+                }
+            }
+            if ($this->bookingQuery->checkCustomerConflict($new_customer, $booking['start_date'], $booking['end_date'])) {
+                $_SESSION['error'] = "Khách đang tham gia một tour khác trùng lịch!";
+                header("Location: ?action=admin-detailBooking&id=" . $id);
+                exit;
+            }
+            $this->bookingQuery->addBookingCustomers($id, $new_customer, 0);
+            $this->bookingQuery->addAttendance($id, $new_customer);
+            $_SESSION['message'] = "Thêm khách thành công!";
+            header("Location: ?action=admin-detailBooking&id=" . $id);
+            exit;
         }
-
         require './views/Booking/DetailBooking.php';
     }
-
 
     function createBooking(){
         $guides = $this->GuideQuery->getAllGuides();

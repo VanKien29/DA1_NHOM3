@@ -118,6 +118,7 @@ $user = $_SESSION['user'];
             echo '<link rel="stylesheet" href="assets/css/Booking/listBooking.css">';
             break;
         case 'admin-detailBooking':
+        case 'admin-deleteCustomerBooking':
             echo '<link rel="stylesheet" href="assets/css/Booking/detailBooking.css">';
             break;
         case 'admin-createBooking':
@@ -409,6 +410,9 @@ $user = $_SESSION['user'];
                     break;
                 case 'admin-deleteBooking':
                     (new BookingController)->deleteBooking($id);
+                    break;
+                case 'admin-deleteCustomerBooking':
+                    (new BookingController)->deleteCustomer($id, $_GET['booking_id']);
                     break;
             }
             ?>

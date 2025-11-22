@@ -20,9 +20,8 @@ class CategoryController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            $category_name = trim($_POST['category_name'] ?? '');
-            if (strlen($_POST['category_name']) <= 6 || strpbrk($_POST['category_name'], '0123456789')) {
-                $err['name'] = "Tên phải trên 6 kí tự và không chứa số.";
+            if (strlen($_POST['category_name']) <= 6) {
+                $err['name'] = "Tên danh mục phải trên 6 kí tự.";
             }
             if (empty($err)) {
                 $this->categoryModel->category_name = $_POST['category_name'];

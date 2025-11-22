@@ -48,7 +48,6 @@ class BookingQuery extends BaseModel {
                 FROM bookings b
                 LEFT JOIN tours t ON b.tour_id = t.tour_id
                 WHERE b.booking_id = ?";
-
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$id]);
         return $stm->fetch(PDO::FETCH_ASSOC);
@@ -207,6 +206,12 @@ class BookingQuery extends BaseModel {
         return $stmt->execute();
     }
 
+    public function getCustomerIdByBCId($bc_id){
+        $sql = "SELECT customer_id, booking_id FROM booking_customers WHERE id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$bc_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
     public function deleteBookingCustomersOnly($booking_id){
         $sql = "DELETE FROM booking_customers WHERE booking_id = ?";
@@ -218,6 +223,18 @@ class BookingQuery extends BaseModel {
         $sql = "DELETE FROM attendance WHERE booking_id = ?";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$booking_id]);
+    }
+
+    public function deleteCustomerFromBooking($bc_id){
+        $sql = "DELETE FROM booking_customers WHERE id = ?";
+        $stm = $this->pdo->prepare($sql);
+        return $stm->execute([$bc_id]);
+    }
+
+    public function deleteAttendanceByCustomer($booking_id, $customer_id){
+        $sql = "DELETE FROM attendance WHERE booking_id = ? AND customer_id = ?";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$booking_id, $customer_id]);
     }
 
     public function deleteBooking($booking_id){
