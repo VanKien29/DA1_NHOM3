@@ -40,7 +40,6 @@ class HotelQuery extends BaseModel
         $stmt->bindParam(':price_per_night', $this->price_per_night);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':hotel_image', $this->hotel_image);
-
         return $stmt->execute();
     }
 

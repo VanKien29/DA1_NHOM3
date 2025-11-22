@@ -17,22 +17,20 @@ class GuideController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
 
-            if (!is_numeric($_POST['experience_years']) || $_POST['experience_years'] < 0) {
+            if ($_POST['experience_years'] < 0) {
                 $err['exp'] = "Kinh nghiệm phải là số >= 0.";
             }
             if ($_FILES['avatar']['size'] <= 0 ) {
-                $err['avatar'] = "Thêm Ảnh hướng dẫn viên!";
+                $err['avatar'] = "Ảnh hướng dẫn viễn không được để trống!";
             }
             if (empty($err)) {
                 $this->guideQuery->user_id = $_POST['user_id'];
                 $this->guideQuery->experience_years = $_POST['experience_years'];
                 $this->guideQuery->specialization = $_POST['specialization'];
                 $this->guideQuery->note = $_POST['note'];
-                
                 if(isset($_FILES["avatar"]) && $_FILES["avatar"]["size"] >0){
                     $this->guideQuery->avatar = upload_file('image/GuideImages', $_FILES["avatar"]);
                 }
-
                 if ($this->guideQuery->createGuide()) {
                     echo "<script>
                         alert('Thêm hướng dẫn viên thành công!');
@@ -48,14 +46,10 @@ class GuideController
     public function updateGuide($id){
         $guide = $this->guideQuery->findGuide($id);
         $users = $this->guideQuery->getAllGuideUsers();
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
              if (!is_numeric($_POST['experience_years']) || $_POST['experience_years'] < 0) {
                 $err['exp'] = "Kinh nghiệm phải là số >= 0.";
-            }
-            if ($_FILES['avatar']['size'] <= 0 ) {
-                $err['avatar'] = "Thêm Ảnh hướng dẫn viên!";
             }
             if (empty($err)) {
                 $this->guideQuery->guide_id = $id;
@@ -63,7 +57,6 @@ class GuideController
                 $this->guideQuery->experience_years = $_POST['experience_years'];
                 $this->guideQuery->specialization = $_POST['specialization'];
                 $this->guideQuery->note = $_POST['note'];
-
                 if ($_FILES['avatar']['size'] > 0) {
                     $this->guideQuery->avatar = upload_file('image/GuideImages', $_FILES['avatar']);
                 } else {

@@ -14,7 +14,7 @@
                 <label>Tên tour</label>
                 <input type="text" name="tour_name" class="form-control"
                     value="<?= htmlspecialchars($_POST['tour_name'] ?? '') ?>">
-                    <?php if (!empty($err['tour_name'])): ?>
+                <?php if (!empty($err['tour_name'])): ?>
                 <div class="text-danger err"><?= htmlspecialchars($err['tour_name']) ?></div>
                 <?php endif; ?>
             </div>

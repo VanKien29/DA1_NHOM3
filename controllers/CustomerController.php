@@ -3,18 +3,15 @@ class CustomerController
 {
     private $customerModel;
 
-    public function __construct()
-    {
+    public function __construct(){
         $this->customerModel = new CustomerQuery();
     }
 
-    public function listCustomers()
-    {
+    public function listCustomers(){
         $customers = $this->customerModel->getAllCustomers();
         require './views/Customer/listCustomer.php';
     }
-    public function searchCustomer()
-    {
+    public function searchCustomer(){
         $keyword = $_GET['keyword'] ?? '';
         $customers = $this->customerModel->searchCustomers($keyword);
         require './views/Customer/listCustomer.php';
@@ -25,13 +22,13 @@ class CustomerController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
             if (strpbrk($_POST['full_name'], '0123456789') || strlen($_POST['full_name']) <= 6) {
-                $err['full_name'] = "Vui lòng nhập tên.";
+                $err['full_name'] = "Tên phải trên 6 kí tự và không có số.";
             }
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
-                $err['phone'] = "Vui lòng nhập số điện thoại.";
+                $err['phone'] = "Số điện thoại không hợp lệ.";
             }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
-                $err['email'] = "Vui lòng nhập email.";
+                $err['email'] = "Email không đúng định dạng.";
             }
             if (empty($_POST['address'])) {
                 $err['address'] = "Vui lòng nhập địa chỉ.";
@@ -60,13 +57,13 @@ class CustomerController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
             if (strpbrk($_POST['full_name'], '0123456789') || strlen($_POST['full_name']) <= 6) {
-                $err['full_name'] = "Vui lòng nhập tên .";
+                $err['full_name'] = "Tên phải trên 6 kí tự và không có số.";
             }
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
-                $err['phone'] = "Vui lòng nhập số điện thoại.";
+                $err['phone'] = "Số điện thoại không hợp lệ.";
             }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
-                $err['email'] = "Vui lòng nhập email.";
+                $err['email'] = "Email không đúng định dạng.";
             }
             if (empty($_POST['address'])) {
                 $err['address'] = "Vui lòng nhập địa chỉ.";
