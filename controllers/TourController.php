@@ -93,17 +93,15 @@ class TourController
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
             }
-            $days = isset($_POST['duration_days']) ? (int)$_POST['duration_days'] : 0;
-$nights = isset($_POST['duration_nights']) ? (int)$_POST['duration_nights'] : 0;
-if ($days <= 0) {
-    $err['duration_days'] = "Số ngày phải lớn hơn 0.";
-} 
-else if ($days !== $nights + 1) {
-    $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
-}
-if ($nights < 0) {
-    $err['duration_nights'] = "Số đêm không được âm.";
-}
+            if ($_POST['duration_days'] <= 0) {
+                $err['duration_days'] = "Số ngày phải lớn hơn 0.";
+            }
+            if ($_POST['duration_nights'] < 0) {
+                $err['duration_nights'] = "Số đêm không được âm.";
+            }
+            if ((int)$_POST['duration_days'] != (int)$_POST['duration_nights'] + 1) {
+                $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
+            }
 
             if (empty($err)) {
                 $this->tourQuery->tour_id = $id;
