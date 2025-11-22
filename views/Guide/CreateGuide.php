@@ -25,6 +25,9 @@
             <div class="mb-3">
                 <label>Ảnh hướng dẫn viên</label>
                 <input type="file" name="avatar" class="form-control">
+                <?php if (!empty($err['avatar'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['avatar']) ?></div>
+                <?php endif; ?>
             </div>
 
             <div class="mb-3">

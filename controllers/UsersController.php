@@ -24,9 +24,6 @@ class UsersController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['role']) || empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone'])) {
-                $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
-            }
             if (strlen($_POST['username']) <= 6) {
                 $err['username'] = "Tên người dùng phải trên 6 kí tự.";
             }
@@ -66,10 +63,7 @@ class UsersController
         $user = $this->userQuery->findUser($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-            if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['role']) || empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone'])) {
-                $err['empty'] = "<script>alert('Vui lòng điền đầy đủ thông tin!');</script>";
-            }
-            if (strlen($_POST['username']) <= 6) {
+           if (strlen($_POST['username']) <= 6) {
                 $err['username'] = "Tên người dùng phải trên 6 kí tự.";
             }
             if (strpbrk($_POST['name'], '0123456789') || strlen($_POST['name']) <= 6) {

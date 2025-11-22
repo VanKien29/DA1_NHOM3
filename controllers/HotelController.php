@@ -21,13 +21,23 @@ class HotelController
         $err = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (empty($_POST['service_name']) || empty($_POST['room_type']) ||
-                empty($_POST['price_per_night']) || empty($_POST['description'])  || $_FILES['hotel_image']['size'] > 0) {
-
-                $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
-            } else if ($_POST['price_per_night'] <= 0) {
-                $err['price_per_night'] = "Giá phải lớn hơn 0!";
-            }
+if (empty($_POST['service_name'])) {
+    $err['service_name'] = "Tên Hotel / Dịch vụ không được để trống!";
+}
+if (empty($_POST['room_type'])) {
+    $err['room_type'] = "Loại phòng không được để trống!";
+}
+if (empty($_POST['price_per_night'])) {
+    $err['price_per_night'] = "Giá mỗi đêm không được để trống!";
+} elseif ($_POST['price_per_night'] <= 0) {
+    $err['price_per_night'] = "Giá phải lớn hơn 0!";
+}
+if (empty($_POST['description'])) {
+    $err['description'] = "Mô tả không được để trống!";
+}
+if ($_FILES['hotel_image']['size'] <= 0) {
+    $err['hotel_image'] = "Vui lòng chọn ảnh Hotel!";
+}
 
             if (empty($err)) {
                 $this->hotelQuery->service_name = $_POST['service_name'];
@@ -67,14 +77,26 @@ class HotelController
 
         $err = [];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (empty($_POST['service_name']) || empty($_POST['room_type']) ||
-                empty($_POST['price_per_night']) || empty($_POST['description'])) {
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (empty($_POST['service_name'])) {
+    $err['service_name'] = "Tên Hotel / Dịch vụ không được để trống!";
+}
+if (empty($_POST['room_type'])) {
+    $err['room_type'] = "Loại phòng không được để trống!";
+}
+if (empty($_POST['price_per_night'])) {
+    $err['price_per_night'] = "Giá mỗi đêm không được để trống!";
+} elseif ($_POST['price_per_night'] <= 0) {
+    $err['price_per_night'] = "Giá phải lớn hơn 0!";
+}
+if (empty($_POST['description'])) {
+    $err['description'] = "Mô tả không được để trống!";
+}
+if (empty($_FILES['image']['name']) || $_FILES['image']['size'] <= 0) {
+    $err['hotel_image'] = "Vui lòng chọn ảnh Hotel!";
+}
 
-                $err['empty'] = "Vui lòng nhập đầy đủ thông tin!";
-            } else if ($_POST['price_per_night'] <= 0) {
-                $err['price_per_night'] = "Giá phải lớn hơn 0!";
-            }
+
 
             if (empty($err)) {
                 $this->hotelQuery->service_name = $_POST['service_name'];
