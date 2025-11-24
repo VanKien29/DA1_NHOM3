@@ -256,6 +256,5 @@ class BookingQuery extends BaseModel {
         return $stmt->execute([$booking_id]);
     }
 
-
 }
 ?>
