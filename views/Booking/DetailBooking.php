@@ -29,7 +29,6 @@
             <p><strong>Ghi chú:</strong><br>
                 <?= $booking['report'] == null ? '—' : $booking['report']; ?>
             </p>
-
         </div>
     </div>
 

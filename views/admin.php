@@ -133,6 +133,7 @@ $user = $_SESSION['user'];
 <body>
     <aside class="sidebar">
         <h2>Tour Manager</h2>
+        <?php if($_SESSION['user']['role'] == "admin"){?>
         <nav>
             <ul>
                 <li>
@@ -208,7 +209,33 @@ $user = $_SESSION['user'];
                 </li>
             </ul>
         </nav>
-
+        <?php } else { ?>
+        <nav>
+            <ul>
+                <li>
+                    <a href="?action=admin-listReport"
+                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Báo Cáo HDV
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listReport"
+                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Báo Cáo HDV
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listReport"
+                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Báo Cáo HDV
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <?php } ?>
         <div class="sidebar-footer">
             <p><?= $user['name'] ?></p>
             <small><?= $user['role'] == "admin" ? "Quản Trị Viên" : "Hướng Dẫn Viên" ?></small>
@@ -256,6 +283,9 @@ $user = $_SESSION['user'];
         </header>
         <div id="main-content" class="p-3">
             <?php
+            if($_SESSION['user']['role'] == "guide" ){
+                switch($action) {}
+            } else {
             switch ($action) {
                 // Tours
                 case 'admin-listTours':
@@ -414,6 +444,7 @@ $user = $_SESSION['user'];
                 case 'admin-deleteCustomerBooking':
                     (new BookingController)->deleteCustomer($id, $_GET['booking_id']);
                     break;
+                }
             }
             ?>
         </div>
