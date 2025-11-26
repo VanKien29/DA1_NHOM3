@@ -3,16 +3,25 @@ class GuideController
 {
     private $guideQuery;
 
-    function __construct(){
+    function __construct()
+    {
         $this->guideQuery = new GuideQuery();
     }
 
-    public function listGuide(){
+    public function listGuide()
+    {
         $guides = $this->guideQuery->getAllGuides();
         require './views/Guide/ListGuide.php';
     }
+    public function searchGuide()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $guides = $this->guideQuery->searchGuide($keyword);
+        require './views/Guide/ListGuide.php';
+    }
 
-    public function createGuide(){
+    public function createGuide()
+    {
         $users = $this->guideQuery->getAllGuideUsers();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
@@ -20,7 +29,7 @@ class GuideController
             if ($_POST['experience_years'] < 0) {
                 $err['exp'] = "Kinh nghiệm phải là số >= 0.";
             }
-            if ($_FILES['avatar']['size'] <= 0 ) {
+            if ($_FILES['avatar']['size'] <= 0) {
                 $err['avatar'] = "Ảnh hướng dẫn viễn không được để trống!";
             }
             if (empty($err)) {
@@ -28,7 +37,7 @@ class GuideController
                 $this->guideQuery->experience_years = $_POST['experience_years'];
                 $this->guideQuery->specialization = $_POST['specialization'];
                 $this->guideQuery->note = $_POST['note'];
-                if(isset($_FILES["avatar"]) && $_FILES["avatar"]["size"] >0){
+                if (isset($_FILES["avatar"]) && $_FILES["avatar"]["size"] > 0) {
                     $this->guideQuery->avatar = upload_file('image/GuideImages', $_FILES["avatar"]);
                 }
                 if ($this->guideQuery->createGuide()) {
@@ -43,12 +52,13 @@ class GuideController
         require './views/Guide/CreateGuide.php';
     }
 
-    public function updateGuide($id){
+    public function updateGuide($id)
+    {
         $guide = $this->guideQuery->findGuide($id);
         $users = $this->guideQuery->getAllGuideUsers();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-             if (!is_numeric($_POST['experience_years']) || $_POST['experience_years'] < 0) {
+            if (!is_numeric($_POST['experience_years']) || $_POST['experience_years'] < 0) {
                 $err['exp'] = "Kinh nghiệm phải là số >= 0.";
             }
             if (empty($err)) {
@@ -75,9 +85,10 @@ class GuideController
         require './views/Guide/UpdateGuide.php';
     }
 
-    public function deleteGuide($id){
+    public function deleteGuide($id)
+    {
         if ($id) {
-            if($this->guideQuery->deleteGuide($id)) {
+            if ($this->guideQuery->deleteGuide($id)) {
                 echo "<script>
                         alert('Xóa hướng dẫn viên thành công!');
                         window.location.href='?action=admin-listGuide';
@@ -93,7 +104,8 @@ class GuideController
         }
     }
 
-    public function detailGuide($id){
+    public function detailGuide($id)
+    {
         $guide = $this->guideQuery->findGuide($id);
         $currentBookings = $this->guideQuery->getCurrentBookings($id);
         $historyBookings = $this->guideQuery->getHistoryBookings($id);

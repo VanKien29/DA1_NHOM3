@@ -1,23 +1,26 @@
 <?php
-class GuideQuery extends BaseModel {
+class GuideQuery extends BaseModel
+{
     public $guide_id;
     public $user_id;
     public $experience_years;
     public $specialization;
     public $note;
 
-    public function getAllGuides() {
-    $sql = "SELECT g.*, u.name, u.email, u.phone
+    public function getAllGuides()
+    {
+        $sql = "SELECT g.*, u.name, u.email, u.phone
             FROM guides g
             INNER JOIN users u ON g.user_id = u.user_id 
             ORDER BY g.guide_id DESC";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
-    public function findGuide($id) {
+    public function findGuide($id)
+    {
         $sql = "SELECT guides.*, users.name, users.email, users.phone, users.user_id
                 FROM guides
                 INNER JOIN users ON guides.user_id = users.user_id
@@ -27,8 +30,24 @@ class GuideQuery extends BaseModel {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function searchGuide($keyword)
+    {
+        $sql = "SELECT g.*, u.name, u.email, u.phone
+                FROM guides g
+                INNER JOIN users u ON g.user_id = u.user_id
+                WHERE u.name LIKE :keyword
+                OR u.email LIKE :keyword
+                OR u.phone LIKE :keyword
+                ORDER BY g.guide_id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $likeKeyword = '%' . $keyword . '%';
+        $stmt->bindParam(':keyword', $likeKeyword);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    public function createGuide() {
+    public function createGuide()
+    {
         $sql = "INSERT INTO guides (user_id, experience_years, specialization, note, avatar)
                 VALUES (:user_id, :experience_years, :specialization, :note, :avatar)";
         $stmt = $this->pdo->prepare($sql);
@@ -40,7 +59,8 @@ class GuideQuery extends BaseModel {
         return $stmt->execute();
     }
 
-    public function updateGuide() {
+    public function updateGuide()
+    {
         $sql = "UPDATE guides SET
                 user_id = :user_id,
                 experience_years = :experience_years,
@@ -58,7 +78,8 @@ class GuideQuery extends BaseModel {
         return $stmt->execute();
     }
 
-    public function deleteGuide($id) {
+    public function deleteGuide($id)
+    {
         try {
             $sql = "DELETE FROM guides WHERE guide_id = :id";
             $stmt = $this->pdo->prepare($sql);
@@ -72,22 +93,25 @@ class GuideQuery extends BaseModel {
         }
     }
 
-    public function getAllGuideUsers() {
+    public function getAllGuideUsers()
+    {
         $sql = "SELECT * FROM users WHERE role = 'guide'";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function checkUserGuide($user_id) {
+    public function checkUserGuide($user_id)
+    {
         $sql = "SELECT * FROM guides WHERE user_id = :user_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':user_id', $user_id);
         $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getCurrentBookings($id) {
+    public function getCurrentBookings($id)
+    {
         $sql = "SELECT gt.id, gt.guide_id, gt.booking_id, t.tour_name, b.start_date, b.end_date, b.status AS booking_status
                 FROM guide_tours gt
                 JOIN bookings b ON gt.booking_id = b.booking_id
@@ -101,7 +125,8 @@ class GuideQuery extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getHistoryBookings($id) {
+    public function getHistoryBookings($id)
+    {
         $sql = "SELECT gt.id, gt.guide_id, gt.booking_id, t.tour_name, b.start_date, b.end_date, b.status AS booking_status
                 FROM guide_tours gt
                 JOIN bookings b ON gt.booking_id = b.booking_id
