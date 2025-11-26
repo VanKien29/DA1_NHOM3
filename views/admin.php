@@ -76,6 +76,7 @@ $user = $_SESSION['user'];
 
         // Guides
         case 'admin-listGuide':
+        case 'admin-searchGuide':
             echo '<link rel="stylesheet" href="assets/css/Guide/listGuide.css">';
             break;
         case 'admin-detailGuide':
@@ -412,6 +413,8 @@ $user = $_SESSION['user'];
                 case 'admin-detailGuide':
                     (new GuideController)->detailGuide($id);
                     break;
+                case 'admin-searchGuide':
+                    (new GuideController)->searchGuide($id);
 
                 // Reports
                 case 'admin-listReport':
