@@ -62,14 +62,17 @@ body {
   background-color: #d1fae5 !important;
   color: #047857 !important;
 }
+
 .bg-warning {
   background-color: #fef3c7 !important;
   color: #b45309 !important;
 }
+
 .bg-danger {
   background-color: #fee2e2 !important;
   color: #b91c1c !important;
 }
+
 .bg-primary {
   background-color: #dbeafe !important;
   color: #1e40af !important;
@@ -89,7 +92,8 @@ body {
 }
 
 .info-grid label {
-  width: 160px;       /* căn giống ảnh */
+  width: 160px;
+  /* căn giống ảnh */
   font-weight: 600;
   color: #4b5563;
 }
@@ -150,4 +154,42 @@ body {
 
 .btn-delete:hover {
   background: #fee2e2;
+}
+
+.table-schedule button {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Nút present */
+.btn-success {
+  background-color: #34d399 !important;
+  color: white !important;
+  border: 1px solid #34d399 !important;
+}
+
+/* Nút present nhạt */
+.btn-outline-success {
+  background-color: white !important;
+  color: #059669 !important;
+  border: 1px solid #6ee7b7 !important;
+}
+
+/* Nút absent */
+.btn-danger {
+  background-color: #f87171 !important;
+  color: white !important;
+  border: 1px solid #f87171 !important;
+}
+
+/* Nút absent nhạt */
+.btn-outline-danger {
+  background-color: white !important;
+  color: #b91c1c !important;
+  border: 1px solid #fca5a5 !important;
 }

@@ -1,12 +1,15 @@
 <?php
-class GuideScheduleController {
+class GuideScheduleController
+{
     private $bookingQuery;
 
-    function __construct() {
+    function __construct()
+    {
         $this->bookingQuery = new BookingQuery();
     }
 
-    public function mySchedule() { 
+    public function mySchedule()
+    {
         $user_id = $_SESSION['user']['id'];
 
         // lấy guide_id theo user_id
@@ -24,12 +27,30 @@ class GuideScheduleController {
         require './views/Guides/Schedule.php';
     }
 
-    public function detaillBooking($id) {
-        $booking    = $this->bookingQuery->getFullBooking($id);
-        $guide      = $this->bookingQuery->getGuideByBooking($id);
-        $customers  = $this->bookingQuery->getBookingCustomers($id);
+    public function detaillBooking($id)
+    {
+        $booking = $this->bookingQuery->getFullBooking($id);
+        $guide = $this->bookingQuery->getGuideByBooking($id);
+        $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
 
         require './views/Guides/DetaillBooking.php';
+    }
+    // cập nhật trạng thái điểm danh
+    public function updateAttendance()
+    {
+        if (!isset($_POST['attendance_id']) || !isset($_POST['status']) || !isset($_POST['booking_id'])) {
+            die('Thiếu dữ liệu');
+        }
+        $attendance_id = $_POST['attendance_id'];
+        $status = $_POST['status'];
+        $booking_id = $_POST['booking_id'];
+
+        $this->bookingQuery->updateAttendance($attendance_id, $status);
+        echo "<script>
+        alert('Điểm danh thành công!');
+        window.location.href='?action=guide-detaillBooking&id=$booking_id';
+        </script>";
+        exit;
     }
 }
