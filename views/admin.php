@@ -76,6 +76,7 @@ $user = $_SESSION['user'];
 
         // Guides
         case 'admin-listGuide':
+        case 'admin-searchGuide':
             echo '<link rel="stylesheet" href="assets/css/Guide/listGuide.css">';
             break;
         case 'admin-detailGuide':
@@ -125,6 +126,16 @@ $user = $_SESSION['user'];
         case 'admin-updateBooking':
             echo '<link rel="stylesheet" href="assets/css/Booking/formBooking.css">';
             break;
+
+        // HDV
+        //
+        case 'guide-schedule':
+            echo '<link rel="stylesheet" href="assets/css/Guides/scheduleGuides.css">';
+            break;
+        case 'guide-detaillBooking':
+            echo '<link rel="stylesheet" href="assets/css/Guides/detaillBooking.css">';
+            break;
+            
 
     }
     ?>
@@ -213,24 +224,8 @@ $user = $_SESSION['user'];
         <nav>
             <ul>
                 <li>
-                    <a href="?action=admin-listReport"
-                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-file-lines"></i>
-                        Báo Cáo HDV
-                    </a>
-                </li>
-                <li>
-                    <a href="?action=admin-listReport"
-                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-file-lines"></i>
-                        Báo Cáo HDV
-                    </a>
-                </li>
-                <li>
-                    <a href="?action=admin-listReport"
-                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-file-lines"></i>
-                        Báo Cáo HDV
+                    <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-calendar"></i> Lịch Tour
                     </a>
                 </li>
             </ul>
@@ -282,11 +277,16 @@ $user = $_SESSION['user'];
             </div>
         </header>
         <div id="main-content" class="p-3">
-            <?php
-            if($_SESSION['user']['role'] == "guide" ){
+            <?php if($_SESSION['user']['role'] == "guide" ){
                 switch($action) {
-                    
+                    case 'guide-schedule':
+                        (new GuideScheduleController)->mySchedule();
+                    break;
+                    case 'guide-detaillBooking':
+                        (new GuideScheduleController)->detaillBooking($id);
+                    break;
                 }
+                    return; // chặn admin content
             } else {
             switch ($action) {
                 // Tours
@@ -412,6 +412,8 @@ $user = $_SESSION['user'];
                 case 'admin-detailGuide':
                     (new GuideController)->detailGuide($id);
                     break;
+                case 'admin-searchGuide':
+                    (new GuideController)->searchGuide($id);
 
                 // Reports
                 case 'admin-listReport':
