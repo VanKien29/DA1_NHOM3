@@ -1,5 +1,6 @@
 <?php
-class BookingQuery extends BaseModel {
+class BookingQuery extends BaseModel
+{
     public $booking_id;
     public $tour_id;
     public $customer_id;
@@ -11,7 +12,8 @@ class BookingQuery extends BaseModel {
     public $nights;
     public $report;
 
-    public function getAllBooking() {
+    public function getAllBooking()
+    {
         $sql = "SELECT 
                     b.*,
                     t.tour_name,
@@ -41,7 +43,8 @@ class BookingQuery extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getBooking($id) {
+    public function getBooking($id)
+    {
         $sql = "SELECT 
                     b.*, 
                     t.tour_name
@@ -53,7 +56,8 @@ class BookingQuery extends BaseModel {
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getGuideByBooking($booking_id) {
+    public function getGuideByBooking($booking_id)
+    {
         $sql = "SELECT 
                     g.*, 
                     u.name AS guide_name, 
@@ -72,7 +76,8 @@ class BookingQuery extends BaseModel {
     }
 
 
-    public function getBookingCustomers($booking_id) {
+    public function getBookingCustomers($booking_id)
+    {
         $sql = "SELECT 
                 c.*, 
                 bc.id AS bc_id,
@@ -84,8 +89,9 @@ class BookingQuery extends BaseModel {
         $stm->execute([$booking_id]);
         return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function getAttendance($booking_id) {
+
+    public function getAttendance($booking_id)
+    {
         $sql = "SELECT  
                     a.*, 
                     c.full_name
@@ -97,7 +103,8 @@ class BookingQuery extends BaseModel {
         return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createBooking() {
+    public function createBooking()
+    {
         $sql = "INSERT INTO bookings 
                 (tour_id, guide_id, hotel_id, vehicle_id, status, report, created_at, start_date, end_date) VALUES 
                 (:tour_id, :guide_id, :hotel_id, :vehicle_id, :status, :report, :created_at, :start_date, :end_date)";
@@ -115,16 +122,18 @@ class BookingQuery extends BaseModel {
         return $this->pdo->lastInsertId();
     }
 
-    public function addBookingCustomers($booking_id, $customer_id, $is_main) {
+    public function addBookingCustomers($booking_id, $customer_id, $is_main)
+    {
         $sql = "INSERT INTO booking_customers (booking_id, customer_id, is_main) VALUES (:booking_id, :customer_id, :is_main)";
         $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(':booking_id', $booking_id);
-            $stmt->bindParam(':customer_id', $customer_id);
-            $stmt->bindParam(':is_main', $is_main);
-            $stmt->execute();
+        $stmt->bindParam(':booking_id', $booking_id);
+        $stmt->bindParam(':customer_id', $customer_id);
+        $stmt->bindParam(':is_main', $is_main);
+        $stmt->execute();
     }
 
-    public function addGuideTour($guide_id, $booking_id, $tour_id) {
+    public function addGuideTour($guide_id, $booking_id, $tour_id)
+    {
         $sql = "INSERT INTO guide_tours (guide_id, booking_id, tour_id, status) VALUES (:guide_id, :booking_id, :tour_id, :status)";
         $status = 'current';
         $stmt = $this->pdo->prepare($sql);
@@ -135,7 +144,8 @@ class BookingQuery extends BaseModel {
         return $stmt->execute();
     }
 
-    public function addAttendance($booking_id, $customer_id){
+    public function addAttendance($booking_id, $customer_id)
+    {
         $sql = "INSERT INTO attendance (booking_id, customer_id, status) VALUES (:booking_id, :customer_id, :status)";
         $status = 'absent';
         $stmt = $this->pdo->prepare($sql);
@@ -144,8 +154,9 @@ class BookingQuery extends BaseModel {
         $stmt->bindParam(':status', $status);
         return $stmt->execute();
     }
-    
-    public function checkGuideConflict($guide_id, $start, $end, $booking_id = null){
+
+    public function checkGuideConflict($guide_id, $start, $end, $booking_id = null)
+    {
         $sql = "SELECT * FROM bookings 
                 WHERE guide_id = :guide_id
                 AND start_date <= :end
@@ -157,14 +168,16 @@ class BookingQuery extends BaseModel {
         $stmt->bindParam(':guide_id', $guide_id);
         $stmt->bindParam(':start', $start);
         $stmt->bindParam(':end', $end);
-        if ($booking_id){
+        if ($booking_id) {
             $stmt->bindParam(':booking_id', $booking_id);
-        };
+        }
+        ;
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function checkCustomerConflict($customer_id, $start, $end, $booking_id = null){
+    public function checkCustomerConflict($customer_id, $start, $end, $booking_id = null)
+    {
         $sql = "SELECT * FROM bookings b
                 JOIN booking_customers bc ON b.booking_id = bc.booking_id
                 WHERE bc.customer_id = :customer_id
@@ -177,14 +190,16 @@ class BookingQuery extends BaseModel {
         $stmt->bindParam(':customer_id', $customer_id);
         $stmt->bindParam(':start', $start);
         $stmt->bindParam(':end', $end);
-        if ($booking_id){
+        if ($booking_id) {
             $stmt->bindParam(':booking_id', $booking_id);
-        };
+        }
+        ;
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateBooking($id, $tour_id, $guide_id, $hotel_id, $vehicle_id, $status, $start_date, $end_date){
+    public function updateBooking($id, $tour_id, $guide_id, $hotel_id, $vehicle_id, $status, $start_date, $end_date)
+    {
         $sql = "UPDATE bookings SET 
                     tour_id = :tour_id, 
                     guide_id = :guide_id, 
@@ -262,38 +277,44 @@ class BookingQuery extends BaseModel {
     }
 
 
-    public function getCustomerIdByBCId($bc_id){
+    public function getCustomerIdByBCId($bc_id)
+    {
         $sql = "SELECT customer_id, booking_id FROM booking_customers WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$bc_id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function deleteBookingCustomersOnly($booking_id){
+    public function deleteBookingCustomersOnly($booking_id)
+    {
         $sql = "DELETE FROM booking_customers WHERE booking_id = ?";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$booking_id]);
     }
-    
-    public function deleteAttendanceOnly($booking_id){
+
+    public function deleteAttendanceOnly($booking_id)
+    {
         $sql = "DELETE FROM attendance WHERE booking_id = ?";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$booking_id]);
     }
 
-    public function deleteCustomerFromBooking($bc_id){
+    public function deleteCustomerFromBooking($bc_id)
+    {
         $sql = "DELETE FROM booking_customers WHERE id = ?";
         $stm = $this->pdo->prepare($sql);
         return $stm->execute([$bc_id]);
     }
 
-    public function deleteAttendanceByCustomer($booking_id, $customer_id){
+    public function deleteAttendanceByCustomer($booking_id, $customer_id)
+    {
         $sql = "DELETE FROM attendance WHERE booking_id = ? AND customer_id = ?";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$booking_id, $customer_id]);
     }
 
-    public function deleteBooking($booking_id){
+    public function deleteBooking($booking_id)
+    {
         $sql = "DELETE FROM attendance WHERE booking_id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$booking_id]);
@@ -308,11 +329,12 @@ class BookingQuery extends BaseModel {
 
         $sql = "DELETE FROM bookings WHERE booking_id = ?";
         $stmt = $this->pdo->prepare($sql);
-        
+
         return $stmt->execute([$booking_id]);
     }
-    public function getBookingsByGuide($guide_user_id) {
-    $sql = "SELECT 
+    public function getBookingsByGuide($guide_user_id)
+    {
+        $sql = "SELECT 
             b.booking_id,
             b.start_date,
             b.end_date,
@@ -330,13 +352,14 @@ class BookingQuery extends BaseModel {
         ORDER BY b.start_date ASC
     ";
 
-    $stm = $this->pdo->prepare($sql);
-    $stm->bindParam(':guide_user_id', $guide_user_id);
-    $stm->execute();
-    return $stm->fetchAll(PDO::FETCH_ASSOC);
-}
-public function getFullBooking($booking_id) {
-    $sql = "SELECT 
+        $stm = $this->pdo->prepare($sql);
+        $stm->bindParam(':guide_user_id', $guide_user_id);
+        $stm->execute();
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getFullBooking($booking_id)
+    {
+        $sql = "SELECT 
                 b.*, 
                 t.tour_name,
                 h.service_name AS hotel_name,
@@ -346,18 +369,30 @@ public function getFullBooking($booking_id) {
             LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
             LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
             WHERE b.booking_id = ?";
-    $stm = $this->pdo->prepare($sql);
-    $stm->execute([$booking_id]);
-    return $stm->fetch(PDO::FETCH_ASSOC);
-}
-public function getGuideByUserId($user_id) {
-    $sql = "SELECT guide_id FROM guides WHERE user_id = ?";
-    $stm = $this->pdo->prepare($sql);
-    $stm->execute([$user_id]);
-    return $stm->fetch(PDO::FETCH_ASSOC);
-}
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([$booking_id]);
+        return $stm->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getGuideByUserId($user_id)
+    {
+        $sql = "SELECT guide_id FROM guides WHERE user_id = ?";
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([$user_id]);
+        return $stm->fetch(PDO::FETCH_ASSOC);
+    }
 
-
+    // update trạng thái điểm danh 
+    public function updateAttendance($attendance_id, $status)
+    {
+        $sql = "UPDATE attendance SET status = :status
+                WHERE id = :attendance_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':status' => $status,
+            ':attendance_id' => $attendance_id
+        ]);
+        return true;
+    }
 
 
 }
