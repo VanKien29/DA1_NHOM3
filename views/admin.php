@@ -284,7 +284,9 @@ $user = $_SESSION['user'];
         <div id="main-content" class="p-3">
             <?php
             if($_SESSION['user']['role'] == "guide" ){
-                switch($action) {}
+                switch($action) {
+                    
+                }
             } else {
             switch ($action) {
                 // Tours

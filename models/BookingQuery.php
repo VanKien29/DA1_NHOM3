@@ -205,6 +205,62 @@ class BookingQuery extends BaseModel {
         $stmt->bindParam(':booking_id', $id);
         return $stmt->execute();
     }
+    
+    public function getBookingsByFilter($filter){
+        $sql = "SELECT 
+            b.*, 
+            t.tour_name, 
+            h.service_name AS hotel_name,
+            v.service_name AS vehicle_name,
+            u.name AS guide_name,
+            (SELECT COUNT(*) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_customers
+        FROM bookings b
+        LEFT JOIN tours t ON b.tour_id = t.tour_id
+        LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
+        LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
+        LEFT JOIN guides g ON b.guide_id = g.guide_id
+        LEFT JOIN users u ON g.user_id = u.user_id
+        WHERE 1";
+
+        switch ($filter) {
+            case 'today':
+                $sql .= " AND b.start_date = CURDATE()";
+                break;
+
+            case '3days':
+                $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 3 DAY";
+                break;
+
+            case '7days':
+                $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY";
+                break;
+
+            case '1month':
+                $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 1 MONTH";
+                break;
+
+            case 'yesterday':
+                $sql .= " AND b.start_date = CURDATE() - INTERVAL 1 DAY";
+                break;
+
+            case '3days_ago':
+                $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 3 DAY AND CURDATE()";
+                break;
+
+            case '7days_ago':
+                $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()";
+                break;
+
+            case '1month_ago':
+                $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()";
+                break;
+        }
+        $sql .= " ORDER BY b.start_date DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function getCustomerIdByBCId($bc_id){
         $sql = "SELECT customer_id, booking_id FROM booking_customers WHERE id = ?";

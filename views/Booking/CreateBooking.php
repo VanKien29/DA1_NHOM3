@@ -41,15 +41,16 @@
 
             <div class="date-group">
                 <div class="form-group">
-                    <label>Ngày Bắt Đầu</label>
+                    <label>Ngày đi</label>
                     <input type="date" name="start_date" class="form-control"
-                        value="<?= htmlspecialchars($_POST['start_date'] ?? '') ?>" />
-                    <?php if (!empty($err['date'])): ?>
-                    <div class="error"><?= $err['date'] ?></div>
-                    <?php endif; ?>
+                        value="<?= htmlspecialchars($_POST['start_date'] ?? '') ?>">
                 </div>
 
-                <input type="hidden" name="end_date" value="<?= htmlspecialchars($_POST['end_date'] ?? '') ?>">
+                <div class="form-group">
+                    <label>Ngày về</label>
+                    <input type="date" name="end_date" class="form-control"
+                        value="<?= htmlspecialchars($_POST['end_date'] ?? '') ?>">
+                </div>
             </div>
         </div>
 

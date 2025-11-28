@@ -18,8 +18,6 @@
             <th>Danh mục</th>
             <th>Giá</th>
             <th>Mô tả</th>
-            <th>Số ngày</th>
-            <th>Số đêm</th>
             <th>Hành động</th>
         </tr>
     </thead>
@@ -38,8 +36,6 @@
             <td><?= htmlspecialchars($tour['category_name']) ?></td>
             <td><?= number_format($tour['price'], 0, ',', '.') ?>₫</td>
             <td><?= htmlspecialchars($tour['description']) ?></td>
-            <td><?= $tour['duration_days'] ?></td>
-            <td><?= $tour['duration_nights'] ?></td>
             <td>
                 <a href="?action=admin-updateTours&id=<?= $tour['tour_id'] ?>"
                     class="btn btn-outline-success btn-sm">Sửa</a>
