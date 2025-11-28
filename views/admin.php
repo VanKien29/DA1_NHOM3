@@ -146,100 +146,100 @@ $user = $_SESSION['user'];
     <aside class="sidebar">
         <h2>Tour Manager</h2>
         <?php if ($_SESSION['user']['role'] == "admin") { ?>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="?action=admin" class="<?= ($action == 'admin') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-suitcase-rolling"></i> Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listTours"
-                            class="<?= ($action == 'admin-listTours' || $action == 'admin-createTour' || $action == 'admin-updateTour') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-suitcase-rolling"></i> Danh Sách Tour
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listBooking"
-                            class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking' || $action == 'admin-detailBooking') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-calendar-check"></i> Đặt Tour
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listCustomer"
-                            class="<?= ($action == 'admin-listCustomer' || $action == 'admin-createCustomer' || $action == 'admin-updateCustomer') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-users"></i> Khách Hàng
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listUsers"
-                            class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUser' || $action == 'admin-updateUser') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-user-tie"></i> Quản Trị Viên
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listDiscount"
-                            class="<?= ($action == 'admin-listDiscount' || $action == 'admin-createDiscount' || $action == 'admin-updateDiscount') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-tags"></i> Mã Giảm Giá
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listCategory"
-                            class="<?= ($action == 'admin-listCategory' || $action == 'admin-createCategory' || $action == 'admin-updateCategory') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-coins"></i> Danh Mục
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listGuide"
-                            class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide' || $action == 'admin-detailGuide') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listReport"
-                            class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-file-lines"></i>
-                            Báo Cáo HDV
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listVehicles"
-                            class="<?= ($action == 'admin-listVehicles' || $action == 'admin-createVehicles' || $action == 'admin-updateVehicles') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-bus-simple"></i> Phương Tiện
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=admin-listHotel"
-                            class="<?= ($action == 'admin-listHotel' || $action == 'admin-createHotel' || $action == 'admin-updateHotel') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-truck-field"></i> Khách Sạn
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa-solid fa-comments"></i> Đánh Giá
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <nav>
+            <ul>
+                <li>
+                    <a href="?action=admin" class="<?= ($action == 'admin') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-suitcase-rolling"></i> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listTours"
+                        class="<?= ($action == 'admin-listTours' || $action == 'admin-createTour' || $action == 'admin-updateTour') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-suitcase-rolling"></i> Danh Sách Tour
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listBooking"
+                        class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking' || $action == 'admin-detailBooking') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-calendar-check"></i> Đặt Tour
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listCustomer"
+                        class="<?= ($action == 'admin-listCustomer' || $action == 'admin-createCustomer' || $action == 'admin-updateCustomer') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-users"></i> Khách Hàng
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listUsers"
+                        class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUser' || $action == 'admin-updateUser') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-user-tie"></i> Quản Trị Viên
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listDiscount"
+                        class="<?= ($action == 'admin-listDiscount' || $action == 'admin-createDiscount' || $action == 'admin-updateDiscount') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-tags"></i> Mã Giảm Giá
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listCategory"
+                        class="<?= ($action == 'admin-listCategory' || $action == 'admin-createCategory' || $action == 'admin-updateCategory') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-coins"></i> Danh Mục
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listGuide"
+                        class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide' || $action == 'admin-detailGuide') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listReport"
+                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-file-lines"></i>
+                        Báo Cáo HDV
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listVehicles"
+                        class="<?= ($action == 'admin-listVehicles' || $action == 'admin-createVehicles' || $action == 'admin-updateVehicles') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-bus-simple"></i> Phương Tiện
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=admin-listHotel"
+                        class="<?= ($action == 'admin-listHotel' || $action == 'admin-createHotel' || $action == 'admin-updateHotel') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-truck-field"></i> Khách Sạn
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-comments"></i> Đánh Giá
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <?php } else { ?>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-calendar"></i> Lịch Tour
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <nav>
+            <ul>
+                <li>
+                    <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-calendar"></i> Lịch Tour
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <?php } ?>
         <div class="sidebar-footer">
             <p><?= $user['name'] ?></p>
             <small><?= $user['role'] == "admin" ? "Quản Trị Viên" : "Hướng Dẫn Viên" ?></small>
             <div class="auth-buttons">
                 <?php if (empty($user)) { ?>
-                    <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
+                <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
                 <?php } else { ?>
-                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                 <?php } ?>
             </div>
         </div>
