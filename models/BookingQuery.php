@@ -332,33 +332,77 @@ class BookingQuery extends BaseModel
 
         return $stmt->execute([$booking_id]);
     }
-    public function getBookingsByGuide($guide_user_id)
-    {
+    
+    public function getBookingsByGuide($guide_id, $filter = ''){
         $sql = "SELECT 
-            b.booking_id,
-            b.start_date,
-            b.end_date,
-            b.status,
-            t.tour_name,
-            COUNT(bc.customer_id) AS total_customers,
-            g.guide_id
-        FROM bookings b
-        JOIN guides g ON b.guide_id = g.guide_id
-        JOIN users u ON g.user_id = u.user_id
-        LEFT JOIN tours t ON b.tour_id = t.tour_id
-        LEFT JOIN booking_customers bc ON b.booking_id = bc.booking_id
-        WHERE u.user_id = :guide_user_id
-        GROUP BY b.booking_id
-        ORDER BY b.start_date ASC
-    ";
+                    b.booking_id,
+                    b.start_date,
+                    b.end_date,
+                    b.status,
+                    h.service_name AS hotel_name,
+                    v.service_name AS vehicle_name,
+                    t.tour_name,
+                    COUNT(bc.customer_id) AS total_customers
+                FROM bookings b
+                JOIN guides g ON b.guide_id = g.guide_id
+                LEFT JOIN tours t ON b.tour_id = t.tour_id
+                LEFT JOIN booking_customers bc ON b.booking_id = bc.booking_id
+                LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
+                LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
+                WHERE g.guide_id = :guide_id";
+        switch ($filter) {
+            case 'today':
+                $sql .= " AND b.start_date = CURDATE()";
+                break;
+
+            case '3days':
+                $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 3 DAY";
+                break;
+
+            case '7days':
+                $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY";
+                break;
+
+            case '1month':
+                $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 1 MONTH";
+                break;
+
+            case 'yesterday':
+                $sql .= " AND b.start_date = CURDATE() - INTERVAL 1 DAY";
+                break;
+
+            case '3days_ago':
+                $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 3 DAY AND CURDATE()";
+                break;
+
+            case '7days_ago':
+                $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()";
+                break;
+
+            case '1month_ago':
+                $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()";
+                break;
+        }
+        $sql .= " GROUP BY b.booking_id";
+        $sql .= " ORDER BY 
+                    CASE b.status
+                        WHEN 'dang_dien_ra' THEN 1
+                        WHEN 'cho_duyet' THEN 2
+                        WHEN 'da_huy' THEN 3
+                        WHEN 'da_hoan_thanh' THEN 4
+                        ELSE 5
+                    END,
+                    b.start_date ASC";
 
         $stm = $this->pdo->prepare($sql);
-        $stm->bindParam(':guide_user_id', $guide_user_id);
+        $stm->bindParam(':guide_id', $guide_id);
         $stm->execute();
+
         return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function getFullBooking($booking_id)
-    {
+
+
+    public function getFullBooking($booking_id){
         $sql = "SELECT 
                 b.*, 
                 t.tour_name,

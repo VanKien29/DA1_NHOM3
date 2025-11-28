@@ -62,7 +62,6 @@
                     <?php $i = 1; foreach ($bookings as $b): 
                         $start = strtotime($b['start_date']);
                         $end   = strtotime($b['end_date']);
-
                         $total_days  = ($end - $start) / 86400 + 1;
                         $total_nights = $total_days - 1;   
                     ?>

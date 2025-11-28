@@ -132,9 +132,9 @@ $user = $_SESSION['user'];
         case 'guide-schedule':
             echo '<link rel="stylesheet" href="assets/css/Guides/scheduleGuides.css">';
             break;
-        case 'guide-detaillBooking':
+        case 'guide-detailGuideBooking':
         case 'guide-updateAttendance':
-            echo '<link rel="stylesheet" href="assets/css/Guides/detaillBooking.css">';
+            echo '<link rel="stylesheet" href="assets/css/Guides/detailGuideBooking.css">';
             break;
 
 
@@ -283,14 +283,14 @@ $user = $_SESSION['user'];
                     case 'guide-schedule':
                         (new GuideScheduleController)->mySchedule();
                         break;
-                    case 'guide-detaillBooking':
-                        (new GuideScheduleController)->detaillBooking($id);
+                    case 'guide-detailGuideBooking':
+                        (new GuideScheduleController)->detailGuideBooking($id);
                         break;
                     case 'guide-updateAttendance':
                         (new GuideScheduleController)->updateAttendance();
                         break;
                 }
-                return; // chặn admin content
+                return;
             } else {
                 switch ($action) {
                     // Tours

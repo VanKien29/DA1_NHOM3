@@ -235,7 +235,7 @@ a {
   background: #fff;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   margin-top: 20px;
 }
 
@@ -260,4 +260,46 @@ a {
 .info-grid span {
   font-size: 14px;
   color: #111827;
+}
+
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: #ffffff url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%230d6efd' viewBox='0 0 16 16'%3e%3cpath d='M1.5 5.5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 14px center;
+
+  margin-bottom: 9px;
+  padding: 10px 40px 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+
+  border: 2px solid #dbeafe;
+  border-radius: 10px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+  color: #1e3a8a;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.filter-select:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 3px 8px rgba(96, 165, 250, 0.25);
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.filter-select optgroup {
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.filter-select option {
+  padding: 10px;
+  font-size: 14px;
 }
