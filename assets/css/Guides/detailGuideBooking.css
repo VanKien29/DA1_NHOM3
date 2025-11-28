@@ -21,7 +21,6 @@ body {
   left: 0;
 }
 
-
 /* Logo App */
 .sidebar-logo {
   font-size: 24px;
@@ -65,7 +64,7 @@ body {
   color: #1e40af;
 }
 
-body>*:not(.sidebar) {
+body > *:not(.sidebar) {
   margin-left: 240px !important;
   /* = sidebar width */
   padding-left: 40px !important;
@@ -231,10 +230,7 @@ body>*:not(.sidebar) {
   color: #1f2937;
 }
 
-/* ============================= */
-/*             TABLE             */
-/* ============================= */
-
+/* ====== TABLE ====== */
 .table-schedule {
   width: 100%;
   border-collapse: collapse;
@@ -337,32 +333,4 @@ body>*:not(.sidebar) {
   background-color: white !important;
   color: #b91c1c !important;
   border: 1px solid #fca5a5 !important;
-}
-
-.btn-outline-danger:hover {
-  background-color: #fff5f5 !important;
-  transform: translateY(-1px);
-}
-
-/* Shadow hiệu ứng */
-.btn-success,
-.btn-danger {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-}
-
-body>*:not(.sidebar) {
-  margin-left: 250px !important;
-  /* không đẩy quá xa */
-  padding-left: 0 !important;
-  /* bỏ padding thừa */
-  padding-right: 20px;
-  /* vừa đủ */
-  box-sizing: border-box;
-}
-
-/* Nếu phần wrapper có padding quá lớn thì thu nhỏ lại */
-.guide-schedule-wrapper,
-.guide-table-container {
-  padding-left: 0 !important;
-  margin-left: 0 !important;
 }

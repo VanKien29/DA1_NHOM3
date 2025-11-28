@@ -30,7 +30,7 @@
                     <?php foreach ($guides as $g): ?>
                     <option value="<?= $g['guide_id'] ?>"
                         <?= (($_POST['guide_id'] ?? '') == $g['guide_id']) ? 'selected' : '' ?>>
-                        <?= $g['name'] ?> (<?= $g['experience_years'] ?> năm)
+                        <?= $g['guide_id'] ?> - <?= $g['name'] ?> (<?= $g['experience_years'] ?> năm)
                     </option>
                     <?php endforeach; ?>
                 </select>
@@ -94,7 +94,7 @@
                     <?php foreach ($customers as $c): ?>
                     <option value="<?= $c['customer_id'] ?>"
                         <?= in_array($c['customer_id'], $oldCustomers) ? 'selected' : '' ?>>
-                        <?= $c['full_name'] ?> - <?= $c['phone'] ?>
+                        <?= $c['customer_id'] ?> - <?= $c['full_name'] ?> - <?= $c['phone'] ?>
                     </option>
                     <?php endforeach; ?>
                 </select>
@@ -113,7 +113,7 @@
                     <?php foreach ($customers as $c): ?>
                     <option value="<?= $c['customer_id'] ?>"
                         <?= (($_POST['main_customer'] ?? '') == $c['customer_id']) ? 'selected' : '' ?>>
-                        <?= $c['full_name'] ?> - <?= $c['phone'] ?>
+                        <?= $c['customer_id'] ?> - <?= $c['full_name'] ?> - <?= $c['phone'] ?>
                     </option>
                     <?php endforeach; ?>
                 </select>
