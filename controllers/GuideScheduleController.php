@@ -38,10 +38,7 @@ class GuideScheduleController
         $booking_id = $_POST['booking_id'];
 
         $this->bookingQuery->updateAttendance($attendance_id, $status);
-        echo "<script>
-        alert('Điểm danh thành công!');
-        window.location.href='?action=guide-detailGuideBooking&id=$booking_id';
-        </script>";
+        header("Location: ?action=guide-detailGuideBooking&id=$booking_id");
         exit;
     }
 }
