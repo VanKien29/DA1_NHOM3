@@ -1,4 +1,3 @@
-
 <div class="guide-schedule-wrapper">
 
     <div class="guide-table-container">
@@ -45,20 +44,20 @@
                 <div>
                     <label>Trạng thái:</label>
                     <?php
-                        switch($booking['status']){
-                            case 'dang_dien_ra':
-                                echo "<span class='badge bg-success'>Đang diễn ra</span>";
-                                break;
-                            case 'cho_duyet':
-                                echo "<span class='badge bg-warning'>Chờ duyệt</span>";
-                                break;
-                            case 'da_hoan_thanh':
-                                echo "<span class='badge bg-primary'>Đã hoàn thành</span>";
-                                break;
-                            case 'da_huy':
-                                echo "<span class='badge bg-danger'>Đã hủy</span>";
-                                break;
-                        }
+                    switch ($booking['status']) {
+                        case 'dang_dien_ra':
+                            echo "<span class='badge bg-success'>Đang diễn ra</span>";
+                            break;
+                        case 'cho_duyet':
+                            echo "<span class='badge bg-warning'>Chờ duyệt</span>";
+                            break;
+                        case 'da_hoan_thanh':
+                            echo "<span class='badge bg-primary'>Đã hoàn thành</span>";
+                            break;
+                        case 'da_huy':
+                            echo "<span class='badge bg-danger'>Đã hủy</span>";
+                            break;
+                    }
                     ?>
                 </div>
 
@@ -111,23 +110,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i=1; foreach($customers as $c): ?>
-                    <tr>
-                        <td><?= $i++ ?></td>
-                        <td><?= $c['full_name'] ?></td>
-                        <td><?= $c['phone'] ?></td>
-                        <td><?= $c['email'] ?></td>
-                        <td>
-                            <?= $c['is_main'] ? "<span class='badge bg-primary'>Chính</span>" : "-" ?>
-                        </td>
-                    </tr>
+                    <?php $i = 1;
+                    foreach ($customers as $c): ?>
+                        <tr>
+                            <td><?= $i++ ?></td>
+                            <td><?= $c['full_name'] ?></td>
+                            <td><?= $c['phone'] ?></td>
+                            <td><?= $c['email'] ?></td>
+                            <td>
+                                <?= $c['is_main'] ? "<span class='badge bg-primary'>Chính</span>" : "-" ?>
+                            </td>
+                        </tr>
                     <?php endforeach ?>
                 </tbody>
             </table>
         </div>
 
         <!-- ĐIỂM DANH -->
-         
+
         <div class="booking-info-box">
             <h5>Tình trạng điểm danh</h5>
 
@@ -140,18 +140,33 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i=1; foreach($attendance as $a): ?>
-                    <tr>
-                        <td><?= $i++ ?></td>
-                        <td><?= $a['full_name'] ?></td>
-                        <td>
-                            <?php if ($a['status'] == 'present'): ?>
-                                <span class="badge bg-success">Có mặt</span>
-                            <?php else: ?>
-                                <span class="badge bg-danger">Vắng</span>
-                            <?php endif ?>
-                        </td>
-                    </tr>
+                    <?php $i = 1;
+                    foreach ($attendance as $a): ?>
+                        <tr>
+                            <td><?= $i++ ?></td>
+                            <td><?= $a['full_name'] ?></td>
+                            <td>
+                                <form method="POST" action="?action=guide-updateAttendance" class="d-flex"
+                                    style="gap: 8px;">
+                                    <?php if (!empty($success)): ?>
+                                        <div class="text-danger"><?= $success ?></div>
+                                    <?php endif; ?>
+                                    <input type="hidden" name="attendance_id" value="<?= $a['id'] ?>">
+                                    <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+
+                                    <button type="submit" name="status" value="present"
+                                        class="btn btn-sm <?= $a['status'] == 'present' ? 'btn-success' : 'btn-outline-success' ?>">
+                                        Có mặt
+                                    </button>
+
+                                    <button type="submit" name="status" value="absent"
+                                        class="btn btn-sm <?= $a['status'] == 'absent' ? 'btn-danger' : 'btn-outline-danger' ?>">
+                                        Vắng
+                                    </button>
+
+                                </form>
+                            </td>
+                        </tr>
                     <?php endforeach ?>
                 </tbody>
             </table>
