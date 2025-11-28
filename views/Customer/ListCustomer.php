@@ -17,6 +17,7 @@
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
+                        <th>Loại Khách</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -30,6 +31,8 @@
                         <td><?= htmlspecialchars($customer['email']); ?></td>
                         <td><?= htmlspecialchars($customer['phone']); ?></td>
                         <td><?= htmlspecialchars($customer['address']); ?></td>
+                        <td><?= htmlspecialchars($customer['role']) == "adult" ? "Người lớn" : (htmlspecialchars($customer['role']) == "vip" ? "VIP" : "Trẻ em"); ?>
+                        </td>
                         <td>
                             <a href="?action=admin-updateCustomer&id=<?= $customer['customer_id']; ?>"
                                 class="btn btn-sm btn-outline-success">Sửa</a>
