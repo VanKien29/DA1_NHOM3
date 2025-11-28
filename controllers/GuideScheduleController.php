@@ -8,7 +8,8 @@ class GuideScheduleController
         $this->bookingQuery = new BookingQuery();
     }
 
-    public function mySchedule(){
+    public function mySchedule()
+    {
         $filter = $_GET['filter'] ?? '';
         $user_id = $_SESSION['user']['id'];
         $guide = $this->bookingQuery->getGuideByUserId($user_id);
@@ -27,7 +28,7 @@ class GuideScheduleController
 
         require './views/Guides/detailGuideBooking.php';
     }
-    
+
     public function updateAttendance()
     {
         if (!isset($_POST['attendance_id']) || !isset($_POST['status']) || !isset($_POST['booking_id'])) {
@@ -38,10 +39,7 @@ class GuideScheduleController
         $booking_id = $_POST['booking_id'];
 
         $this->bookingQuery->updateAttendance($attendance_id, $status);
-        echo "<script>
-        alert('Điểm danh thành công!');
-        window.location.href='?action=guide-detailGuideBooking&id=$booking_id';
-        </script>";
+        header("Location: ?action=guide-detailGuideBooking&id=$booking_id");
         exit;
     }
 }
