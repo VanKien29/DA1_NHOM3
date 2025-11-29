@@ -220,8 +220,9 @@ class BookingQuery extends BaseModel
         $stmt->bindParam(':booking_id', $id);
         return $stmt->execute();
     }
-    
-    public function getBookingsByFilter($filter){
+
+    public function getBookingsByFilter($filter)
+    {
         $sql = "SELECT 
             b.*, 
             t.tour_name, 
@@ -332,8 +333,9 @@ class BookingQuery extends BaseModel
 
         return $stmt->execute([$booking_id]);
     }
-    
-    public function getBookingsByGuide($guide_id, $filter = ''){
+
+    public function getBookingsByGuide($guide_id, $filter = '')
+    {
         $sql = "SELECT 
                     b.booking_id,
                     b.start_date,
@@ -402,7 +404,8 @@ class BookingQuery extends BaseModel
     }
 
 
-    public function getFullBooking($booking_id){
+    public function getFullBooking($booking_id)
+    {
         $sql = "SELECT 
                 b.*, 
                 t.tour_name,
@@ -436,6 +439,16 @@ class BookingQuery extends BaseModel
             ':attendance_id' => $attendance_id
         ]);
         return true;
+    }
+    public function getVehicleByBooking($booking_id)
+    {
+        $sql = "SELECT v.*
+            FROM bookings b
+            JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
+            WHERE b.booking_id = :booking_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['booking_id' => $booking_id]);
+        return $stmt->fetch();
     }
 
 

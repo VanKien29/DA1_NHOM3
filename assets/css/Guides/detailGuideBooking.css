@@ -10,6 +10,7 @@ body {
   margin-top: 20px;
 }
 
+/* Tiêu đề trong box */
 .booking-info-box h5 {
   font-size: 17px;
   font-weight: 700;
@@ -93,6 +94,7 @@ body {
 
 .info-grid label {
   width: 160px;
+  /* căn giống ảnh */
   font-weight: 600;
   color: #4b5563;
 }

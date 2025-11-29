@@ -8,7 +8,8 @@ class GuideScheduleController
         $this->bookingQuery = new BookingQuery();
     }
 
-    public function mySchedule(){
+    public function mySchedule()
+    {
         $filter = $_GET['filter'] ?? '';
         $user_id = $_SESSION['user']['id'];
         $guide = $this->bookingQuery->getGuideByUserId($user_id);
@@ -24,10 +25,11 @@ class GuideScheduleController
         $guide = $this->bookingQuery->getGuideByBooking($id);
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
+        $vehicle = $this->bookingQuery->getVehicleByBooking($id);
 
         require './views/Guides/detailGuideBooking.php';
     }
-    
+
     public function updateAttendance()
     {
         if (!isset($_POST['attendance_id']) || !isset($_POST['status']) || !isset($_POST['booking_id'])) {
