@@ -25,6 +25,7 @@ class GuideScheduleController
         $guide = $this->bookingQuery->getGuideByBooking($id);
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
+        $vehicle = $this->bookingQuery->getVehicleByBooking($id);
 
         require './views/Guides/detailGuideBooking.php';
     }

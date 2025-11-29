@@ -1,9 +1,7 @@
-/* ====== LAYOUT NỀN ====== */
 body {
   background-color: #eef3ff;
 }
 
-/* ====== CONTAINER / BOX ====== */
 .booking-info-box {
   background: #ffffff;
   padding: 18px 22px;
@@ -20,7 +18,6 @@ body {
   margin-bottom: 14px;
 }
 
-/* ====== HEADER ====== */
 .guide-table-header {
   border-bottom: 1px solid #d9e2f3;
   padding-bottom: 12px;
@@ -33,7 +30,6 @@ body {
   color: #1d4ed8;
 }
 
-/* ====== BUTTON QUAY LẠI ====== */
 .btn-outline-detail {
   border: 1px solid #fd810d;
   color: #fd810d;
@@ -49,7 +45,6 @@ body {
   color: #fff;
 }
 
-/* ====== BADGES ====== */
 .badge {
   display: inline-block;
   padding: 3px 10px;
@@ -78,7 +73,13 @@ body {
   color: #1e40af !important;
 }
 
-/* ====== INFO GRID ====== */
+.customer-main {
+  margin-left: 6px;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
 .info-grid {
   display: flex;
   flex-direction: column;
@@ -102,7 +103,6 @@ body {
   color: #1f2937;
 }
 
-/* ====== TABLE ====== */
 .table-schedule {
   width: 100%;
   border-collapse: collapse;
@@ -140,7 +140,6 @@ body {
   border-bottom: 1px solid #f0f2f8;
 }
 
-/* NÚT XÓA */
 .btn-delete {
   border: 1px solid #ef4444;
   background: #fff;
@@ -165,28 +164,24 @@ body {
   transition: 0.2s;
 }
 
-/* Nút present */
 .btn-success {
   background-color: #34d399 !important;
   color: white !important;
   border: 1px solid #34d399 !important;
 }
 
-/* Nút present nhạt */
 .btn-outline-success {
   background-color: white !important;
   color: #059669 !important;
   border: 1px solid #6ee7b7 !important;
 }
 
-/* Nút absent */
 .btn-danger {
   background-color: #f87171 !important;
   color: white !important;
   border: 1px solid #f87171 !important;
 }
 
-/* Nút absent nhạt */
 .btn-outline-danger {
   background-color: white !important;
   color: #b91c1c !important;
