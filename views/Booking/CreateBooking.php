@@ -1,24 +1,37 @@
 <link rel="stylesheet" href="./views/Booking/CreateBooking.css">
 
+<?php
+// Nếu user đã chọn khách sạn từ POST → load danh sách phòng
+$rooms = [];
+if (!empty($_POST['hotel_id'])) {
+    $rooms = $this->bookingQuery->getRoomsByHotel($_POST['hotel_id']);
+}
+?>
+
 <div class="booking-wrapper">
     <div class="header">
         <h2 class="title">Tạo Booking Mới</h2>
     </div>
+
     <?php if (!empty($err['empty'])): ?>
-    <div><?= $err['empty'] ?></div>
+        <div><?= $err['empty'] ?></div>
     <?php endif; ?>
+
     <form method="POST" class="booking-grid">
+
+        <!-- THÔNG TIN TOUR -->
         <div class="card">
             <h4>Thông Tin Tour</h4>
+
             <div class="form-group">
                 <label>Chọn Tour</label>
                 <select name="tour_id" class="form-select">
                     <option value="">-- Chọn tour --</option>
                     <?php foreach ($tours as $t): ?>
-                    <option value="<?= $t['tour_id'] ?>"
-                        <?= (($_POST['tour_id'] ?? '') == $t['tour_id']) ? 'selected' : '' ?>>
-                        <?= $t['tour_name'] ?>
-                    </option>
+                        <option value="<?= $t['tour_id'] ?>" 
+                            <?= (($_POST['tour_id'] ?? '') == $t['tour_id']) ? 'selected' : '' ?>>
+                            <?= $t['tour_name'] ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -28,14 +41,14 @@
                 <select name="guide_id" class="form-select">
                     <option value="">-- Chọn HDV --</option>
                     <?php foreach ($guides as $g): ?>
-                    <option value="<?= $g['guide_id'] ?>"
-                        <?= (($_POST['guide_id'] ?? '') == $g['guide_id']) ? 'selected' : '' ?>>
-                        <?= $g['guide_id'] ?> - <?= $g['name'] ?> (<?= $g['experience_years'] ?> năm)
-                    </option>
+                        <option value="<?= $g['guide_id'] ?>"
+                            <?= (($_POST['guide_id'] ?? '') == $g['guide_id']) ? 'selected' : '' ?>>
+                            <?= $g['guide_id'] ?> - <?= $g['name'] ?> (<?= $g['experience_years'] ?> năm)
+                        </option>
                     <?php endforeach; ?>
                 </select>
                 <?php if (!empty($err['guide'])): ?>
-                <div class="error"><?= $err['guide'] ?></div>
+                    <div class="error"><?= $err['guide'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -54,18 +67,19 @@
             </div>
         </div>
 
+        <!-- DỊCH VỤ -->
         <div class="card">
             <h4>Dịch Vụ</h4>
 
             <div class="form-group">
                 <label>Khách Sạn</label>
-                <select name="hotel_id" class="form-select">
+                <select name="hotel_id" class="form-select" onchange="this.form.submit()">
                     <option value="">-- Chọn khách sạn --</option>
                     <?php foreach ($hotels as $h): ?>
-                    <option value="<?= $h['hotel_service_id'] ?>"
-                        <?= (($_POST['hotel_id'] ?? '') == $h['hotel_service_id']) ? 'selected' : '' ?>>
-                        <?= $h['service_name'] ?>
-                    </option>
+                        <option value="<?= $h['hotel_service_id'] ?>"
+                            <?= (($_POST['hotel_id'] ?? '') == $h['hotel_service_id']) ? 'selected' : '' ?>>
+                            <?= $h['service_name'] ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -75,15 +89,16 @@
                 <select name="vehicle_id" class="form-select">
                     <option value="">-- Chọn xe --</option>
                     <?php foreach ($vehicles as $v): ?>
-                    <option value="<?= $v['vehicle_service_id'] ?>"
-                        <?= (($_POST['vehicle_id'] ?? '') == $v['vehicle_service_id']) ? 'selected' : '' ?>>
-                        <?= $v['service_name'] ?> (<?= $v['seat'] ?> chỗ)
-                    </option>
+                        <option value="<?= $v['vehicle_service_id'] ?>"
+                            <?= (($_POST['vehicle_id'] ?? '') == $v['vehicle_service_id']) ? 'selected' : '' ?>>
+                            <?= $v['service_name'] ?> (<?= $v['seat'] ?> chỗ)
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
         </div>
 
+        <!-- DANH SÁCH KHÁCH -->
         <div class="card card-full">
             <h4>Danh Sách Khách</h4>
 
@@ -92,17 +107,17 @@
                 <select name="customers[]" multiple class="form-select multi">
                     <?php $oldCustomers = $_POST['customers'] ?? []; ?>
                     <?php foreach ($customers as $c): ?>
-                    <option value="<?= $c['customer_id'] ?>"
-                        <?= in_array($c['customer_id'], $oldCustomers) ? 'selected' : '' ?>>
-                        <?= $c['customer_id'] ?> - <?= $c['full_name'] ?> - <?= $c['phone'] ?>
-                    </option>
+                        <option value="<?= $c['customer_id'] ?>"
+                            <?= in_array($c['customer_id'], $oldCustomers) ? 'selected' : '' ?>>
+                            <?= $c['customer_id'] ?> - <?= $c['full_name'] ?> - <?= $c['phone'] ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
                 <?php if (!empty($err['customers'])): ?>
-                <div class="error"><?= $err['customers'] ?></div>
+                    <div class="error"><?= $err['customers'] ?></div>
                 <?php endif; ?>
                 <?php if (!empty($err['customers_conflict'])): ?>
-                <div class="error"><?= $err['customers_conflict'] ?></div>
+                    <div class="error"><?= $err['customers_conflict'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -111,14 +126,38 @@
                 <select name="main_customer" class="form-select">
                     <option value="">-- Chọn người đại diện --</option>
                     <?php foreach ($customers as $c): ?>
-                    <option value="<?= $c['customer_id'] ?>"
-                        <?= (($_POST['main_customer'] ?? '') == $c['customer_id']) ? 'selected' : '' ?>>
-                        <?= $c['customer_id'] ?> - <?= $c['full_name'] ?> - <?= $c['phone'] ?>
-                    </option>
+                        <option value="<?= $c['customer_id'] ?>"
+                            <?= (($_POST['main_customer'] ?? '') == $c['customer_id']) ? 'selected' : '' ?>>
+                            <?= $c['customer_id'] ?> - <?= $c['full_name'] ?> - <?= $c['phone'] ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
                 <?php if (!empty($err['main'])): ?>
-                <div class="error"><?= $err['main'] ?></div>
+                    <div class="error"><?= $err['main'] ?></div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- CHỌN PHÒNG -->
+        <div class="card card-full">
+            <h4>Chọn Phòng Khách Sạn</h4>
+
+            <?php if (!empty($err['rooms'])): ?>
+                <div class="error" style="color:red;"><?= $err['rooms'] ?></div>
+            <?php endif; ?>
+
+            <div class="rooms-list">
+                <?php if (!empty($rooms)): ?>
+                    <?php foreach ($rooms as $r): ?>
+                        <label class="room-item">
+                            <input type="checkbox" name="room_ids[]" 
+                                   value="<?= $r['room_id'] ?>"
+                                   <?= (!empty($_POST['room_ids']) && in_array($r['room_id'], $_POST['room_ids'])) ? 'checked' : '' ?>>
+                            Phòng <?= $r['room_number'] ?> - Tầng <?= $r['floor'] ?>
+                        </label>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="color:#777;">Chọn khách sạn để hiển thị phòng.</p>
                 <?php endif; ?>
             </div>
         </div>

@@ -197,6 +197,43 @@
                 </div>
             </div>
 
+            <!-- DANH SÁCH PHÒNG KHÁCH SẠN -->
+            <div class="booking-info-box">
+                <h5>Danh sách phòng khách sạn</h5>
+
+                <?php if (!empty($rooms)): ?>
+
+                    <div class="room-grid"
+                        style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:20px;">
+
+                        <?php foreach ($rooms as $room): ?>
+                            <div class="room-card" style="background:#fff; padding:16px; border-radius:12px; border:1px solid #e5e7eb; 
+                           box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+                                <h4 style="margin:10px 0 6px; font-size:18px;"><?= $room['room_name'] ?></h4>
+                                <p style="margin:4px 0;">
+                                    <strong>Loại phòng:</strong> <?= $room['room_type'] ?>
+                                </p>
+                                <p style="margin:4px 0;">
+                                    <strong>Giường:</strong> <?= $room['bed_type'] ?>
+                                </p>
+                                <p style="margin:4px 0;">
+                                    <strong>Sức chứa:</strong> <?= $room['capacity'] ?> người
+                                </p>
+                                <p style="margin:4px 0;">
+                                    <strong>Giá:</strong>
+                                    <?= number_format($room['price_per_night']) ?> đ/đêm
+                                </p>
+                                <p style="margin-top:8px; color:#555;">
+                                    <strong>Mô tả:</strong><br>
+                                    <?= !empty($room['description']) ? $room['description'] : "Không có mô tả" ?>
+                                </p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p style="color:#888;">Khách sạn này chưa có dữ liệu phòng.</p>
+                <?php endif; ?>
+            </div>
 
         </div>
     </div>
