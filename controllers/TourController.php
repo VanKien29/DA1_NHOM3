@@ -39,16 +39,6 @@ class TourController
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
             }
-            $days = isset($_POST['duration_days']) ? (int)$_POST['duration_days'] : 0;
-            $nights = isset($_POST['duration_nights']) ? (int)$_POST['duration_nights'] : 0;
-            if ($days <= 0) {
-            $err['duration_days'] = "Số ngày phải lớn hơn 0.";
-            } else if ($days !== $nights + 1) {
-            $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
-            }
-            if ($nights < 0) {
-            $err['duration_nights'] = "Số đêm không được âm.";
-            }
 
             if (empty($err)) {
                 $this->tourQuery->tour_name = $_POST['tour_name'];
@@ -56,8 +46,6 @@ class TourController
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
                 $this->tourQuery->tour_images = $_FILES['tour_images'];
-                $this->tourQuery->duration_days = $_POST['duration_days'];
-                $this->tourQuery->duration_nights = $_POST['duration_nights'];
 
                 if(isset($_FILES["tour_images"]) && $_FILES["tour_images"]["size"] >0){
                     $this->tourQuery->tour_images = upload_file('image/TourImages', $_FILES["tour_images"]);
@@ -88,16 +76,6 @@ class TourController
             if (empty($_POST['price']) || $_POST['price'] < 0) {
                 $err['price'] = "Giá tour không hợp lệ.";
             }
-            $days = isset($_POST['duration_days']) ? (int)$_POST['duration_days'] : 0;
-            $nights = isset($_POST['duration_nights']) ? (int)$_POST['duration_nights'] : 0;
-            if ($days <= 0) {
-            $err['duration_days'] = "Số ngày phải lớn hơn 0.";
-            } else if ($days !== $nights + 1) {
-            $err['duration_time'] = "Số ngày phải bằng số đêm + 1.";
-            }
-            if ($nights < 0) {
-            $err['duration_nights'] = "Số đêm không được âm.";
-            }
 
             if (empty($err)) {
                 $this->tourQuery->tour_id = $id;
@@ -105,8 +83,6 @@ class TourController
                 $this->tourQuery->description = $_POST['description'];
                 $this->tourQuery->price = $_POST['price'];
                 $this->tourQuery->category_id = $_POST['category_id'];
-                $this->tourQuery->duration_days = $_POST['duration_days'];
-                $this->tourQuery->duration_nights = $_POST['duration_nights'];
                 
                 if ($_FILES['tour_images']['size'] > 0) {
                     $this->tourQuery->tour_images = upload_file('image/TourImages', $_FILES['tour_images']);

@@ -65,15 +65,6 @@ $user = $_SESSION['user'];
             echo '<link rel="stylesheet" href="assets/css/Customer/formCustomer.css">';
             break;
 
-        // Discounts
-        case 'admin-listDiscount':
-            echo '<link rel="stylesheet" href="assets/css/Discount/listDiscount.css">';
-            break;
-        case 'admin-createDiscount':
-        case 'admin-updateDiscount':
-            echo '<link rel="stylesheet" href="assets/css/Discount/formDiscount.css">';
-            break;
-
         // Guides
         case 'admin-listGuide':
         case 'admin-searchGuide':
@@ -175,12 +166,6 @@ $user = $_SESSION['user'];
                     <a href="?action=admin-listUsers"
                         class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUser' || $action == 'admin-updateUser') ? 'active' : '' ?>">
                         <i class="fa-solid fa-user-tie"></i> Quản Trị Viên
-                    </a>
-                </li>
-                <li>
-                    <a href="?action=admin-listDiscount"
-                        class="<?= ($action == 'admin-listDiscount' || $action == 'admin-createDiscount' || $action == 'admin-updateDiscount') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-tags"></i> Mã Giảm Giá
                     </a>
                 </li>
                 <li>
@@ -358,20 +343,6 @@ $user = $_SESSION['user'];
                         (new CustomerController)->searchCustomer($id);
                         break;
 
-                    // Discounts
-                    case 'admin-listDiscount':
-                        (new DiscountController)->listDiscounts();
-                        break;
-                    case 'admin-createDiscount':
-                        (new DiscountController)->createDiscount();
-                        break;
-                    case 'admin-updateDiscount':
-                        (new DiscountController)->updateDiscount($id);
-                        break;
-                    case 'admin-deleteDiscount':
-                        (new DiscountController)->deleteDiscount($id);
-                        break;
-
                     // hotel
                     case 'admin-listHotel':
                         (new HotelController)->listHotel();
@@ -452,6 +423,9 @@ $user = $_SESSION['user'];
                         break;
                     case 'admin-deleteCustomerBooking':
                         (new BookingController)->deleteCustomer($id, $_GET['booking_id']);
+                        break;
+                    case 'admin-chooseRooms':
+                        (new BookingController)->chooseRooms();
                         break;
                 }
             }
