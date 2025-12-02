@@ -263,8 +263,15 @@ class BookingQuery extends BaseModel
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()";
                 break;
         }
-
-        $sql .= " ORDER BY b.start_date DESC";
+        $sql .= " GROUP BY b.booking_id  ORDER BY 
+                CASE b.status
+                    WHEN 'dang_dien_ra' THEN 1
+                    WHEN 'cho_duyet' THEN 2
+                    WHEN 'da_huy' THEN 3
+                    WHEN 'da_hoan_thanh' THEN 4
+                    ELSE 5
+                END,
+                b.booking_id DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
