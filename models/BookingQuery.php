@@ -75,7 +75,6 @@ class BookingQuery extends BaseModel
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
 
-
     public function getBookingCustomers($booking_id)
     {
         $sql = "SELECT 
@@ -120,9 +119,7 @@ class BookingQuery extends BaseModel
         $stmt->bindParam(':start_date', $this->start_date);
         $stmt->bindParam(':end_date', $this->end_date);
         $stmt->execute();
-        $booking_id = $this->pdo->lastInsertId();
-        $this->saveRoomsToBooking($booking_id, $this->room_ids);
-        return $booking_id;
+        return $this->pdo->lastInsertId();
     }
 
     public function addBookingCustomers($booking_id, $customer_id, $is_main)
@@ -174,7 +171,6 @@ class BookingQuery extends BaseModel
         if ($booking_id) {
             $stmt->bindParam(':booking_id', $booking_id);
         }
-        ;
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -196,7 +192,6 @@ class BookingQuery extends BaseModel
         if ($booking_id) {
             $stmt->bindParam(':booking_id', $booking_id);
         }
-        ;
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -212,7 +207,6 @@ class BookingQuery extends BaseModel
                 start_date = :start_date, 
                 end_date = :end_date
             WHERE booking_id = :booking_id";
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':tour_id', $tour_id);
         $stmt->bindParam(':guide_id', $guide_id);
@@ -222,15 +216,9 @@ class BookingQuery extends BaseModel
         $stmt->bindParam(':start_date', $start_date);
         $stmt->bindParam(':end_date', $end_date);
         $stmt->bindParam(':booking_id', $id);
-
         $stmt->execute();
-
-        // Lưu phòng (RẤT QUAN TRỌNG)
-        $this->saveRoomsToBooking($id, $this->room_ids);
-
         return true;
     }
-
 
     public function getBookingsByFilter($filter)
     {
@@ -253,41 +241,34 @@ class BookingQuery extends BaseModel
             case 'today':
                 $sql .= " AND b.start_date = CURDATE()";
                 break;
-
             case '3days':
                 $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 3 DAY";
                 break;
-
             case '7days':
                 $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY";
                 break;
-
             case '1month':
                 $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 1 MONTH";
                 break;
-
             case 'yesterday':
                 $sql .= " AND b.start_date = CURDATE() - INTERVAL 1 DAY";
                 break;
-
             case '3days_ago':
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 3 DAY AND CURDATE()";
                 break;
-
             case '7days_ago':
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()";
                 break;
-
             case '1month_ago':
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()";
                 break;
         }
+
         $sql .= " ORDER BY b.start_date DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
     public function getCustomerIdByBCId($bc_id)
     {
@@ -341,7 +322,6 @@ class BookingQuery extends BaseModel
 
         $sql = "DELETE FROM bookings WHERE booking_id = ?";
         $stmt = $this->pdo->prepare($sql);
-
         return $stmt->execute([$booking_id]);
     }
 
@@ -363,39 +343,34 @@ class BookingQuery extends BaseModel
                 LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
                 LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
                 WHERE g.guide_id = :guide_id";
+
         switch ($filter) {
             case 'today':
                 $sql .= " AND b.start_date = CURDATE()";
                 break;
-
             case '3days':
                 $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 3 DAY";
                 break;
-
             case '7days':
                 $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY";
                 break;
-
             case '1month':
                 $sql .= " AND b.start_date BETWEEN CURDATE() AND CURDATE() + INTERVAL 1 MONTH";
                 break;
-
             case 'yesterday':
                 $sql .= " AND b.start_date = CURDATE() - INTERVAL 1 DAY";
                 break;
-
             case '3days_ago':
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 3 DAY AND CURDATE()";
                 break;
-
             case '7days_ago':
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE()";
                 break;
-
             case '1month_ago':
                 $sql .= " AND b.start_date BETWEEN CURDATE() - INTERVAL 1 MONTH AND CURDATE()";
                 break;
         }
+
         $sql .= " GROUP BY b.booking_id";
         $sql .= " ORDER BY 
                     CASE b.status
@@ -410,10 +385,8 @@ class BookingQuery extends BaseModel
         $stm = $this->pdo->prepare($sql);
         $stm->bindParam(':guide_id', $guide_id);
         $stm->execute();
-
         return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
     public function getFullBooking($booking_id)
     {
@@ -431,6 +404,7 @@ class BookingQuery extends BaseModel
         $stm->execute([$booking_id]);
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
+
     public function getGuideByUserId($user_id)
     {
         $sql = "SELECT guide_id FROM guides WHERE user_id = ?";
@@ -439,7 +413,6 @@ class BookingQuery extends BaseModel
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
 
-    // update trạng thái điểm danh 
     public function updateAttendance($attendance_id, $status)
     {
         $sql = "UPDATE attendance SET status = :status
@@ -451,7 +424,7 @@ class BookingQuery extends BaseModel
         ]);
         return true;
     }
-    //show tt xe theo booking
+
     public function getVehicleByBooking($booking_id)
     {
         $sql = "SELECT v.*
@@ -462,85 +435,5 @@ class BookingQuery extends BaseModel
         $stmt->execute(['booking_id' => $booking_id]);
         return $stmt->fetch();
     }
-    // show tt phòng ks theo booking
-    public function getRoomsByHotel($hotel_id)
-    {
-        $sql = "SELECT * FROM hotel_rooms WHERE hotel_id = :hotel_id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['hotel_id' => $hotel_id]);
-        return $stmt->fetchAll();
-    }
-
-    // tổng phòng của ks đó
-    public function getHotelById($hotel_id)
-    {
-        $sql = "SELECT * FROM hotels WHERE hotel_service_id = :id";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id' => $hotel_id]);
-        return $stmt->fetch();
-    }
-    // Lấy danh sách ID phòng đã bị đặt
-    public function getBookedRoomIds($hotel_id, $start_date, $end_date, $exclude_booking = null)
-    {
-        $sql = "SELECT br.room_id
-                FROM booking_rooms br
-                JOIN bookings b ON br.booking_id = b.booking_id
-                WHERE b.hotel_id = :hid
-                AND (
-                    b.start_date <= :end_date
-                    AND b.end_date >= :start_date
-                )";
-
-        if ($exclude_booking) {
-            $sql .= " AND b.booking_id != :bid";
-        }
-
-        $stmt = $this->pdo->prepare($sql);
-
-        $params = [
-            ':hid' => $hotel_id,
-            ':start_date' => $start_date,
-            ':end_date' => $end_date
-        ];
-
-        if ($exclude_booking) {
-            $params[':bid'] = $exclude_booking;
-        }
-
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-    }
-
-    // Lấy danh sách phòng thuộc booking
-    public function getRoomIdsByBooking($booking_id)
-    {
-        $sql = "SELECT room_id FROM booking_rooms WHERE booking_id = ?";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$booking_id]);
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-    }
-
-    // Lưu danh sách phòng vào booking_rooms
-    public function saveRoomsToBooking($booking_id, $room_ids)
-    {
-        // xóa cũ
-        $del = $this->pdo->prepare("DELETE FROM booking_rooms WHERE booking_id = ?");
-        $del->execute([$booking_id]);
-
-        // thêm mới
-        $sql = "INSERT INTO booking_rooms (booking_id, room_id)
-                VALUES (:bid, :rid)";
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($room_ids as $rid) {
-            $stmt->execute([
-                ':bid' => $booking_id,
-                ':rid' => $rid
-            ]);
-        }
-    }
-
-
-
 }
 ?>

@@ -45,8 +45,8 @@
                     <tr>
                         <th>#</th>
                         <th>Tour</th>
-                        <th>Khách sạn</th>
-                        <th>Phương tiện</th>
+                        <!-- <th>Khách sạn</th>
+                        <th>Phương tiện</th> -->
                         <th>HDV phụ trách</th>
                         <th>Số khách</th>
                         <th>Ngày bắt đầu</th>
@@ -68,13 +68,14 @@
                     <tr>
                         <td><?= $i++; ?></td>
                         <td><?= htmlspecialchars($b['tour_name']); ?></td>
-                        <td><?= htmlspecialchars($b['hotel_name']); ?></td>
-                        <td><?= htmlspecialchars($b['vehicle_name']); ?></td>
+                        <!-- <td><?= htmlspecialchars($b['hotel_name']); ?></td>
+                        <td><?= htmlspecialchars($b['vehicle_name']); ?></td> -->
                         <td><?= htmlspecialchars($b['guide_name']); ?></td>
                         <td><?= htmlspecialchars($b['total_customers']); ?></td>
                         <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>
                         <td><?= empty($b['end_date']) ? '' : date('d/m/Y', strtotime($b['end_date'])); ?></td>
-                        <td><?= $total_days ?> ngày / <?= $total_nights ?> đêm</td>
+                        <td style="text-align: center"><?= $total_days ?> ngày
+                            <?= $total_nights == 0 ? "" : " / " . $total_nights . " đêm" ?></td>
                         <td><?= number_format($b['total_price'], 0, ',', '.'); ?> đ</td>
                         <td>
                             <?php if ($b['status'] == 'cho_duyet'): ?>

@@ -26,7 +26,6 @@ class GuideScheduleController
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
         $vehicle = $this->bookingQuery->getVehicleByBooking($id);
-        $rooms = $this->bookingQuery->getRoomsByHotel($booking['hotel_id']);
 
         require './views/Guides/detailGuideBooking.php';
     }

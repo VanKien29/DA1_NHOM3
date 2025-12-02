@@ -5,7 +5,7 @@ class HotelQuery extends BaseModel
     public $room_type;
     public $price_per_night;
     public $description;
-    public $hotel_image; // đúng tên cột trong DB
+    public $hotel_image;
 
     // Lấy tất cả hotel
     public function getAllHotel()
