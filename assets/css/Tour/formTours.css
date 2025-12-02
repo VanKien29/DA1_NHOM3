@@ -4,7 +4,9 @@
   align-items: flex-start;
   padding: 60px 20px;
 }
-
+a {
+  text-decoration: none;
+}
 .admin-form-card {
   background: #ffffff;
   border-radius: 20px;
@@ -119,4 +121,7 @@ textarea:focus {
 
 .err {
   color: red !important;
+}
+a {
+  text-decoration: none;
 }

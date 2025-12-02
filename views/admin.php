@@ -36,6 +36,10 @@ $user = $_SESSION['user'];
         case 'admin-updateTours':
             echo '<link rel="stylesheet" href="assets/css/Tour/formTours.css">';
             break;
+        case 'admin-detailTour':
+            echo '<link rel="stylesheet" href="assets/css/Tour/detailTour.css">';
+            break;
+            
         // Users
         case 'admin-listUsers':
         case 'admin-searchUsers':
@@ -294,7 +298,10 @@ $user = $_SESSION['user'];
                     case 'admin-searchTours':
                         (new TourController)->searchTours($id);
                         break;
-
+                    case 'admin-detailTour':
+                        (new TourController)->detailTour($id);
+                        break;
+                        
                     // Users
                     case 'admin-listUsers':
                         (new UsersController)->listUsers();

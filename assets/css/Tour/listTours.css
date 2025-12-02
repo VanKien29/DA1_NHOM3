@@ -215,3 +215,14 @@ a {
   gap: 20px;
   align-items: center;
 } */
+.btn-outline-detail {
+  margin-right: 5px;
+  border: 2px solid #fd810d;
+  color: #fd810d;
+  background: #fff;
+}
+
+.btn-outline-detail:hover {
+  background-color: #fd810d;
+  color: #fff;
+}
