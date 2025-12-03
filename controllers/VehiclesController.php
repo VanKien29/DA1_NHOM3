@@ -18,34 +18,46 @@ class VehiclesController
     // ==== Thêm Vehicles ====
     public function createVehicles()
     {
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $err = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $err = [];
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (empty($_POST['service_name'])) {
-        $err['service_name'] = "Tên dịch vụ không được để trống!";
-    }
+                if (empty($_POST['service_name'])) {
+                    $err['service_name'] = "Tên dịch vụ không được để trống!";
+                }
+                if (empty($_POST['driver_name'])) {
+                    $err['driver_name'] = "Tên tài xế không được để trống!";
+                }
+                if (empty($_POST['driver_phone'])) {
+                    $err['driver_phone'] = "Số điện thoại không được để trống!";
+                }
+                if (empty($_POST['license_plate'])) {
+                    $err['license_plate'] = "Biển số xe không được để trống!";
+                }
 
-    if (empty($_POST['seat'])) {
-        $err['seat'] = "Vui lòng nhập số chỗ!";
-    } elseif ($_POST['seat'] <= 0) {
-        $err['seat'] = "Số chỗ phải lớn hơn 0!";
-    }
-    if (empty($_POST['price_per_day'])) {
-        $err['price_per_day'] = "Vui lòng nhập giá!";
-    } elseif ($_POST['price_per_day'] <= 0) {
-        $err['price_per_day'] = "Giá phải lớn hơn 0!";
-    }
-    if (empty($_POST['description'])) {
-        $err['description'] = "Mô tả không được để trống!";
-    }
-    if (empty($err)) {
-    }
-}
+                if (empty($_POST['seat'])) {
+                    $err['seat'] = "Vui lòng nhập số chỗ!";
+                } elseif ($_POST['seat'] <= 0) {
+                    $err['seat'] = "Số chỗ phải lớn hơn 0!";
+                }
+                if (empty($_POST['price_per_day'])) {
+                    $err['price_per_day'] = "Vui lòng nhập giá!";
+                } elseif ($_POST['price_per_day'] <= 0) {
+                    $err['price_per_day'] = "Giá phải lớn hơn 0!";
+                }
+                if (empty($_POST['description'])) {
+                    $err['description'] = "Mô tả không được để trống!";
+                }
+                if (empty($err)) {
+                }
+            }
 
 
             if (empty($err)) {
                 $this->vehiclesQuery->service_name = $_POST['service_name'];
+                $this->vehiclesQuery->driver_name = $_POST['driver_name'];
+                $this->vehiclesQuery->driver_phone = $_POST['driver_phone'];
+                $this->vehiclesQuery->license_plate = $_POST['license_plate'];
                 $this->vehiclesQuery->seat = $_POST['seat'];
                 $this->vehiclesQuery->price_per_day = $_POST['price_per_day'];
                 $this->vehiclesQuery->description = $_POST['description'];
@@ -75,34 +87,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: ?action=admin-listVehicles");
             exit;
         }
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $err = [];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $err = [];
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (empty($_POST['service_name'])) {
-        $err['service_name'] = "Tên dịch vụ không được để trống!";
-    }
-
-    if (empty($_POST['seat'])) {
-        $err['seat'] = "Vui lòng nhập số chỗ!";
-    } elseif ($_POST['seat'] <= 0) {
-        $err['seat'] = "Số chỗ phải lớn hơn 0!";
-    }
-    if (empty($_POST['price_per_day'])) {
-        $err['price_per_day'] = "Vui lòng nhập giá!";
-    } elseif ($_POST['price_per_day'] <= 0) {
-        $err['price_per_day'] = "Giá phải lớn hơn 0!";
-    }
-    if (empty($_POST['description'])) {
-        $err['description'] = "Mô tả không được để trống!";
-    }
-    if (empty($err)) {
-    }
-}
+                if (empty($_POST['service_name'])) {
+                    $err['service_name'] = "Tên dịch vụ không được để trống!";
+                }
+                if (empty($_POST['driver_name'])) {
+                    $err['driver_name'] = "Tên tài xế không được để trống!";
+                }
+                if (empty($_POST['driver_phone'])) {
+                    $err['driver_phone'] = "Số điện thoại không được để trống!";
+                }
+                if (empty($_POST['license_plate'])) {
+                    $err['license_plate'] = "Biển số xe không được để trống!";
+                }
+                if (empty($_POST['seat'])) {
+                    $err['seat'] = "Vui lòng nhập số chỗ!";
+                } elseif ($_POST['seat'] <= 0) {
+                    $err['seat'] = "Số chỗ phải lớn hơn 0!";
+                }
+                if (empty($_POST['price_per_day'])) {
+                    $err['price_per_day'] = "Vui lòng nhập giá!";
+                } elseif ($_POST['price_per_day'] <= 0) {
+                    $err['price_per_day'] = "Giá phải lớn hơn 0!";
+                }
+                if (empty($_POST['description'])) {
+                    $err['description'] = "Mô tả không được để trống!";
+                }
+                if (empty($err)) {
+                }
+            }
 
             if (empty($err)) {
                 $this->vehiclesQuery->service_name = $_POST['service_name'];
+                $this->vehiclesQuery->driver_name = $_POST['driver_name'];
+                $this->vehiclesQuery->driver_phone = $_POST['driver_phone'];
+                $this->vehiclesQuery->license_plate = $_POST['license_plate'];
                 $this->vehiclesQuery->seat = $_POST['seat'];
                 $this->vehiclesQuery->price_per_day = $_POST['price_per_day'];
                 $this->vehiclesQuery->description = $_POST['description'];

@@ -11,6 +11,9 @@
                 <tr>
                     <th width="60">#</th>
                     <th>Tên Dịch Vụ / Xe</th>
+                    <th>Tên tài xế</th>
+                    <th>Số điện thoại</th>
+                    <th>Biển số xe</th>
                     <th>Số Chỗ</th>
                     <th>Giá / Ngày</th>
                     <th>Hành Động</th>
@@ -18,29 +21,32 @@
             </thead>
             <tbody>
                 <?php if (!empty($vehicles)): ?>
-                <?php foreach ($vehicles as $index => $d): ?>
-                <tr>
-                    <td><?= $index + 1; ?></td>
-                    <td><?= htmlspecialchars($d['service_name']); ?></td>
-                    <td><?= htmlspecialchars($d['seat']); ?></td>
-                    <td><?= number_format($d['price_per_day'], 0, ',', '.'); ?> đ</td>
-                    <td>
-                        <a href="?action=admin-updateVehicles&id=<?= $d['vehicle_service_id']; ?>"
-                            class="btn btn-sm btn-outline-success px-3">
-                            Sửa
-                        </a>
-                        <a href="?action=admin-deleteVehicles&id=<?= $d['vehicle_service_id']; ?>"
-                            class="btn btn-sm btn-outline-danger px-3"
-                            onclick="return confirm('Bạn có chắc muốn xóa xe này?')">
-                            Xóa
-                        </a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
+                    <?php foreach ($vehicles as $index => $d): ?>
+                        <tr>
+                            <td><?= $index + 1; ?></td>
+                            <td><?= htmlspecialchars($d['service_name']); ?></td>
+                            <td><?= htmlspecialchars($d['driver_name']); ?></td>
+                            <td><?= htmlspecialchars($d['driver_phone']); ?></td>
+                            <td><?= htmlspecialchars($d['license_plate']); ?></td>
+                            <td><?= htmlspecialchars($d['seat']); ?></td>
+                            <td><?= number_format($d['price_per_day'], 0, ',', '.'); ?> đ</td>
+                            <td>
+                                <a href="?action=admin-updateVehicles&id=<?= $d['vehicle_service_id']; ?>"
+                                    class="btn btn-sm btn-outline-success px-3">
+                                    Sửa
+                                </a>
+                                <a href="?action=admin-deleteVehicles&id=<?= $d['vehicle_service_id']; ?>"
+                                    class="btn btn-sm btn-outline-danger px-3"
+                                    onclick="return confirm('Bạn có chắc muốn xóa xe này?')">
+                                    Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 <?php else: ?>
-                <tr>
-                    <td colspan="5" class="text-center">Chưa có phương tiện nào.</td>
-                </tr>
+                    <tr>
+                        <td colspan="5" class="text-center">Chưa có phương tiện nào.</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>

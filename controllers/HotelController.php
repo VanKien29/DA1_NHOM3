@@ -16,7 +16,8 @@ class HotelController
     }
 
     // ==== Thêm Hotel ====
-    public function createHotel(){ 
+    public function createHotel()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
             if (empty($_POST['service_name'])) {
@@ -33,15 +34,17 @@ class HotelController
             if (empty($_POST['description'])) {
                 $err['description'] = "Mô tả không được để trống!";
             }
-            if ($_FILES['hotel_image']['size'] <= 0 ) {
+            if ($_FILES['hotel_image']['size'] <= 0) {
                 $err['hotel_image'] = "Ảnh Hotel không được để trống!";
             }
             if (empty($err)) {
                 $this->hotelQuery->service_name = $_POST['service_name'];
+                $this->hotelQuery->hotel_manager = $_POST['hotel_manager'];
+                $this->hotelQuery->hotel_manager_phone = $_POST['hotel_manager_phone'];
                 $this->hotelQuery->room_type = $_POST['room_type'];
                 $this->hotelQuery->price_per_night = $_POST['price_per_night'];
                 $this->hotelQuery->description = $_POST['description'];
-                if(isset($_FILES["hotel_image"]) && $_FILES["hotel_image"]["size"] >0){
+                if (isset($_FILES["hotel_image"]) && $_FILES["hotel_image"]["size"] > 0) {
                     $this->hotelQuery->hotel_image = upload_file('image/HotelImages', $_FILES["hotel_image"]);
                 }
                 if ($this->hotelQuery->createHotel()) {
@@ -55,7 +58,10 @@ class HotelController
     }
 
     // ==== Cập nhật Hotel ====
-    public function updateHotel(){
+    public function updateHotel()
+    {
+        $id = $_GET['id'];
+        $hotel = $this->hotelQuery->findHotel($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
             if (empty($_POST['service_name'])) {
@@ -74,6 +80,8 @@ class HotelController
             }
             if (empty($err)) {
                 $this->hotelQuery->service_name = $_POST['service_name'];
+                $this->hotelQuery->hotel_manager = $_POST['hotel_manager'];
+                $this->hotelQuery->hotel_manager_phone = $_POST['hotel_manager_phone'];
                 $this->hotelQuery->room_type = $_POST['room_type'];
                 $this->hotelQuery->price_per_night = $_POST['price_per_night'];
                 $this->hotelQuery->description = $_POST['description'];

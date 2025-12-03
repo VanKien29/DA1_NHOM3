@@ -2,6 +2,9 @@
 class HotelQuery extends BaseModel
 {
     public $service_name;
+    public $hotel_manager;
+
+    public $hotel_manager_phone;
     public $room_type;
     public $price_per_night;
     public $description;
@@ -29,13 +32,15 @@ class HotelQuery extends BaseModel
     public function createHotel()
     {
         $sql = "INSERT INTO hotels 
-                    (service_name, room_type, price_per_night, description, hotel_image)
+                    (service_name, hotel_manager, hotel_manager_phone, room_type, price_per_night, description, hotel_image)
                 VALUES 
-                    (:service_name, :room_type, :price_per_night, :description, :hotel_image)";
+                    (:service_name, :hotel_manager, :hotel_manager_phone, :room_type, :price_per_night, :description, :hotel_image)";
 
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindParam(':service_name', $this->service_name);
+        $stmt->bindParam(':hotel_manager', $this->hotel_manager);
+        $stmt->bindParam(':hotel_manager_phone', $this->hotel_manager_phone);
         $stmt->bindParam(':room_type', $this->room_type);
         $stmt->bindParam(':price_per_night', $this->price_per_night);
         $stmt->bindParam(':description', $this->description);
@@ -48,6 +53,8 @@ class HotelQuery extends BaseModel
     {
         $sql = "UPDATE hotels SET
                     service_name = :service_name,
+                    hotel_manager = :hotel_manager,
+                    hotel_manager_phone = :hotel_manager_phone,
                     room_type = :room_type,
                     price_per_night = :price_per_night,
                     description = :description,
@@ -57,6 +64,8 @@ class HotelQuery extends BaseModel
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindParam(':service_name', $this->service_name);
+        $stmt->bindParam(':hotel_manager', $this->hotel_manager);
+        $stmt->bindParam(':hotel_manager_phone', $this->hotel_manager_phone);
         $stmt->bindParam(':room_type', $this->room_type);
         $stmt->bindParam(':price_per_night', $this->price_per_night);
         $stmt->bindParam(':description', $this->description);

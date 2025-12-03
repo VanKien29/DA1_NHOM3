@@ -7,6 +7,10 @@ class VehiclesQuery extends BaseModel
     public $price_per_day;
     public $description;
 
+    public $driver_name;
+    public $driver_phone;
+    public $license_plate;
+
     // Lấy tất cả vehicles
     public function getAllVehicles()
     {
@@ -28,11 +32,14 @@ class VehiclesQuery extends BaseModel
     // Thêm vehicle
     public function createVehicles()
     {
-        $sql = "INSERT INTO vehicles (service_name, seat, price_per_day, description)
-                VALUES (:service_name, :seat, :price_per_day, :description)";
+        $sql = "INSERT INTO vehicles (service_name, driver_name, driver_phone, license_plate, seat, price_per_day, description)
+                VALUES (:service_name, :driver_name, :driver_phone, :license_plate, :seat, :price_per_day, :description)";
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindParam(':service_name', $this->service_name);
+        $stmt->bindParam(':driver_name', $this->driver_name);
+        $stmt->bindParam(':driver_phone', $this->driver_phone);
+        $stmt->bindParam(':license_plate', $this->license_plate);
         $stmt->bindParam(':seat', $this->seat);
         $stmt->bindParam(':price_per_day', $this->price_per_day);
         $stmt->bindParam(':description', $this->description);
@@ -45,6 +52,9 @@ class VehiclesQuery extends BaseModel
     {
         $sql = "UPDATE vehicles SET
                     service_name = :service_name,
+                    driver_name = :driver_name,
+                    driver_phone = :driver_phone,
+                    license_plate = :license_plate,
                     seat = :seat,
                     price_per_day = :price_per_day,
                     description = :description
@@ -52,6 +62,9 @@ class VehiclesQuery extends BaseModel
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->bindParam(':service_name', $this->service_name);
+        $stmt->bindParam(':driver_name', $this->driver_name);
+        $stmt->bindParam(':driver_phone', $this->driver_phone);
+        $stmt->bindParam(':license_plate', $this->license_plate);
         $stmt->bindParam(':seat', $this->seat);
         $stmt->bindParam(':price_per_day', $this->price_per_day);
         $stmt->bindParam(':description', $this->description);
