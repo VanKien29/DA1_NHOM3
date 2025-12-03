@@ -1,0 +1,211 @@
+/* =============== WRAPPER =============== */
+.profile-wrapper {
+    display: flex;
+    gap: 30px;
+    padding: 30px;
+    animation: fadeIn .35s ease;
+    font-family: "Inter", sans-serif;
+}
+
+/* =============== LEFT PANEL =============== */
+.profile-left {
+    width: 300px;
+    background: #ffffff;
+    padding: 28px 22px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    border: 1px solid #e6ebf5;
+}
+
+/* Avatar */
+.profile-avatar {
+    width: 165px;
+    height: 165px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #1e40af;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    margin-bottom: 12px;
+}
+
+/* Name */
+.profile-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e2a4a;
+    margin-bottom: 5px;
+}
+
+/* Role */
+.role {
+    font-size: 15px;
+    color: #6b7a99;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+
+/* INFO BLOCK */
+.info-block p {
+    background: #f4f7fc;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin: 8px 0;
+    border-left: 4px solid #3b5bdb;
+    border: 1px solid #e0e6f1;
+    color: #2c3e55;
+    font-size: 15px;
+    transition: .2s;
+}
+
+.info-block p:hover {
+    background: #eef3ff;
+    transform: translateX(3px);
+}
+
+/* EDIT BUTTON */
+.btn-edit {
+    display: inline-block;
+    background: linear-gradient(135deg, #1e40af, #3b65ff);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: .25s;
+    width: 100%;
+}
+
+.btn-edit:hover {
+    background: linear-gradient(135deg, #1c3a9d, #3358e0);
+    transform: translateY(-2px);
+}
+
+/* =============== RIGHT PANEL =============== */
+.profile-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* CARD */
+.card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid #e6ebf5;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e2a4a;
+    margin-bottom: 15px;
+}
+
+/* Achievements List */
+.achievements li {
+    padding: 10px 14px;
+    font-size: 15px;
+    background: #f7faff;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #1e3a8a;
+    border-left: 4px solid #3b5bdb;
+}
+
+.achievements li:hover {
+    background: #edf2ff;
+}
+
+/* =============== MODAL (UPDATE PROFILE) =============== */
+.edit-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn .3s ease;
+}
+
+.edit-box {
+    background: white;
+    padding: 28px;
+    width: 420px;
+    border-radius: 16px;
+    animation: fadeInUp .35s ease;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.edit-box h2 {
+    margin-bottom: 18px;
+    color: #1e2a4a;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Input Styles */
+.edit-box input {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 10px;
+    border: 1px solid #d9dfeb;
+    outline: none;
+    margin: 7px 0 14px;
+    font-size: 15px;
+    transition: .2s;
+}
+
+.edit-box input:focus {
+    border-color: #3b65ff;
+    box-shadow: 0 0 0 3px rgba(59,102,255,0.15);
+}
+
+/* ACTION BUTTONS */
+.edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-save {
+    background: #1e40af;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.btn-save:hover {
+    background: #18358f;
+}
+
+.btn-close {
+    background: #6b7280;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}

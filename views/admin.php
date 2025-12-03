@@ -132,7 +132,16 @@ $user = $_SESSION['user'];
             echo '<link rel="stylesheet" href="assets/css/Guides/detailGuideBooking.css">';
             break;
 
+        // Profile
+        //
+        case 'profile-info':
+            echo '<link rel="stylesheet" href="assets/css/Profile/profile.css?v='.time().'">';
+            break;
+        //
 
+        case 'guide-stats':
+            echo '<link rel="stylesheet" href="assets/css/GuideStats/stats.css?v='.time().'">';
+            break;
     }
     ?>
 </head>
@@ -218,6 +227,16 @@ $user = $_SESSION['user'];
                         <i class="fa-solid fa-calendar"></i> Lịch Tour
                     </a>
                 </li>
+                <li>
+                    <a href="?action=profile-info" class="<?= ($action == 'profile-info') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-user"></i> Thông Tin Cá Nhân
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=guide-stats" class="<?= ($action == 'guide-stats') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-chart-line"></i> Thống Kê
+                    </a>
+                </li>
             </ul>
         </nav>
         <?php } ?>
@@ -277,6 +296,17 @@ $user = $_SESSION['user'];
                         break;
                     case 'guide-updateAttendance':
                         (new GuideScheduleController)->updateAttendance();
+                        break;
+                        // profile
+                    case 'profile-info':
+                        (new ProfileController)->profileInfo();
+                        break;
+                    case 'profile-update':
+                        (new ProfileController)->updateProfile();
+                        break;
+                        //
+                    case 'guide-stats':
+                        (new GuideStatsController)->stats();
                         break;
                 }
                 return;

@@ -442,5 +442,38 @@ class BookingQuery extends BaseModel
         $stmt->execute(['booking_id' => $booking_id]);
         return $stmt->fetch();
     }
+    
+    public function countToursByGuide($guide_id) {
+    $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ?";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([$guide_id]);
+    return $stm->fetchColumn();
+}
+
+public function countFinishedToursByGuide($guide_id) {
+    $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ? AND status = 'da_hoan_thanh'";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([$guide_id]);
+    return $stm->fetchColumn();
+}
+
+public function countRunningToursByGuide($guide_id) {
+    $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ? AND status = 'dang_dien_ra'";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([$guide_id]);
+    return $stm->fetchColumn();
+}
+
+public function countCustomersByGuide($guide_id) {
+    $sql = "
+        SELECT COUNT(bc.customer_id)
+        FROM booking_customers bc
+        JOIN bookings b ON bc.booking_id = b.booking_id
+        WHERE b.guide_id = ?
+    ";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([$guide_id]);
+    return $stm->fetchColumn();
+}
 }
 ?>
