@@ -117,43 +117,43 @@
 
                         foreach ($customers as $c):
                             $att = $attMap[$c['customer_id']] ?? null;
-                        ?>
-                        <tr>
-                            <td><?= $i++ ?></td>
+                            ?>
+                            <tr>
+                                <td><?= $i++ ?></td>
 
-                            <td>
-                                <?= $c['full_name'] ?>
+                                <td>
+                                    <?= $c['full_name'] ?>
 
-                                <?php if ($c['is_main']): ?>
-                                <span class="badge bg-primary" style="margin-left:6px;">Chính</span>
-                                <?php endif; ?>
-                            </td>
+                                    <?php if ($c['is_main']): ?>
+                                        <span class="badge bg-primary" style="margin-left:6px;">Chính</span>
+                                    <?php endif; ?>
+                                </td>
 
-                            <td><?= $c['phone'] ?></td>
-                            <td><?= $c['email'] ?></td>
-                            <td>
-                                <?php if ($booking['status'] === 'da_hoan_thanh'): ?>
-                                <span class="badge bg-secondary">--</span>
-                                <?php else: ?>
-                                <form method="POST" action="?action=guide-updateAttendance"
-                                    style="display:flex; gap:6px;">
-                                    <input type="hidden" name="attendance_id" value="<?= $att['id'] ?>">
-                                    <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                                <td><?= $c['phone'] ?></td>
+                                <td><?= $c['email'] ?></td>
+                                <td>
+                                    <?php if ($booking['status'] === 'da_hoan_thanh'): ?>
+                                        <span class="badge bg-secondary">--</span>
+                                    <?php else: ?>
+                                        <form method="POST" action="?action=guide-updateAttendance"
+                                            style="display:flex; gap:6px;">
+                                            <input type="hidden" name="attendance_id" value="<?= $att['id'] ?>">
+                                            <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
 
-                                    <button name="status" value="present"
-                                        class="<?= $att['status'] == 'present' ? 'btn-success' : 'btn-outline-success' ?>">
-                                        Có mặt
-                                    </button>
+                                            <button name="status" value="present"
+                                                class="<?= $att['status'] == 'present' ? 'btn-success' : 'btn-outline-success' ?>">
+                                                Có mặt
+                                            </button>
 
-                                    <button name="status" value="absent"
-                                        class="<?= $att['status'] == 'absent' ? 'btn-danger' : 'btn-outline-danger' ?>">
-                                        Vắng
-                                    </button>
-                                </form>
-                                <?php endif; ?>
-                            </td>
+                                            <button name="status" value="absent"
+                                                class="<?= $att['status'] == 'absent' ? 'btn-danger' : 'btn-outline-danger' ?>">
+                                                Vắng
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                </td>
 
-                        </tr>
+                            </tr>
                         <?php endforeach ?>
                     </tbody>
                 </table>
@@ -162,32 +162,37 @@
 
             <div class="booking-info-box">
                 <h5>Thông tin phương tiện</h5>
-
                 <div class="info-grid">
-
                     <div>
                         <label>Tên xe:</label>
                         <span><?= $vehicle['service_name'] ?></span>
                     </div>
-
+                    <div>
+                        <label>Tên tài xế:</label>
+                        <span><?= $vehicle['driver_name'] ?></span>
+                    </div>
+                    <div>
+                        <label>Số điện thoại:</label>
+                        <span><?= $vehicle['driver_phone'] ?></span>
+                    </div>
+                    <div>
+                        <label>Biển số xe:</label>
+                        <span><?= $vehicle['license_plate'] ?></span>
+                    </div>
                     <div>
                         <label>Số chỗ:</label>
                         <span><?= $vehicle['seat'] ?> chỗ</span>
                     </div>
-
                     <div>
                         <label>Giá/ngày:</label>
                         <span><?= number_format($vehicle['price_per_day']) ?> đ</span>
                     </div>
-
                     <div>
                         <label>Mô tả:</label>
                         <span><?= $vehicle['description'] ?></span>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
