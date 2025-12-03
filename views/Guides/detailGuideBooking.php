@@ -52,22 +52,26 @@
                         }
                         ?>
                     </div>
-
                     <div>
                         <label>Khách sạn:</label>
                         <span><?= $booking['hotel_name'] ?></span>
                     </div>
-
+                    <div>
+                        <label>Chủ khách sạn:</label>
+                        <span><?= $booking['hotel_manager'] ?></span>
+                    </div>
+                    <div>
+                        <label>Số điện thoại:</label>
+                        <span><?= $booking['hotel_manager_phone'] ?></span>
+                    </div>
                     <div>
                         <label>Phương tiện:</label>
                         <span><?= $booking['vehicle_name'] ?></span>
                     </div>
-
                     <div>
                         <label>Ghi chú:</label>
                         <span><?= !empty($booking['report']) ? $booking['report'] : "Không có ghi chú" ?></span>
                     </div>
-
                 </div>
             </div>
 

@@ -401,6 +401,8 @@ class BookingQuery extends BaseModel
                 b.*, 
                 t.tour_name,
                 h.service_name AS hotel_name,
+                h.hotel_manager AS hotel_manager,
+                h.hotel_manager_phone AS hotel_manager_phone,
                 v.service_name AS vehicle_name
             FROM bookings b
             LEFT JOIN tours t ON b.tour_id = t.tour_id
