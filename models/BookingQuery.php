@@ -42,8 +42,38 @@ class BookingQuery extends BaseModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function searchBooking($keyword)
+    {
+        $sql = "SELECT 
+                b.*,
+                t.tour_name,
+                u.name AS guide_name,
+                h.service_name AS hotel_name,
+                v.service_name AS vehicle_name,
+                COUNT(bc.customer_id) AS total_customers,
+                (SELECT SUM(bc2.price_per_customer) 
+                 FROM booking_customers bc2 
+                 WHERE bc2.booking_id = b.booking_id) AS total_price
+            FROM bookings b
+            LEFT JOIN tours t ON b.tour_id = t.tour_id
+            LEFT JOIN guides g ON b.guide_id = g.guide_id
+            LEFT JOIN users u ON g.user_id = u.user_id
+            LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
+            LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
+            LEFT JOIN booking_customers bc ON b.booking_id = bc.booking_id
+            WHERE LOWER(t.tour_name) LIKE :keyword
+               OR LOWER(u.name) LIKE :keyword
+            GROUP BY b.booking_id
+            ORDER BY b.booking_id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $like = '%' . strtolower($keyword) . '%';
+        $stmt->bindParam(':keyword', $like);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    public function getBooking($id){
+    public function getBooking($id)
+    {
         $sql = "SELECT 
                     b.*, 
                     t.tour_name,
@@ -74,7 +104,8 @@ class BookingQuery extends BaseModel
     }
 
 
-    public function getGuideByBooking($booking_id){
+    public function getGuideByBooking($booking_id)
+    {
         $sql = "SELECT 
                     g.*, 
                     u.name AS guide_name, 
@@ -139,7 +170,8 @@ class BookingQuery extends BaseModel
         return $this->pdo->lastInsertId();
     }
 
-    public function addBookingCustomers($booking_id, $customer_id, $is_main, $price){
+    public function addBookingCustomers($booking_id, $customer_id, $is_main, $price)
+    {
         $sql = "INSERT INTO booking_customers (booking_id, customer_id, is_main, price_per_customer) 
                 VALUES (:booking_id, :customer_id, :is_main, :price)";
         $stmt = $this->pdo->prepare($sql);
@@ -465,29 +497,33 @@ class BookingQuery extends BaseModel
         $stmt->execute(['booking_id' => $booking_id]);
         return $stmt->fetch();
     }
-    
-    public function countToursByGuide($guide_id) {
+
+    public function countToursByGuide($guide_id)
+    {
         $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ?";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
 
-    public function countFinishedToursByGuide($guide_id) {
+    public function countFinishedToursByGuide($guide_id)
+    {
         $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ? AND status = 'da_hoan_thanh'";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
 
-    public function countRunningToursByGuide($guide_id) {
+    public function countRunningToursByGuide($guide_id)
+    {
         $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ? AND status = 'dang_dien_ra'";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
 
-    public function countCustomersByGuide($guide_id) {
+    public function countCustomersByGuide($guide_id)
+    {
         $sql = "
             SELECT COUNT(bc.customer_id)
             FROM booking_customers bc
@@ -499,7 +535,8 @@ class BookingQuery extends BaseModel
         return $stm->fetchColumn();
     }
 
-    public function priceCustomers($customer_id) {
+    public function priceCustomers($customer_id)
+    {
         $sql = "
             SELECT 
                 SUM(
@@ -521,7 +558,8 @@ class BookingQuery extends BaseModel
         return $stm->fetchColumn();
     }
 
-    public function totalPriceAllCustomerByBooking($booking_id) {
+    public function totalPriceAllCustomerByBooking($booking_id)
+    {
         $sql = "
             SELECT 
                 SUM(
@@ -543,15 +581,20 @@ class BookingQuery extends BaseModel
         return $stm->fetchColumn();
     }
 
-    private function autoStatus($start_date, $end_date){
+    private function autoStatus($start_date, $end_date)
+    {
         $today = date('Y-m-d');
-        if ($today < $start_date) return 'sap_dien_ra';
-        if ($today >= $start_date && $today <= $end_date) return 'dang_dien_ra';
-        if ($today > $end_date) return 'cho_xac_nhan_ket_thuc';
+        if ($today < $start_date)
+            return 'sap_dien_ra';
+        if ($today >= $start_date && $today <= $end_date)
+            return 'dang_dien_ra';
+        if ($today > $end_date)
+            return 'cho_xac_nhan_ket_thuc';
         return 'sap_dien_ra';
     }
 
-    public function updateAutoStatus() {
+    public function updateAutoStatus()
+    {
         $today = date('Y-m-d');
         $this->pdo->query("
             UPDATE bookings 
@@ -574,7 +617,8 @@ class BookingQuery extends BaseModel
         ");
     }
 
-    public function updateStatus($id, $status){
+    public function updateStatus($id, $status)
+    {
         $stmt = $this->pdo->prepare("UPDATE bookings SET status=? WHERE booking_id=?");
         return $stmt->execute([$status, $id]);
     }
