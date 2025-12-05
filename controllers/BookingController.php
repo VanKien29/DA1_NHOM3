@@ -10,6 +10,7 @@ class BookingController
         $this->ToursQuery = new ToursQuery();
         $this->VehiclesQuery = new VehiclesQuery();
         $this->CustomerQuery = new CustomerQuery();
+        $this->TourScheduleQuery = new TourScheduleQuery();
     }
 
     public function listBooking()
@@ -102,14 +103,14 @@ class BookingController
     public function createBooking()
     {
         // Data cho form
-        $guides    = $this->GuideQuery->getAllGuides();
-        $hotels    = $this->HotelQuery->getAllHotel();
-        $tours     = $this->ToursQuery->getAllTours();
-        $vehicles  = $this->VehiclesQuery->getAllVehicles();
+        $guides = $this->GuideQuery->getAllGuides();
+        $hotels = $this->HotelQuery->getAllHotel();
+        $tours = $this->ToursQuery->getAllTours();
+        $vehicles = $this->VehiclesQuery->getAllVehicles();
         $customers = $this->CustomerQuery->getAllCustomers();
 
         // Step hiện tại
-        $current_step = isset($_POST['current_step']) ? (int)$_POST['current_step'] : 1;
+        $current_step = isset($_POST['current_step']) ? (int) $_POST['current_step'] : 1;
 
         $err = [];
         $blocked_customers = [];
@@ -118,7 +119,7 @@ class BookingController
 
             // ====== Quay lại step trước ======
             if (!empty($_POST['prev_step'])) {
-                $current_step = (int)$_POST['prev_step'];
+                $current_step = (int) $_POST['prev_step'];
 
                 // Nếu quay lại STEP 2 thì tính lại khách trùng lịch
                 if (
@@ -127,7 +128,7 @@ class BookingController
                     !empty($_POST['end_date'])
                 ) {
                     $start_date = $_POST['start_date'];
-                    $end_date   = $_POST['end_date'];
+                    $end_date = $_POST['end_date'];
                     foreach ($customers as $c) {
                         if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date)) {
                             $blocked_customers[] = $c['customer_id'];
@@ -137,8 +138,8 @@ class BookingController
             } else {
                 // STEP 1 → chọn tour, HDV, ngày đi
                 if ($current_step == 1 && isset($_POST['next_1'])) {
-                    $tour_id    = $_POST['tour_id']    ?? '';
-                    $guide_id   = $_POST['guide_id']   ?? '';
+                    $tour_id = $_POST['tour_id'] ?? '';
+                    $guide_id = $_POST['guide_id'] ?? '';
                     $start_date = $_POST['start_date'] ?? '';
 
                     if (!$tour_id || !$guide_id || !$start_date) {
@@ -151,8 +152,9 @@ class BookingController
                         if (!$tour) {
                             $err['tour'] = "Tour không tồn tại.";
                         } else {
-                            $days = isset($tour['days']) ? (int)$tour['days'] : 1;
-                            if ($days < 1) $days = 1;
+                            $days = isset($tour['days']) ? (int) $tour['days'] : 1;
+                            if ($days < 1)
+                                $days = 1;
 
                             // Auto tính ngày về: start + days
                             $end_date = date('Y-m-d', strtotime($start_date . " +{$days} days"));
@@ -185,7 +187,7 @@ class BookingController
                 if ($current_step == 2 && isset($_POST['next_2'])) {
 
                     $start_date = $_POST['start_date'] ?? '';
-                    $end_date   = $_POST['end_date']   ?? '';
+                    $end_date = $_POST['end_date'] ?? '';
 
                     // Tính lại khách trùng lịch phục vụ UI
                     if ($start_date && $end_date) {
@@ -197,7 +199,7 @@ class BookingController
                     }
 
                     $customers_arr = $_POST['customers'] ?? [];
-                    $main          = $_POST['main_customer'] ?? '';
+                    $main = $_POST['main_customer'] ?? '';
 
                     if (count($customers_arr) < 3) {
                         $err['customers'] = "Cần chọn ít nhất 3 khách.";
@@ -215,14 +217,14 @@ class BookingController
                 // STEP 3 → chọn dịch vụ & lưu
                 if ($current_step == 3 && isset($_POST['final_submit'])) {
 
-                    $tour_id     = $_POST['tour_id']     ?? '';
-                    $guide_id    = $_POST['guide_id']    ?? '';
-                    $hotel_id    = $_POST['hotel_id']    ?? '';
-                    $vehicle_id  = $_POST['vehicle_id']  ?? '';
-                    $start_date  = $_POST['start_date']  ?? '';
-                    $end_date    = $_POST['end_date']    ?? '';
+                    $tour_id = $_POST['tour_id'] ?? '';
+                    $guide_id = $_POST['guide_id'] ?? '';
+                    $hotel_id = $_POST['hotel_id'] ?? '';
+                    $vehicle_id = $_POST['vehicle_id'] ?? '';
+                    $start_date = $_POST['start_date'] ?? '';
+                    $end_date = $_POST['end_date'] ?? '';
                     $customers_arr = $_POST['customers'] ?? [];
-                    $main        = $_POST['main_customer'] ?? '';
+                    $main = $_POST['main_customer'] ?? '';
 
                     if (!$tour_id || !$guide_id || !$hotel_id || !$vehicle_id || !$start_date || !$end_date) {
                         $err['empty'] = "Vui lòng chọn đầy đủ thông tin trước khi tạo booking.";
@@ -238,9 +240,9 @@ class BookingController
 
                     if (!$err) {
                         // Gán thuộc tính cho model
-                        $this->bookingQuery->tour_id    = $tour_id;
-                        $this->bookingQuery->guide_id   = $guide_id;
-                        $this->bookingQuery->hotel_id   = $hotel_id;
+                        $this->bookingQuery->tour_id = $tour_id;
+                        $this->bookingQuery->guide_id = $guide_id;
+                        $this->bookingQuery->hotel_id = $hotel_id;
                         $this->bookingQuery->vehicle_id = $vehicle_id;
                         $this->bookingQuery->start_date = $start_date;
                         $this->bookingQuery->end_date   = $end_date;
@@ -287,10 +289,10 @@ class BookingController
 
     public function updateBooking($id)
     {
-        $guides    = $this->GuideQuery->getAllGuides();
-        $hotels    = $this->HotelQuery->getAllHotel();
-        $tours     = $this->ToursQuery->getAllTours();
-        $vehicles  = $this->VehiclesQuery->getAllVehicles();
+        $guides = $this->GuideQuery->getAllGuides();
+        $hotels = $this->HotelQuery->getAllHotel();
+        $tours = $this->ToursQuery->getAllTours();
+        $vehicles = $this->VehiclesQuery->getAllVehicles();
         $customers = $this->CustomerQuery->getAllCustomers();
 
         // Lấy booking cũ
@@ -301,11 +303,12 @@ class BookingController
         // Lấy khách đại diện cũ
         $main_old = "";
         foreach ($oldCustomers as $c) {
-            if ($c['is_main'] == 1) $main_old = $c['customer_id'];
+            if ($c['is_main'] == 1)
+                $main_old = $c['customer_id'];
         }
 
         // STEP
-        $current_step = isset($_POST['current_step']) ? (int)$_POST['current_step'] : 1;
+        $current_step = isset($_POST['current_step']) ? (int) $_POST['current_step'] : 1;
 
         $err = [];
         $blocked_customers = [];
@@ -320,12 +323,12 @@ class BookingController
             // ======================================
             if (!empty($_POST['prev_step'])) {
 
-                $current_step = (int)$_POST['prev_step'];
+                $current_step = (int) $_POST['prev_step'];
 
                 // Nếu quay lại STEP 2 => tính khách trùng lịch
                 if ($current_step == 2 && !empty($_POST['start_date']) && !empty($_POST['end_date'])) {
                     $start = $_POST['start_date'];
-                    $end   = $_POST['end_date'];
+                    $end = $_POST['end_date'];
 
                     foreach ($customers as $c) {
                         if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start, $end, $id)) {
@@ -333,17 +336,15 @@ class BookingController
                         }
                     }
                 }
-            }
-
-            else {
+            } else {
 
                 // ============================
                 // STEP 1 -> STEP 2
                 // ============================
                 if ($current_step == 1 && isset($_POST['next_1'])) {
 
-                    $tour_id    = $_POST['tour_id'] ?? '';
-                    $guide_id   = $_POST['guide_id'] ?? '';
+                    $tour_id = $_POST['tour_id'] ?? '';
+                    $guide_id = $_POST['guide_id'] ?? '';
                     $start_date = $_POST['start_date'] ?? '';
 
                     if (!$tour_id || !$guide_id || !$start_date) {
@@ -355,7 +356,7 @@ class BookingController
                         if (!$tour) {
                             $err['tour'] = "Tour không tồn tại.";
                         } else {
-                            $days = max(1, (int)$tour['days']);
+                            $days = max(1, (int) $tour['days']);
                             $end_date = date('Y-m-d', strtotime($start_date . " +{$days} days"));
 
                             // Check trùng lịch HDV (ngoại trừ booking hiện tại)
@@ -384,7 +385,7 @@ class BookingController
                 if ($current_step == 2 && isset($_POST['next_2'])) {
 
                     $start_date = $_POST['start_date'] ?? '';
-                    $end_date   = $_POST['end_date'] ?? '';
+                    $end_date = $_POST['end_date'] ?? '';
 
                     $customers_arr = $_POST['customers'] ?? [];
                     $main = $_POST['main_customer'] ?? '';
@@ -414,15 +415,15 @@ class BookingController
                 // ============================
                 if ($current_step == 3 && isset($_POST['final_submit'])) {
 
-                    $tour_id     = $_POST['tour_id'] ?? "";
-                    $guide_id    = $_POST['guide_id'] ?? "";
-                    $hotel_id    = $_POST['hotel_id'] ?? "";
-                    $vehicle_id  = $_POST['vehicle_id'] ?? "";
-                    $start_date  = $_POST['start_date'] ?? "";
-                    $end_date    = $_POST['end_date'] ?? "";
+                    $tour_id = $_POST['tour_id'] ?? "";
+                    $guide_id = $_POST['guide_id'] ?? "";
+                    $hotel_id = $_POST['hotel_id'] ?? "";
+                    $vehicle_id = $_POST['vehicle_id'] ?? "";
+                    $start_date = $_POST['start_date'] ?? "";
+                    $end_date = $_POST['end_date'] ?? "";
                     $customers_arr = $_POST['customers'] ?? [];
-                    $main        = $_POST['main_customer'] ?? "";
-                    $status      = $_POST['status'] ?? "cho_duyet";
+                    $main = $_POST['main_customer'] ?? "";
+                    $status = $_POST['status'] ?? "cho_duyet";
 
                     if (!$tour_id || !$guide_id || !$hotel_id || !$vehicle_id) {
                         $err['empty'] = "Vui lòng nhập đầy đủ thông tin.";
@@ -439,8 +440,14 @@ class BookingController
                     if (!$err) {
 
                         $this->bookingQuery->updateBooking(
-                            $id, $tour_id, $guide_id, $hotel_id,
-                            $vehicle_id, $status, $start_date, $end_date
+                            $id,
+                            $tour_id,
+                            $guide_id,
+                            $hotel_id,
+                            $vehicle_id,
+                            $status,
+                            $start_date,
+                            $end_date
                         );
 
                         // Xóa khách & điểm danh cũ

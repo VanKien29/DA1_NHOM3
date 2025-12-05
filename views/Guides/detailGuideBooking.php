@@ -120,6 +120,26 @@
             </div>
 
             <div class="booking-info-box">
+                <h5>Lịch trình tour</h5>
+
+                <?php if (!empty($schedules)): ?>
+                    <?php foreach ($schedules as $sch): ?>
+                        <div class="p-3 mb-3 border rounded" style="background: #fafafa;">
+                            <h5 class="fw-bold" style="color:#2c3e50;">
+                                Ngày <?= $sch['day_number'] ?> – <?= htmlspecialchars($sch['title']) ?>
+                            </h5>
+                            <p style="margin:0;">
+                                <?= nl2br(htmlspecialchars($sch['description'])) ?>
+                            </p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted">Tour này chưa có lịch trình.</p>
+                <?php endif; ?>
+            </div>
+
+
+            <div class="booking-info-box">
                 <h5>Danh sách khách</h5>
 
                 <table class="table-schedule">

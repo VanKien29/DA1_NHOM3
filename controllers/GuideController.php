@@ -6,6 +6,7 @@ class GuideController
     function __construct()
     {
         $this->guideQuery = new GuideQuery();
+        $this->tourScheduleQuery = new TourScheduleQuery();
     }
 
     public function listGuide()
