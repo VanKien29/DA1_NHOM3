@@ -63,9 +63,7 @@
         <?php endif; ?>
 
 
-        <!-- ==========================
-             STEP 2: KHÁCH
-        ============================ -->
+        <!-- STEP 2: KHÁCH -->
         <?php if ($current_step == 2): ?>
         <div class="card card-full">
             <h4>Danh Sách Khách</h4>
@@ -75,6 +73,24 @@
             <input type="hidden" name="guide_id" value="<?= htmlspecialchars($_POST['guide_id']) ?>">
             <input type="hidden" name="start_date" value="<?= htmlspecialchars($_POST['start_date']) ?>">
             <input type="hidden" name="end_date" value="<?= htmlspecialchars($_POST['end_date']) ?>">
+            <?php 
+                if (!empty($_POST['customers'])) {
+                    foreach ($_POST['customers'] as $cid) {
+                        echo '<input type="hidden" name="customers[]" value="' . $cid . '">';
+                    }
+                }
+            ?>
+            <div class="form-group">
+                <label>Tìm kiếm khách</label>
+                <div class="search-row">
+                    <input type="text" name="search_customer"
+                        value="<?= htmlspecialchars($_POST['search_customer'] ?? '') ?>"
+                        class="form-control search-input" placeholder="Nhập tên hoặc số điện thoại...">
+                    <button type="submit" name="search_btn" value="1" class="btn-search">
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label>Chọn khách tham gia</label>
@@ -83,7 +99,7 @@
                         $old_customers = $_POST['customers'] ?? [];
                         foreach ($customers as $c): 
                             $blocked = in_array($c['customer_id'], $blocked_customers);
-                        ?>
+                    ?>
                     <label class="customer-item <?= $blocked ? 'disabled' : '' ?>">
                         <?php if (!$blocked): ?>
                         <input type="checkbox" name="customers[]" value="<?= $c['customer_id'] ?>"
@@ -107,24 +123,6 @@
                 <span class="hint-text">Cần chọn ít nhất 3 khách. Khách “Trùng lịch” sẽ không được chọn.</span>
             </div>
 
-            <div class="form-group">
-                <label>Khách đại diện (không bắt buộc)</label>
-                <select name="main_customer" class="form-select">
-                    <option value="">-- Chọn người đại diện --</option>
-                    <?php 
-                        $main_old = $_POST['main_customer'] ?? '';
-                        foreach ($customers as $c): 
-                            $blocked = in_array($c['customer_id'], $blocked_customers);
-                        ?>
-                    <option value="<?= $c['customer_id'] ?>" <?= $main_old == $c['customer_id'] ? 'selected' : '' ?>
-                        <?= $blocked ? 'disabled' : '' ?>>
-                        <?= $c['full_name'] ?> (<?= $c['phone'] ?>)
-                        <?= $blocked ? ' - Trùng lịch' : '' ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
             <div style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
                 <button type="submit" name="prev_step" value="1" class="btn-prev">← Quay lại</button>
                 <button type="submit" name="next_2" value="1" class="btn-submit">Tiếp tục</button>
@@ -133,9 +131,7 @@
         <?php endif; ?>
 
 
-        <!-- ==========================
-             STEP 3: DỊCH VỤ
-        ============================ -->
+        <!-- STEP 3: DỊCH VỤ -->
         <?php if ($current_step == 3): ?>
         <div class="card card-full">
             <h4>Dịch Vụ</h4>
@@ -177,6 +173,24 @@
                     <?php endforeach; ?>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label>Chọn khách đại diện</label>
+                <select name="main_customer" class="form-select">
+                    <option value="">-- Chọn người đại diện --</option>
+                    <?php
+                        $selected_customers = $_POST['customers'] ?? [];
+                        $main_old = $_POST['main_customer'] ?? '';
+                        foreach ($customers as $c):
+                            if (!in_array($c['customer_id'], $selected_customers)) continue;
+                    ?>
+                    <option value="<?= $c['customer_id'] ?>" <?= $main_old == $c['customer_id'] ? 'selected' : '' ?>>
+                        <?= $c['full_name'] ?> (<?= $c['phone'] ?>)
+                    </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
 
             <div style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
                 <button type="submit" name="prev_step" value="2" class="btn-prev">← Quay lại</button>
