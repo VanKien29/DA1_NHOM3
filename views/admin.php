@@ -304,9 +304,11 @@ $user = $_SESSION['user'];
                     case 'profile-update':
                         (new ProfileController)->updateProfile();
                         break;
-                        //
                     case 'guide-stats':
                         (new GuideStatsController)->stats();
+                        break;
+                    case 'guide-updateStatusByGuide':
+                        (new GuideScheduleController)->updateStatusByGuide();
                         break;
                 }
                 return;
@@ -463,6 +465,11 @@ $user = $_SESSION['user'];
                         break;
                     case 'admin-chooseRooms':
                         (new BookingController)->chooseRooms();
+                        break;
+
+                    // Statistics Dashboard
+                    case 'admin':
+                        (new StatisticController)->dashboard();
                         break;
                 }
             }

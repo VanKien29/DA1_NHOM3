@@ -43,21 +43,38 @@ class BookingQuery extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getBooking($id)
-    {
+    public function getBooking($id){
         $sql = "SELECT 
                     b.*, 
-                    t.tour_name
+                    t.tour_name,
+                    -- Hotel
+                    h.service_name AS hotel_name,
+                    h.hotel_manager AS hotel_manager,
+                    h.hotel_manager_phone AS hotel_manager_phone,
+                    -- Vehicle
+                    v.service_name AS vehicle_name,
+                    v.driver_name,
+                    v.driver_phone,
+                    v.license_plate,
+                    v.seat,
+                    v.price_per_day,
+                    v.description,
+
+                    (SELECT SUM(bc.price_per_customer) 
+                    FROM booking_customers bc 
+                    WHERE bc.booking_id = b.booking_id) AS total_price
                 FROM bookings b
                 LEFT JOIN tours t ON b.tour_id = t.tour_id
+                LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
+                LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
                 WHERE b.booking_id = ?";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$id]);
         return $stm->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getGuideByBooking($booking_id)
-    {
+
+    public function getGuideByBooking($booking_id){
         $sql = "SELECT 
                     g.*, 
                     u.name AS guide_name, 
@@ -122,15 +139,17 @@ class BookingQuery extends BaseModel
         return $this->pdo->lastInsertId();
     }
 
-    public function addBookingCustomers($booking_id, $customer_id, $is_main)
-    {
-        $sql = "INSERT INTO booking_customers (booking_id, customer_id, is_main) VALUES (:booking_id, :customer_id, :is_main)";
+    public function addBookingCustomers($booking_id, $customer_id, $is_main, $price){
+        $sql = "INSERT INTO booking_customers (booking_id, customer_id, is_main, price_per_customer) 
+                VALUES (:booking_id, :customer_id, :is_main, :price)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':booking_id', $booking_id);
         $stmt->bindParam(':customer_id', $customer_id);
         $stmt->bindParam(':is_main', $is_main);
+        $stmt->bindParam(':price', $price);
         $stmt->execute();
     }
+
 
     public function addGuideTour($guide_id, $booking_id, $tour_id)
     {
@@ -228,7 +247,8 @@ class BookingQuery extends BaseModel
             h.service_name AS hotel_name,
             v.service_name AS vehicle_name,
             u.name AS guide_name,
-            (SELECT COUNT(*) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_customers
+            (SELECT COUNT(*) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_customers,
+            (SELECT SUM(bc.price_per_customer) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_price
         FROM bookings b
         LEFT JOIN tours t ON b.tour_id = t.tour_id
         LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
@@ -266,10 +286,11 @@ class BookingQuery extends BaseModel
         $sql .= " GROUP BY b.booking_id  ORDER BY 
                 CASE b.status
                     WHEN 'dang_dien_ra' THEN 1
-                    WHEN 'cho_duyet' THEN 2
-                    WHEN 'da_huy' THEN 3
+                    WHEN 'cho_xac_nhan_ket_thuc' THEN 2
+                    WHEN 'sap_dien_ra' THEN 3
                     WHEN 'da_hoan_thanh' THEN 4
-                    ELSE 5
+                    WHEN 'da_huy' THEN 5
+                    ELSE 6
                 END,
                 b.booking_id DESC";
         $stmt = $this->pdo->prepare($sql);
@@ -444,42 +465,119 @@ class BookingQuery extends BaseModel
         $stmt->execute(['booking_id' => $booking_id]);
         return $stmt->fetch();
     }
-
-    public function countToursByGuide($guide_id)
-    {
+    
+    public function countToursByGuide($guide_id) {
         $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ?";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
 
-    public function countFinishedToursByGuide($guide_id)
-    {
+    public function countFinishedToursByGuide($guide_id) {
         $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ? AND status = 'da_hoan_thanh'";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
 
-    public function countRunningToursByGuide($guide_id)
-    {
+    public function countRunningToursByGuide($guide_id) {
         $sql = "SELECT COUNT(*) FROM bookings WHERE guide_id = ? AND status = 'dang_dien_ra'";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
 
-    public function countCustomersByGuide($guide_id)
-    {
+    public function countCustomersByGuide($guide_id) {
         $sql = "
-        SELECT COUNT(bc.customer_id)
-        FROM booking_customers bc
-        JOIN bookings b ON bc.booking_id = b.booking_id
-        WHERE b.guide_id = ?
-    ";
+            SELECT COUNT(bc.customer_id)
+            FROM booking_customers bc
+            JOIN bookings b ON bc.booking_id = b.booking_id
+            WHERE b.guide_id = ?
+        ";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([$guide_id]);
         return $stm->fetchColumn();
     }
+
+    public function priceCustomers($customer_id) {
+        $sql = "
+            SELECT 
+                SUM(
+                    CASE 
+                        WHEN c.role = 'adult' THEN t.price_adult
+                        WHEN c.role = 'child' THEN t.price_child
+                        WHEN c.role = 'vip' THEN t.price_vip
+                        ELSE 0
+                    END
+                ) AS total_price
+            FROM booking_customers bc
+            JOIN bookings b ON bc.booking_id = b.booking_id
+            JOIN tours t ON b.tour_id = t.tour_id
+            JOIN customers c ON bc.customer_id = c.customer_id
+            WHERE c.customer_id = ?
+        ";
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([$customer_id]);
+        return $stm->fetchColumn();
+    }
+
+    public function totalPriceAllCustomerByBooking($booking_id) {
+        $sql = "
+            SELECT 
+                SUM(
+                    CASE 
+                        WHEN c.role = 'adult' THEN t.price_adult
+                        WHEN c.role = 'child' THEN t.price_child
+                        WHEN c.role = 'vip' THEN t.price_vip
+                        ELSE 0
+                    END
+                ) AS total_price
+            FROM booking_customers bc
+            JOIN bookings b ON bc.booking_id = b.booking_id
+            JOIN tours t ON b.tour_id = t.tour_id
+            JOIN customers c ON bc.customer_id = c.customer_id
+            WHERE b.booking_id = ?
+        ";
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([$booking_id]);
+        return $stm->fetchColumn();
+    }
+
+    private function autoStatus($start_date, $end_date){
+        $today = date('Y-m-d');
+        if ($today < $start_date) return 'sap_dien_ra';
+        if ($today >= $start_date && $today <= $end_date) return 'dang_dien_ra';
+        if ($today > $end_date) return 'cho_xac_nhan_ket_thuc';
+        return 'sap_dien_ra';
+    }
+
+    public function updateAutoStatus() {
+        $today = date('Y-m-d');
+        $this->pdo->query("
+            UPDATE bookings 
+            SET status = 'sap_dien_ra'
+            WHERE status IN ('sap_dien_ra','dang_dien_ra','cho_xac_nhan_ket_thuc')
+            AND '$today' < start_date
+        ");
+        $this->pdo->query("
+            UPDATE bookings 
+            SET status = 'dang_dien_ra'
+            WHERE status IN ('sap_dien_ra','dang_dien_ra','cho_xac_nhan_ket_thuc')
+            AND '$today' >= start_date
+            AND '$today' <= end_date
+        ");
+        $this->pdo->query("
+            UPDATE bookings 
+            SET status = 'cho_xac_nhan_ket_thuc'
+            WHERE status IN ('sap_dien_ra','dang_dien_ra','cho_xac_nhan_ket_thuc')
+            AND '$today' > end_date
+        ");
+    }
+
+    public function updateStatus($id, $status){
+        $stmt = $this->pdo->prepare("UPDATE bookings SET status=? WHERE booking_id=?");
+        return $stmt->execute([$status, $id]);
+    }
+
 }
 ?>

@@ -295,4 +295,36 @@ a {
 
 .room-item input {
   transform: scale(1.2);
+} /* === BADGE STATUS COLORS === */
+.badge {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 20px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.badge-warning-soft {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.badge-success-soft {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.badge-info-soft {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.badge-primary-soft {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-danger-soft {
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
