@@ -6,6 +6,7 @@ class GuideScheduleController
     function __construct()
     {
         $this->bookingQuery = new BookingQuery();
+        $this->tourScheduleQuery = new TourScheduleQuery();
     }
 
     public function mySchedule()
@@ -26,6 +27,7 @@ class GuideScheduleController
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
         $vehicle = $this->bookingQuery->getVehicleByBooking($id);
+        $schedules = $this->tourScheduleQuery->getSchedulesByTourId($booking['tour_id']);
 
         require './views/Guides/detailGuideBooking.php';
     }
