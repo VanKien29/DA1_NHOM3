@@ -12,7 +12,6 @@ class ToursQuery extends BaseModel
     public $days;
 
     // ================== TOUR ==================
-
     public function getAllTours()
     {
         $sql = "SELECT t.*, c.category_name 

@@ -31,8 +31,7 @@ class BookingController
         exit;
     }
 
-    public function detailBooking($id)
-    {
+    public function detailBooking($id){
         $booking = $this->bookingQuery->getBooking($id);
         $guide = $this->bookingQuery->getGuideByBooking($id);
         $customers = $this->bookingQuery->getBookingCustomers($id);
