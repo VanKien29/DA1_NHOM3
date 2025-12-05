@@ -37,6 +37,10 @@ class BookingController
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
         $customers_all = $this->CustomerQuery->getAllCustomers();
+        $tour     = $this->ToursQuery->findTour($booking['tour_id']);
+        $hotel    = $this->HotelQuery->findHotel($booking['hotel_id']);
+        $vehicle  = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
+        $tour_schedules = $this->ToursQuery->getTourSchedule($booking['tour_id']);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_add_customer'])) {
             $new_customer = $_POST['add_customer_id'];
@@ -57,13 +61,42 @@ class BookingController
                 header("Location: ?action=admin-detailBooking&id=" . $id);
                 exit;
             }
-            $this->bookingQuery->addBookingCustomers($id, $new_customer, 0);
+            $total_customers = count($customers) + 1;
+
+            $customerInfo = $this->CustomerQuery->findCustomer($new_customer);
+
+            $price = $this->calculatePrice(
+                $customerInfo,
+                $tour,
+                $hotel,
+                $vehicle,
+                $booking['start_date'],
+                $booking['end_date'],
+                $total_customers
+            );
+
+            $this->bookingQuery->addBookingCustomers($id, $new_customer, 0, $price);
             $this->bookingQuery->addAttendance($id, $new_customer);
+
             $_SESSION['message'] = "Thêm khách thành công!";
             header("Location: ?action=admin-detailBooking&id=" . $id);
             exit;
         }
         require './views/Booking/DetailBooking.php';
+    }
+
+    private function calculatePrice($customer, $tour, $hotel, $vehicle, $start_date, $end_date, $total_customers)
+    {
+        $role_price = match($customer['role']) {
+            'adult' => $tour['price_adult'],
+            'child' => $tour['price_child'],
+            'vip'   => $tour['price_vip'],
+            default => 0
+        };
+        $nights = (strtotime($end_date) - strtotime($start_date)) / 86400;
+        $hotel_cost = $hotel['price_per_night'] * $nights;
+        $vehicle_cost = ($vehicle['price_per_day'] * $nights) / max(1, $total_customers);
+        return $role_price + $hotel_cost + $vehicle_cost;
     }
 
     public function createBooking()
@@ -102,10 +135,7 @@ class BookingController
                     }
                 }
             } else {
-
-                // ==========================
                 // STEP 1 → chọn tour, HDV, ngày đi
-                // ==========================
                 if ($current_step == 1 && isset($_POST['next_1'])) {
                     $tour_id    = $_POST['tour_id']    ?? '';
                     $guide_id   = $_POST['guide_id']   ?? '';
@@ -151,9 +181,7 @@ class BookingController
                     }
                 }
 
-                // ==========================
                 // STEP 2 → chọn khách
-                // ==========================
                 if ($current_step == 2 && isset($_POST['next_2'])) {
 
                     $start_date = $_POST['start_date'] ?? '';
@@ -184,9 +212,7 @@ class BookingController
                     }
                 }
 
-                // ==========================
                 // STEP 3 → chọn dịch vụ & lưu
-                // ==========================
                 if ($current_step == 3 && isset($_POST['final_submit'])) {
 
                     $tour_id     = $_POST['tour_id']     ?? '';
@@ -218,19 +244,33 @@ class BookingController
                         $this->bookingQuery->vehicle_id = $vehicle_id;
                         $this->bookingQuery->start_date = $start_date;
                         $this->bookingQuery->end_date   = $end_date;
-                        $this->bookingQuery->status     = 'dang_dien_ra';
+                        $this->bookingQuery->status     = $this->autoStatus($start_date, $end_date);
                         $this->bookingQuery->report     = '';
                         $this->bookingQuery->created_at = date('Y-m-d H:i:s');
 
                         // Tạo booking
                         $booking_id = $this->bookingQuery->createBooking();
 
-                        // Gắn khách
+                        $tour  = $this->ToursQuery->findTour($tour_id);
+                        $hotel = $this->HotelQuery->findHotel($hotel_id);
+                        $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
+                        $total_customers = count($customers_arr);
                         foreach ($customers_arr as $cid) {
+                            $customer = $this->CustomerQuery->findCustomer($cid);
+                            $price = $this->calculatePrice(
+                                $customer, 
+                                $tour, 
+                                $hotel, 
+                                $vehicle, 
+                                $start_date, 
+                                $end_date, 
+                                $total_customers
+                            );
                             $is_main = ($cid == $main) ? 1 : 0;
-                            $this->bookingQuery->addBookingCustomers($booking_id, $cid, $is_main);
+                            $this->bookingQuery->addBookingCustomers($booking_id, $cid, $is_main, $price);
                             $this->bookingQuery->addAttendance($booking_id, $cid);
                         }
+
 
                         // Gắn HDV - tour
                         $this->bookingQuery->addGuideTour($guide_id, $booking_id, $tour_id);
@@ -407,10 +447,22 @@ class BookingController
                         $this->bookingQuery->deleteBookingCustomersOnly($id);
                         $this->bookingQuery->deleteAttendanceOnly($id);
 
-                        // Thêm khách mới
+                        $tour    = $this->ToursQuery->findTour($tour_id);
+                        $hotel   = $this->HotelQuery->findHotel($hotel_id);
+                        $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
                         foreach ($customers_arr as $cid) {
+                            $customer = $this->CustomerQuery->findCustomer($cid);
+                            $price = $this->calculatePrice(
+                                $customer, 
+                                $tour, 
+                                $hotel, 
+                                $vehicle, 
+                                $start_date, 
+                                $end_date, 
+                                count($customers_arr)
+                            );
                             $is_main = ($cid == $main) ? 1 : 0;
-                            $this->bookingQuery->addBookingCustomers($id, $cid, $is_main);
+                            $this->bookingQuery->addBookingCustomers($id, $cid, $is_main, $price);
                             $this->bookingQuery->addAttendance($id, $cid);
                         }
 

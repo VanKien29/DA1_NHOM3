@@ -2,8 +2,6 @@
 
 <?php
 $current_step = $current_step ?? 1;
-
-// map lịch trình cũ theo day_number để dễ fill
 $mapSchedule = [];
 if (!empty($schedules)) {
     foreach ($schedules as $s) {
@@ -64,10 +62,28 @@ if (!empty($schedules)) {
 
             <div class="mb-3">
                 <label class="form-label">Giá</label>
-                <input type="number" name="price" class="form-control"
-                    value="<?= htmlspecialchars($_POST['price'] ?? $tour['price']) ?>">
-                <?php if (!empty($err['price'])): ?>
-                <div class="text-danger err"><?= htmlspecialchars($err['price']) ?></div>
+                <input type="number" name="price_adult" class="form-control"
+                    value="<?= htmlspecialchars($_POST['price_adult'] ?? $tour['price_adult']) ?>">
+                <?php if (!empty($err['price_adult'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['price_adult']) ?></div>
+                <?php endif; ?>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Giá</label>
+                <input type="number" name="price_child" class="form-control"
+                    value="<?= htmlspecialchars($_POST['price_child'] ?? $tour['price_child']) ?>">
+                <?php if (!empty($err['price_child'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['price_child']) ?></div>
+                <?php endif; ?>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Giá</label>
+                <input type="number" name="price_vip" class="form-control"
+                    value="<?= htmlspecialchars($_POST['price_vip'] ?? $tour['price_vip']) ?>">
+                <?php if (!empty($err['price_vip'])): ?>
+                <div class="text-danger err"><?= htmlspecialchars($err['price_vip']) ?></div>
                 <?php endif; ?>
             </div>
 
@@ -103,7 +119,9 @@ if (!empty($schedules)) {
             <?php
                 $tour_name   = $_POST['tour_name']   ?? $tour['tour_name'];
                 $description = $_POST['description'] ?? $tour['description'];
-                $price       = $_POST['price']       ?? $tour['price'];
+                $price_adult       = $_POST['price_adult']       ?? $tour['price_adult'];
+                $price_child       = $_POST['price_child']       ?? $tour['price_child'];
+                $price_vip         = $_POST['price_vip']         ?? $tour['price_vip'];
                 $days        = (int)($_POST['days']  ?? $tour['days']);
                 $category_id = $_POST['category_id'] ?? $tour['category_id'];
                 $tour_images = $_POST['tour_images_saved'] ?? ($_POST['tour_images_old'] ?? $tour['tour_images']);
@@ -113,7 +131,9 @@ if (!empty($schedules)) {
             <!-- giữ lại thông tin tour -->
             <input type="hidden" name="tour_name" value="<?= htmlspecialchars($tour_name) ?>">
             <input type="hidden" name="description" value="<?= htmlspecialchars($description) ?>">
-            <input type="hidden" name="price" value="<?= htmlspecialchars($price) ?>">
+            <input type="hidden" name="price_adult" value="<?= htmlspecialchars($price_adult) ?>">
+            <input type="hidden" name="price_child" value="<?= htmlspecialchars($price_child) ?>">
+            <input type="hidden" name="price_vip" value="<?= htmlspecialchars($price_vip) ?>">
             <input type="hidden" name="days" value="<?= htmlspecialchars($days) ?>">
             <input type="hidden" name="category_id" value="<?= htmlspecialchars($category_id) ?>">
             <input type="hidden" name="tour_images_saved" value="<?= htmlspecialchars($tour_images) ?>">
@@ -128,7 +148,6 @@ if (!empty($schedules)) {
             </div>
 
             <?php for ($d = 1; $d <= $days; $d++): 
-                // ưu tiên giá trị user vừa POST, nếu không thì lấy trong DB
                 $postTitle = $_POST['schedule_title'][$d-1] ?? null;
                 $postDesc  = $_POST['schedule_description'][$d-1] ?? null;
 

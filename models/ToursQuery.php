@@ -63,18 +63,18 @@ class ToursQuery extends BaseModel
 
     public function createTour()
     {
-        // Chú ý: bảng tours phải có cột days
-        $sql = "INSERT INTO tours (tour_name, description, price, days, category_id, tour_images)
-                VALUES (:tour_name, :description, :price, :days, :category_id, :tour_images)";
+        $sql = "INSERT INTO tours (tour_name, description, price_adult, price_child, price_vip, days, category_id, tour_images)
+        VALUES (:tour_name, :description, :price_adult, :price_child, :price_vip, :days, :category_id, :tour_images)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':tour_name', $this->tour_name);
         $stmt->bindParam(':description', $this->description);
-        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':price_adult', $this->price_adult);
+        $stmt->bindParam(':price_child', $this->price_child);
+        $stmt->bindParam(':price_vip', $this->price_vip);
         $stmt->bindParam(':days', $this->days, PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':tour_images', $this->tour_images);
         $stmt->execute();
-        // trả về tour_id mới tạo để dùng cho lịch trình
         return $this->pdo->lastInsertId();
     }
 
@@ -83,7 +83,9 @@ class ToursQuery extends BaseModel
         $sql = "UPDATE tours SET 
                     tour_name   = :tour_name,
                     description = :description,
-                    price       = :price,
+                    price_adult       = :price_adult,
+                    price_child       = :price_child,
+                    price_vip         = :price_vip,
                     days        = :days,
                     category_id = :category_id,
                     tour_images = :tour_images
@@ -92,7 +94,9 @@ class ToursQuery extends BaseModel
         $stmt->bindParam(':tour_id', $this->tour_id);
         $stmt->bindParam(':tour_name', $this->tour_name);
         $stmt->bindParam(':description', $this->description);
-        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':price_adult', $this->price_adult);
+        $stmt->bindParam(':price_child', $this->price_child);
+        $stmt->bindParam(':price_vip', $this->price_vip);
         $stmt->bindParam(':days', $this->days, PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':tour_images', $this->tour_images);
@@ -102,9 +106,7 @@ class ToursQuery extends BaseModel
     public function deleteTour($id)
     {
         try {
-            // Xoá lịch trình trước (nếu có)
             $this->deleteSchedulesByTour($id);
-
             $sql = "DELETE FROM tours WHERE tour_id = :id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id);
@@ -119,7 +121,6 @@ class ToursQuery extends BaseModel
     }
 
     // ================== LỊCH TRÌNH TOUR ==================
-
     public function getTourSchedules($tour_id)
     {
         $sql = "SELECT * 
@@ -151,5 +152,13 @@ class ToursQuery extends BaseModel
         $stmt->bindParam(':description', $description);
         return $stmt->execute();
     }
+
+    public function getTourSchedule($tour_id) {
+        $sql = "SELECT * FROM tour_schedules WHERE tour_id = ? ORDER BY day_number ASC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$tour_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>
