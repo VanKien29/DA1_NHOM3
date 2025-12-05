@@ -4,9 +4,11 @@
   align-items: flex-start;
   padding: 60px 20px;
 }
+
 a {
   text-decoration: none;
 }
+
 .admin-form-card {
   background: #ffffff;
   border-radius: 20px;
@@ -122,6 +124,17 @@ textarea:focus {
 .err {
   color: red !important;
 }
+
 a {
   text-decoration: none;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+  font-weight: 500;
+}
+
+.schedule-day-box .text-danger,
+.admin-form-card .text-danger {
+  color: #dc3545 !important;
 }

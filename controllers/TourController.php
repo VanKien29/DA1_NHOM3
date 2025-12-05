@@ -6,7 +6,7 @@ class TourController
 
     public function __construct()
     {
-        $this->tourQuery     = new ToursQuery();
+        $this->tourQuery = new ToursQuery();
         $this->categoryModel = new CategoryQuery();
     }
 
@@ -20,7 +20,7 @@ class TourController
     public function searchTours()
     {
         $keyword = $_GET['keyword'] ?? '';
-        $tours   = $this->tourQuery->searchTours($keyword);
+        $tours = $this->tourQuery->searchTours($keyword);
         require './views/Tour/listTour.php';
     }
 
@@ -33,14 +33,14 @@ class TourController
             exit;
         }
 
-        $schedules  = $this->tourQuery->getTourSchedules($id);
+        $schedules = $this->tourQuery->getTourSchedules($id);
         require './views/Tour/detailTour.php';
     }
 
     public function createTours()
     {
-        $categories   = $this->categoryModel->getAllCategories();
-        $current_step = isset($_POST['current_step']) ? (int)$_POST['current_step'] : 1;
+        $categories = $this->categoryModel->getAllCategories();
+        $current_step = isset($_POST['current_step']) ? (int) $_POST['current_step'] : 1;
 
         $err = [];
 
@@ -48,18 +48,18 @@ class TourController
 
             // Quay lại
             if (!empty($_POST['prev_step'])) {
-                $current_step = (int)$_POST['prev_step'];
+                $current_step = (int) $_POST['prev_step'];
             } else {
 
                 // ---------- STEP 1: thông tin tour ----------
                 if ($current_step === 1 && isset($_POST['next_1'])) {
-                    $tour_name   = trim($_POST['tour_name'] ?? '');
+                    $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult       = $_POST['price_adult'] ?? '';
-                    $price_child       = $_POST['price_child'] ?? '';
-                    $price_vip         = $_POST['price_vip'] ?? '';
+                    $price_adult = $_POST['price_adult'] ?? '';
+                    $price_child = $_POST['price_child'] ?? '';
+                    $price_vip = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
-                    $days        = (int)($_POST['days'] ?? 0);
+                    $days = (int) ($_POST['days'] ?? 0);
 
                     if ($tour_name === '') {
                         $err['tour_name'] = "Tên tour không được để trống!";
@@ -89,40 +89,54 @@ class TourController
 
                 // ---------- STEP 2: lịch trình ----------
                 if ($current_step === 2 && isset($_POST['final_submit'])) {
-                    $tour_name   = trim($_POST['tour_name'] ?? '');
+                    $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult       = $_POST['price_adult'] ?? '';
-                    $price_child       = $_POST['price_child'] ?? '';
-                    $price_vip         = $_POST['price_vip'] ?? '';
+                    $price_adult = $_POST['price_adult'] ?? '';
+                    $price_child = $_POST['price_child'] ?? '';
+                    $price_vip = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
-                    $days        = (int)($_POST['days'] ?? 0);
+                    $days = (int) ($_POST['days'] ?? 0);
                     $tour_images = $_POST['tour_images_saved'] ?? '';
 
                     $day_numbers = $_POST['day_number'] ?? [];
-                    $titles      = $_POST['schedule_title'] ?? [];
-                    $descs       = $_POST['schedule_description'] ?? [];
+                    $titles = $_POST['schedule_title'] ?? [];
+                    $descs = $_POST['schedule_description'] ?? [];
 
                     if ($tour_name === '' || $price_adult === '' || $price_child === '' || $price_vip === '' || $days <= 0 || $tour_images === '') {
                         $err['empty'] = "Thiếu dữ liệu tour, vui lòng kiểm tra lại.";
                     }
 
+                    if (empty($day_numbers) || empty($titles) || empty($descs)) {
+                        $err['empty'] = "Vui lòng nhập đầy đủ lịch trình tour.";
+                    }
+                    foreach ($day_numbers as $i => $d) {
+                        $t = trim($titles[$i] ?? '');
+                        $ds = trim($descs[$i] ?? '');
+
+                        if ($t === '' || $ds === '') {
+                            $err['schedule'] = "Ngày $d phải có tiêu đề và nội dung!";
+                            break;
+                        }
+                    }
+
                     if (empty($err)) {
-                        $this->tourQuery->tour_name   = $tour_name;
+                        $this->tourQuery->tour_name = $tour_name;
                         $this->tourQuery->description = $description;
                         $this->tourQuery->price_adult = $price_adult;
                         $this->tourQuery->price_child = $price_child;
-                        $this->tourQuery->price_vip   = $price_vip;
+                        $this->tourQuery->price_vip = $price_vip;
                         $this->tourQuery->category_id = $category_id;
                         $this->tourQuery->tour_images = $tour_images;
-                        $this->tourQuery->days        = $days;
+                        $this->tourQuery->days = $days;
 
                         $tour_id = $this->tourQuery->createTour();
 
                         foreach ($day_numbers as $idx => $d) {
-                            $d = (int)$d;
+                            $d = (int) $d;
                             $title = trim($titles[$idx] ?? '');
-                            $desc  = trim($descs[$idx] ?? '');
-                            if ($title === '' && $desc === '') continue;
+                            $desc = trim($descs[$idx] ?? '');
+                            if ($title === '' && $desc === '')
+                                continue;
                             $this->tourQuery->insertSchedule($tour_id, $d, $title, $desc);
                         }
 
@@ -144,34 +158,34 @@ class TourController
     // ===== Cập nhật tour (2 STEP) =====
     public function updateTours($id)
     {
-        $categories   = $this->categoryModel->getAllCategories();
-        $tour         = $this->tourQuery->findTour($id);
+        $categories = $this->categoryModel->getAllCategories();
+        $tour = $this->tourQuery->findTour($id);
 
         if (!$tour) {
             echo "<script>alert('Tour không tồn tại'); window.location.href='?action=admin-listTours';</script>";
             exit;
         }
 
-        $schedules    = $this->tourQuery->getTourSchedules($id);
-        $current_step = isset($_POST['current_step']) ? (int)$_POST['current_step'] : 1;
+        $schedules = $this->tourQuery->getTourSchedules($id);
+        $current_step = isset($_POST['current_step']) ? (int) $_POST['current_step'] : 1;
         $err = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Quay lại
             if (!empty($_POST['prev_step'])) {
-                $current_step = (int)$_POST['prev_step'];
+                $current_step = (int) $_POST['prev_step'];
             } else {
 
                 // ---------- STEP 1: sửa thông tin tour ----------
                 if ($current_step === 1 && isset($_POST['next_1'])) {
-                    $tour_name   = trim($_POST['tour_name'] ?? '');
+                    $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult       = $_POST['price_adult'] ?? '';
-                    $price_child       = $_POST['price_child'] ?? '';
-                    $price_vip       = $_POST['price_vip'] ?? '';
+                    $price_adult = $_POST['price_adult'] ?? '';
+                    $price_child = $_POST['price_child'] ?? '';
+                    $price_vip = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
-                    $days        = (int)($_POST['days'] ?? 0);
+                    $days = (int) ($_POST['days'] ?? 0);
 
                     if ($tour_name === '') {
                         $err['tour_name'] = "Tên tour không được để trống!";
@@ -202,42 +216,43 @@ class TourController
 
                 // ---------- STEP 2: sửa lịch trình & lưu ----------
                 if ($current_step === 2 && isset($_POST['final_submit'])) {
-                    $tour_name   = trim($_POST['tour_name'] ?? '');
+                    $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult       = $_POST['price_adult'] ?? '';
-                    $price_child       = $_POST['price_child'] ?? '';
-                    $price_vip       = $_POST['price_vip'] ?? '';
+                    $price_adult = $_POST['price_adult'] ?? '';
+                    $price_child = $_POST['price_child'] ?? '';
+                    $price_vip = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
-                    $days        = (int)($_POST['days'] ?? 0);
+                    $days = (int) ($_POST['days'] ?? 0);
                     $tour_images = $_POST['tour_images_saved'] ?? $tour['tour_images'];
                     $day_numbers = $_POST['day_number'] ?? [];
-                    $titles      = $_POST['schedule_title'] ?? [];
-                    $descs       = $_POST['schedule_description'] ?? [];
+                    $titles = $_POST['schedule_title'] ?? [];
+                    $descs = $_POST['schedule_description'] ?? [];
 
                     if ($tour_name === '' || $price_adult === '' || $price_child === '' || $price_vip === '' || $days <= 0) {
                         $err['empty'] = "Thiếu dữ liệu tour, vui lòng kiểm tra lại.";
                     }
 
                     if (empty($err)) {
-                        $this->tourQuery->tour_id     = $id;
-                        $this->tourQuery->tour_name   = $tour_name;
+                        $this->tourQuery->tour_id = $id;
+                        $this->tourQuery->tour_name = $tour_name;
                         $this->tourQuery->description = $description;
                         $this->tourQuery->price_adult = $price_adult;
                         $this->tourQuery->price_child = $price_child;
-                        $this->tourQuery->price_vip   = $price_vip;
+                        $this->tourQuery->price_vip = $price_vip;
                         $this->tourQuery->category_id = $category_id;
                         $this->tourQuery->tour_images = $tour_images;
-                        $this->tourQuery->days        = $days;
+                        $this->tourQuery->days = $days;
 
                         $this->tourQuery->updateTour();
 
                         $this->tourQuery->deleteSchedulesByTour($id);
 
                         foreach ($day_numbers as $idx => $d) {
-                            $d     = (int)$d;
+                            $d = (int) $d;
                             $title = trim($titles[$idx] ?? '');
-                            $desc  = trim($descs[$idx] ?? '');
-                            if ($title === '' && $desc === '') continue;
+                            $desc = trim($descs[$idx] ?? '');
+                            if ($title === '' && $desc === '')
+                                continue;
                             $this->tourQuery->insertSchedule($id, $d, $title, $desc);
                         }
 
