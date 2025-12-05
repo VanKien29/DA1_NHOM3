@@ -10,9 +10,7 @@
 
             <div class="booking-info-box">
                 <h5>Thông tin tour</h5>
-
                 <div class="info-grid">
-
                     <div>
                         <label>Mã Booking:</label>
                         <span><?= $booking['booking_id'] ?></span>
@@ -35,23 +33,48 @@
 
                     <div>
                         <label>Trạng thái:</label>
-                        <?php
-                        switch ($booking['status']) {
-                            case 'dang_dien_ra':
-                                echo "<span class='badge bg-success'>Đang diễn ra</span>";
-                                break;
-                            case 'cho_duyet':
-                                echo "<span class='badge bg-warning text-dark'>Chờ duyệt</span>";
-                                break;
-                            case 'da_hoan_thanh':
-                                echo "<span class='badge bg-primary'>Đã hoàn thành</span>";
-                                break;
-                            case 'da_huy':
-                                echo "<span class='badge bg-danger'>Đã hủy</span>";
-                                break;
-                        }
-                        ?>
+                        <span id="statusBadge">
+                            <?php
+                                switch ($booking['status']) {
+                                    case 'dang_dien_ra':
+                                        echo "<span class='badge bg-success'>Đang diễn ra</span>";
+                                        break;
+                                    case 'sap_dien_ra':
+                                        echo "<span class='badge bg-warning text-dark'>Sắp diễn ra</span>";
+                                        break;
+                                    case 'cho_xac_nhan_ket_thuc':
+                                        echo "<span class='badge bg-warning text-dark'>Chờ xác nhận kết thúc</span>";
+                                        break;
+                                    case 'da_hoan_thanh':
+                                        echo "<span class='badge bg-primary'>Đã hoàn thành</span>";
+                                        break;
+                                    case 'da_huy':
+                                        echo "<span class='badge bg-danger'>Đã hủy</span>";
+                                        break;
+                                }
+                                ?>
+                        </span>
+                        <?php if($booking['status'] == "da_hoan_thanh"){?>
+                        <?php } else { ?>
+                        <button class="btn btn-sm btn-status" onclick="toggleStatusForm()">Cập nhật</button>
+                        <?php } ?>
                     </div>
+
+                    <div id="statusForm" class="status-form d-none">
+                        <form method="POST" action="?action=guide-updateStatusByGuide">
+                            <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                            <select name="status" class="form-select mb-2">
+                                <option value="dang_dien_ra" <?= $booking['status']=='dang_dien_ra'?'selected':'' ?>>
+                                    Xác nhận đang diễn ra
+                                </option>
+                                <option value="da_hoan_thanh" <?= $booking['status']=='da_hoan_thanh'?'selected':'' ?>>
+                                    Xác nhận hoàn thành tour
+                                </option>
+                            </select>
+                            <button class="btn btn-saveStatus">Lưu</button>
+                        </form>
+                    </div>
+
                     <div>
                         <label>Khách sạn:</label>
                         <span><?= $booking['hotel_name'] ?></span>
@@ -122,42 +145,53 @@
                         foreach ($customers as $c):
                             $att = $attMap[$c['customer_id']] ?? null;
                             ?>
-                            <tr>
-                                <td><?= $i++ ?></td>
+                        <tr>
+                            <td><?= $i++ ?></td>
 
-                                <td>
-                                    <?= $c['full_name'] ?>
+                            <td>
+                                <?= $c['full_name'] ?>
 
-                                    <?php if ($c['is_main']): ?>
-                                        <span class="badge bg-primary" style="margin-left:6px;">Chính</span>
-                                    <?php endif; ?>
-                                </td>
+                                <?php if ($c['is_main']): ?>
+                                <span class="badge bg-primary" style="margin-left:6px;">Chính</span>
+                                <?php endif; ?>
+                            </td>
 
-                                <td><?= $c['phone'] ?></td>
-                                <td><?= $c['email'] ?></td>
-                                <td>
-                                    <?php if ($booking['status'] === 'da_hoan_thanh'): ?>
-                                        <span class="badge bg-secondary">--</span>
-                                    <?php else: ?>
-                                        <form method="POST" action="?action=guide-updateAttendance"
-                                            style="display:flex; gap:6px;">
-                                            <input type="hidden" name="attendance_id" value="<?= $att['id'] ?>">
-                                            <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
-
-                                            <button name="status" value="present"
-                                                class="<?= $att['status'] == 'present' ? 'btn-success' : 'btn-outline-success' ?>">
-                                                Có mặt
-                                            </button>
-
-                                            <button name="status" value="absent"
-                                                class="<?= $att['status'] == 'absent' ? 'btn-danger' : 'btn-outline-danger' ?>">
-                                                Vắng
-                                            </button>
-                                        </form>
-                                    <?php endif; ?>
-                                </td>
-
-                            </tr>
+                            <td><?= $c['phone'] ?></td>
+                            <td><?= $c['email'] ?></td>
+                            <td>
+                                <?php 
+                                if ($booking['status'] === 'dang_dien_ra'): 
+                                ?>
+                                <form method="POST" action="?action=guide-updateAttendance"
+                                    style="display:flex; gap:6px;">
+                                    <input type="hidden" name="attendance_id" value="<?= $att['id'] ?>">
+                                    <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                                    <button name="status" value="present"
+                                        class="<?= $att['status'] === 'present' ? 'btn-success' : 'btn-outline-success' ?>">
+                                        Có mặt
+                                    </button>
+                                    <button name="status" value="absent"
+                                        class="<?= $att['status'] === 'absent' ? 'btn-danger' : 'btn-outline-danger' ?>">
+                                        Vắng
+                                    </button>
+                                </form>
+                                <?php 
+                                else: 
+                                    if ($att):
+                                        if ($att['status'] === 'present'):
+                                            echo '<span class="badge bg-success">Có mặt</span>';
+                                        elseif ($att['status'] === 'absent'):
+                                            echo '<span class="badge bg-danger">Vắng</span>';
+                                        else:
+                                            echo '<span class="badge bg-secondary">—</span>';
+                                        endif;
+                                    else:
+                                        echo '<span class="badge bg-secondary">—</span>';
+                                    endif;
+                                endif;
+                                ?>
+                            </td>
+                        </tr>
                         <?php endforeach ?>
                     </tbody>
                 </table>
@@ -200,3 +234,9 @@
         </div>
     </div>
 </div>
+<script>
+function toggleStatusForm() {
+    const box = document.getElementById("statusForm");
+    box.classList.toggle("d-none");
+}
+</script>

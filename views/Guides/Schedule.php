@@ -52,12 +52,15 @@
                 <td><?= $item['end_date'] ?></td>
                 <td>
                     <?php
-                        switch($item['status']) {
+                        switch ($item['status']) {
+                            case 'sap_dien_ra':
+                                echo "<span class='badge bg-info'>Sắp diễn ra</span>";
+                                break;
                             case 'dang_dien_ra':
                                 echo "<span class='badge bg-success'>Đang diễn ra</span>";
                                 break;
-                            case 'cho_duyet':
-                                echo "<span class='badge bg-warning'>Chờ duyệt</span>";
+                            case 'cho_xac_nhan_ket_thuc':
+                                echo "<span class='badge bg-warning text-dark'>Chờ xác nhận kết thúc</span>";
                                 break;
                             case 'da_hoan_thanh':
                                 echo "<span class='badge bg-primary'>Đã hoàn thành</span>";
@@ -69,7 +72,6 @@
                     ?>
                 </td>
                 <td><?= $item['total_customers'] ?></td>
-
                 <td>
                     <a href="?action=guide-detailGuideBooking&id=<?= $item['booking_id'] ?>"
                         class="btn btn-sm btn-primary">

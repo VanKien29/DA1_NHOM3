@@ -37,7 +37,6 @@ class TourController
         require './views/Tour/detailTour.php';
     }
 
-    // ===== Thêm tour (2 STEP: thông tin -> lịch trình) =====
     public function createTours()
     {
         $categories   = $this->categoryModel->getAllCategories();
@@ -56,15 +55,23 @@ class TourController
                 if ($current_step === 1 && isset($_POST['next_1'])) {
                     $tour_name   = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price       = $_POST['price'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
+                    $price_vip         = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days        = (int)($_POST['days'] ?? 0);
 
                     if ($tour_name === '') {
                         $err['tour_name'] = "Tên tour không được để trống!";
                     }
-                    if ($price === '' || $price < 0) {
-                        $err['price'] = "Giá tour không hợp lệ.";
+                    if ($price_adult === '' || $price_adult < 0) {
+                        $err['price_adult'] = "Giá người lớn không hợp lệ.";
+                    }
+                    if ($price_child === '' || $price_child < 0) {
+                        $err['price_child'] = "Giá trẻ em không hợp lệ.";
+                    }
+                    if ($price_vip === '' || $price_vip < 0) {
+                        $err['price_vip'] = "Giá VIP không hợp lệ.";
                     }
                     if ($days <= 0) {
                         $err['days'] = "Số ngày tour phải lớn hơn 0.";
@@ -74,22 +81,19 @@ class TourController
                     }
 
                     if (empty($err)) {
-                        // Upload ảnh 1 lần tại step 1
                         $tour_images = upload_file('image/TourImages', $_FILES["tour_images"]);
-
-                        // Lưu lại vào $_POST để Step 2 dùng hidden field
                         $_POST['tour_images_saved'] = $tour_images;
-
                         $current_step = 2;
                     }
                 }
 
                 // ---------- STEP 2: lịch trình ----------
                 if ($current_step === 2 && isset($_POST['final_submit'])) {
-                    // Lấy lại toàn bộ dữ liệu tour từ hidden
                     $tour_name   = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price       = $_POST['price'] ?? 0;
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
+                    $price_vip         = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days        = (int)($_POST['days'] ?? 0);
                     $tour_images = $_POST['tour_images_saved'] ?? '';
@@ -98,33 +102,27 @@ class TourController
                     $titles      = $_POST['schedule_title'] ?? [];
                     $descs       = $_POST['schedule_description'] ?? [];
 
-                    if ($tour_name === '' || $price === '' || $days <= 0 || $tour_images === '') {
+                    if ($tour_name === '' || $price_adult === '' || $price_child === '' || $price_vip === '' || $days <= 0 || $tour_images === '') {
                         $err['empty'] = "Thiếu dữ liệu tour, vui lòng kiểm tra lại.";
                     }
 
-                    // có thể thêm validate lịch trình: ít nhất 1 ngày có title/desc
-
                     if (empty($err)) {
-                        // Gán property
                         $this->tourQuery->tour_name   = $tour_name;
                         $this->tourQuery->description = $description;
-                        $this->tourQuery->price       = $price;
+                        $this->tourQuery->price_adult = $price_adult;
+                        $this->tourQuery->price_child = $price_child;
+                        $this->tourQuery->price_vip   = $price_vip;
                         $this->tourQuery->category_id = $category_id;
                         $this->tourQuery->tour_images = $tour_images;
                         $this->tourQuery->days        = $days;
 
-                        // Tạo tour
                         $tour_id = $this->tourQuery->createTour();
 
-                        // Thêm lịch trình
                         foreach ($day_numbers as $idx => $d) {
                             $d = (int)$d;
                             $title = trim($titles[$idx] ?? '');
                             $desc  = trim($descs[$idx] ?? '');
-
-                            // Cho phép bỏ trống 1 vài ngày, tuỳ anh; ở đây nếu cả title & desc rỗng thì bỏ qua
                             if ($title === '' && $desc === '') continue;
-
                             $this->tourQuery->insertSchedule($tour_id, $d, $title, $desc);
                         }
 
@@ -169,29 +167,34 @@ class TourController
                 if ($current_step === 1 && isset($_POST['next_1'])) {
                     $tour_name   = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price       = $_POST['price'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
+                    $price_vip       = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days        = (int)($_POST['days'] ?? 0);
 
                     if ($tour_name === '') {
                         $err['tour_name'] = "Tên tour không được để trống!";
                     }
-                    if ($price === '' || $price < 0) {
-                        $err['price'] = "Giá tour không hợp lệ.";
+                    if ($price_adult === '' || $price_adult < 0) {
+                        $err['price_adult'] = "Giá người lớn không hợp lệ.";
+                    }
+                    if ($price_child === '' || $price_child < 0) {
+                        $err['price_child'] = "Giá trẻ em không hợp lệ.";
+                    }
+                    if ($price_vip === '' || $price_vip < 0) {
+                        $err['price_vip'] = "Giá VIP không hợp lệ.";
                     }
                     if ($days <= 0) {
                         $err['days'] = "Số ngày tour phải lớn hơn 0.";
                     }
 
                     if (empty($err)) {
-                        // Ảnh: nếu up mới => upload, không thì dùng ảnh cũ
                         if (!empty($_FILES['tour_images']['name']) && $_FILES['tour_images']['size'] > 0) {
                             $tour_images = upload_file('image/TourImages', $_FILES["tour_images"]);
                         } else {
                             $tour_images = $_POST['tour_images_old'] ?? $tour['tour_images'];
                         }
-
-                        // Lưu vào $_POST để step 2 dùng
                         $_POST['tour_images_saved'] = $tour_images;
                         $current_step = 2;
                     }
@@ -199,44 +202,42 @@ class TourController
 
                 // ---------- STEP 2: sửa lịch trình & lưu ----------
                 if ($current_step === 2 && isset($_POST['final_submit'])) {
-                    // Lấy lại dữ liệu tour
                     $tour_name   = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price       = $_POST['price'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
+                    $price_vip       = $_POST['price_vip'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days        = (int)($_POST['days'] ?? 0);
                     $tour_images = $_POST['tour_images_saved'] ?? $tour['tour_images'];
-
                     $day_numbers = $_POST['day_number'] ?? [];
                     $titles      = $_POST['schedule_title'] ?? [];
                     $descs       = $_POST['schedule_description'] ?? [];
 
-                    if ($tour_name === '' || $price === '' || $days <= 0) {
+                    if ($tour_name === '' || $price_adult === '' || $price_child === '' || $price_vip === '' || $days <= 0) {
                         $err['empty'] = "Thiếu dữ liệu tour, vui lòng kiểm tra lại.";
                     }
 
                     if (empty($err)) {
-                        // Update tour
                         $this->tourQuery->tour_id     = $id;
                         $this->tourQuery->tour_name   = $tour_name;
                         $this->tourQuery->description = $description;
-                        $this->tourQuery->price       = $price;
+                        $this->tourQuery->price_adult = $price_adult;
+                        $this->tourQuery->price_child = $price_child;
+                        $this->tourQuery->price_vip   = $price_vip;
                         $this->tourQuery->category_id = $category_id;
                         $this->tourQuery->tour_images = $tour_images;
                         $this->tourQuery->days        = $days;
 
                         $this->tourQuery->updateTour();
 
-                        // Xoá lịch trình cũ + thêm mới
                         $this->tourQuery->deleteSchedulesByTour($id);
 
                         foreach ($day_numbers as $idx => $d) {
                             $d     = (int)$d;
                             $title = trim($titles[$idx] ?? '');
                             $desc  = trim($descs[$idx] ?? '');
-
                             if ($title === '' && $desc === '') continue;
-
                             $this->tourQuery->insertSchedule($id, $d, $title, $desc);
                         }
 

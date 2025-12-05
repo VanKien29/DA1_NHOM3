@@ -190,14 +190,15 @@
             <div class="form-group">
                 <label>Trạng thái</label>
                 <select name="status" class="form-select">
-                    <?php 
-                        $old_status = $_POST['status'] ?? $booking['status'];
-                    ?>
-                    <option value="cho_duyet" <?= $old_status == "cho_duyet" ? "selected" : "" ?>>Chờ duyệt</option>
-                    <option value="dang_dien_ra" <?= $old_status == "dang_dien_ra" ? "selected" : "" ?>>Đang diễn ra
+                    <?php $old_status = $_POST['status'] ?? $booking['status'];?>
+                    <option value="dang_dien_ra" <?= $old_status == "dang_dien_ra" ? "selected" : "" ?>>
+                        Đang diễn ra
                     </option>
                     <option value="da_hoan_thanh" <?= $old_status == "da_hoan_thanh" ? "selected" : "" ?>>
-                        Hoàn thành
+                        Đã hoàn thành
+                    </option>
+                    <option value="da_huy" <?= $old_status == "da_huy" ? "selected" : "" ?>>
+                        Đã hủy
                     </option>
                 </select>
             </div>

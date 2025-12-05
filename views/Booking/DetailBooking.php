@@ -5,49 +5,101 @@
         <a href="?action=admin-listBooking" class="btn btn-secondary" style="text-decoration:none">← Quay lại</a>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header fw-bold">Thông Tin Booking</div>
-        <div class="card-body">
+    <div class="booking-layout">
 
-            <p><strong>Mã Booking:</strong> <?= $booking['booking_id'] ?></p>
-            <p><strong>Tour:</strong> <?= $booking['tour_name'] ?></p>
-            <p><strong>Ngày bắt đầu:</strong> <?= $booking['start_date'] ?></p>
-            <p><strong>Ngày kết thúc:</strong> <?= $booking['end_date'] ?></p>
+        <div class="left-column">
+            <div class="card mb-4">
+                <div class="card-header fw-bold">Thông Tin Booking</div>
+                <div class="card-body">
+                    <p><strong>Mã Booking:</strong> <?= $booking['booking_id'] ?></p>
+                    <p><strong>Tour:</strong> <?= $booking['tour_name'] ?></p>
+                    <p><strong>Ngày bắt đầu:</strong> <?= $booking['start_date'] ?></p>
+                    <p><strong>Ngày kết thúc:</strong> <?= $booking['end_date'] ?></p>
+                    <p><strong>Tổng giá:</strong> <?= number_format($booking['total_price']) ?> VND</p>
 
-            <p><strong>Trạng thái:</strong>
-                <?php if ($booking['status'] == 'cho_duyet'): ?>
-                <span class="badge bg-warning text-dark">Chờ duyệt</span>
-                <?php elseif ($booking['status'] == 'dang_dien_ra'): ?>
-                <span class="badge bg-success">Đang diễn ra</span>
-                <?php elseif ($booking['status'] == 'da_hoan_thanh'): ?>
-                <span class="badge bg-primary">Đã hoàn thành</span>
-                <?php elseif ($booking['status'] == 'da_huy'): ?>
-                <span class="badge bg-danger">Đã hủy</span>
-                <?php endif; ?>
-            </p>
+                    <p><strong>Trạng thái:</strong>
+                        <?php if ($booking['status'] == 'cho_duyet'): ?>
+                        <span class="badge bg-warning text-dark">Chờ duyệt</span>
+                        <?php elseif ($booking['status'] == 'dang_dien_ra'): ?>
+                        <span class="badge bg-success">Đang diễn ra</span>
+                        <?php elseif ($booking['status'] == 'da_hoan_thanh'): ?>
+                        <span class="badge bg-primary">Đã hoàn thành</span>
+                        <?php elseif ($booking['status'] == 'da_huy'): ?>
+                        <span class="badge bg-danger">Đã hủy</span>
+                        <?php endif; ?>
+                    </p>
 
-            <p><strong>Ghi chú:</strong><br>
-                <?= $booking['report'] == null ? '—' : $booking['report']; ?>
-            </p>
+                    <p><strong>Ghi chú:</strong> <?= $booking['report'] ?: '—' ?></p>
+                </div>
+            </div> <br>
+
+            <div class="card mb-4">
+                <div class="card-header fw-bold">Hướng Dẫn Viên Phụ Trách</div>
+                <div class="card-body">
+                    <?php if ($guide): ?>
+                    <p><strong>Họ tên:</strong> <?= $guide['guide_name'] ?></p>
+                    <p><strong>Email:</strong> <?= $guide['email'] ?></p>
+                    <p><strong>SĐT:</strong> <?= $guide['phone'] ?></p>
+                    <p><strong>Chuyên môn:</strong> <?= $guide['specialization'] ?></p>
+                    <p><strong>Kinh nghiệm:</strong> <?= $guide['experience_years'] ?> năm</p>
+                    <?php else: ?>
+                    <p class="text-danger">Chưa phân hướng dẫn viên cho tour này.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
         </div>
-    </div>
+
+        <div class="right-column">
+            <!-- THÔNG TIN KHÁCH SẠN -->
+            <div class="card mb-4">
+                <div class="card-header fw-bold">Thông Tin Khách Sạn</div>
+                <div class="card-body">
+                    <p><strong>Tên khách sạn:</strong> <?= $booking['hotel_name'] ?></p>
+                    <p><strong>Chủ khách sạn:</strong> <?= $booking['hotel_manager'] ?></p>
+                    <p><strong>SĐT Chủ KS:</strong> <?= $booking['hotel_manager_phone'] ?></p>
+                </div>
+            </div> <br>
+            <!-- THÔNG TIN PHƯƠNG TIỆN -->
+            <div class="card mb-4">
+                <div class="card-header fw-bold">Thông Tin Phương Tiện</div>
+                <div class="card-body">
+                    <p><strong>Tên xe:</strong> <?= $vehicle['service_name'] ?></p>
+                    <p><strong>Tài xế:</strong> <?= $vehicle['driver_name'] ?></p>
+                    <p><strong>SĐT tài xế:</strong> <?= $vehicle['driver_phone'] ?></p>
+                    <p><strong>Biển số:</strong> <?= $vehicle['license_plate'] ?></p>
+                    <p><strong>Số chỗ:</strong> <?= $vehicle['seat'] ?> chỗ</p>
+                    <p><strong>Giá/ngày:</strong> <?= number_format($vehicle['price_per_day']) ?> VND</p>
+                </div>
+            </div>
+        </div>
+    </div> <br>
 
     <div class="card mb-4">
-        <div class="card-header fw-bold">Hướng Dẫn Viên Phụ Trách</div>
+        <div class="card-header fw-bold">Lịch Trình Tour</div>
         <div class="card-body">
-            <?php if ($guide): ?>
-            <p><strong>Họ tên:</strong> <?= $guide['guide_name'] ?></p>
-            <p><strong>Email:</strong> <?= $guide['email'] ?></p>
-            <p><strong>SĐT:</strong> <?= $guide['phone'] ?></p>
-            <p><strong>Chuyên môn:</strong> <?= $guide['specialization'] ?></p>
-            <p><strong>Kinh nghiệm:</strong> <?= $guide['experience_years'] ?> năm</p>
 
-            <p><strong>Ngày bắt đầu tour:</strong> <?= $guide['start_date'] ?></p>
-            <p><strong>Ngày kết thúc tour:</strong> <?= $guide['end_date'] ?></p>
+            <?php if (!empty($tour_schedules)): ?>
+            <div class="schedule-wrapper">
+                <?php foreach ($tour_schedules as $schedule): ?>
+                <div class="schedule-item">
+                    <div class="schedule-day">
+                        <span>Ngày <?= $schedule['day_number'] ?></span>
+                    </div>
 
+                    <div class="schedule-line"></div>
+
+                    <div class="schedule-content">
+                        <p class="schedule-title"><?= $schedule['title'] ?></p>
+                        <p class="schedule-desc"><?= $schedule['description'] ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
             <?php else: ?>
-            <p class="text-danger">Chưa phân hướng dẫn viên cho tour này.</p>
+            <p class="text-muted">Tour này chưa có lịch trình.</p>
             <?php endif; ?>
+
         </div>
     </div>
 

@@ -43,4 +43,19 @@ class GuideScheduleController
         header("Location: ?action=guide-detailGuideBooking&id=$booking_id");
         exit;
     }
+
+    public function updateStatusByGuide() {
+        $booking_id = $_POST['booking_id'];
+        $status = $_POST['status'];
+        if (!in_array($status, ['dang_dien_ra', 'da_hoan_thanh'])) {
+            $_SESSION['msg'] = "Hướng dẫn viên không được phép cập nhật trạng thái này!";
+            header("Location: ?action=guide-detailGuideBooking&id=".$booking_id);
+            exit;
+        }
+        $this->bookingQuery->updateStatus($booking_id, $status);
+        $_SESSION['msg'] = "Cập nhật trạng thái thành công!";
+        header("Location: ?action=guide-detailGuideBooking&id=$booking_id");
+        exit;
+}
+
 }

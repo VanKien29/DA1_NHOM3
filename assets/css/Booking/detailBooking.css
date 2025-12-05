@@ -287,3 +287,84 @@ h3.fw-bold {
   border-radius: 8px;
   padding: 8px 12px;
 }
+.booking-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* Giảm width ở màn nhỏ */
+@media (max-width: 992px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.left-column .card,
+.right-column .card {
+  width: 100%;
+}
+/* ======== LỊCH TRÌNH TOUR – UI NÂNG CẤP ======== */
+
+.schedule-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 8px;
+  border-radius: 12px;
+  transition: 0.25s ease;
+  border: 1px solid #eef2ff;
+  background: #fafbff;
+  position: relative;
+}
+
+.schedule-item:hover {
+  background: #f5f8ff;
+  transform: translateX(4px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Cột ngày */
+.schedule-day {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1e3a8a;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  min-width: 95px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Thanh timeline */
+.schedule-line {
+  width: 3px;
+  background: linear-gradient(to bottom, #93c5fd, #bfdbfe);
+  border-radius: 10px;
+  margin-top: 4px;
+  height: calc(100% - 8px);
+}
+
+/* Nội dung */
+.schedule-content {
+  flex: 1;
+}
+
+.schedule-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.schedule-desc {
+  color: #475569;
+  font-size: 14px;
+  margin: 0;
+}
