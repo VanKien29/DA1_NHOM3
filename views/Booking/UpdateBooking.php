@@ -16,9 +16,7 @@
         </div>
         <?php endif; ?>
 
-        <!-- ===========================================================
-             STEP 1 — TOUR & HDV
-        ============================================================ -->
+        <!-- STEP 1 — TOUR & HDV -->
         <?php if ($current_step == 1): ?>
         <div class="card card-full">
             <h4>Thông Tin Tour & Hướng Dẫn Viên</h4>
@@ -67,9 +65,7 @@
         </div>
         <?php endif; ?>
 
-        <!-- ===========================================================
-             STEP 2 — CHỌN KHÁCH
-        ============================================================ -->
+        <!-- STEP 2 — CHỌN KHÁCH -->
         <?php if ($current_step == 2): ?>
         <div class="card card-full">
             <h4>Danh Sách Khách</h4>
@@ -79,6 +75,24 @@
             <input type="hidden" name="guide_id" value="<?= htmlspecialchars($_POST['guide_id']) ?>">
             <input type="hidden" name="start_date" value="<?= htmlspecialchars($_POST['start_date']) ?>">
             <input type="hidden" name="end_date" value="<?= htmlspecialchars($_POST['end_date']) ?>">
+            <?php 
+                if (!empty($_POST['customers'])) {
+                    foreach ($_POST['customers'] as $cid) {
+                        echo '<input type="hidden" name="customers[]" value="' . $cid . '">';
+                    }
+                }
+            ?>
+            <div class="form-group">
+                <label>Tìm kiếm khách</label>
+                <div class="search-row">
+                    <input type="text" name="search_customer"
+                        value="<?= htmlspecialchars($_POST['search_customer'] ?? '') ?>"
+                        class="form-control search-input" placeholder="Nhập tên hoặc số điện thoại...">
+                    <button type="submit" name="search_btn" value="1" class="btn-search">
+                        Tìm kiếm
+                    </button>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label>Chọn khách tham gia</label>
@@ -111,25 +125,6 @@
                 <span class="hint-text">Cần ít nhất 3 khách. Khách trùng lịch sẽ bị khóa.</span>
             </div>
 
-            <div class="form-group">
-                <label>Khách đại diện</label>
-                <select name="main_customer" class="form-select">
-                    <option value="">-- Chọn đại diện --</option>
-                    <?php 
-                        $main_selected = $_POST['main_customer'] ?? $main_old;
-                        foreach ($customers as $c):
-                            $blocked = in_array($c['customer_id'], $blocked_customers);
-                        ?>
-                    <option value="<?= $c['customer_id'] ?>"
-                        <?= ($main_selected == $c['customer_id']) ? "selected" : "" ?>
-                        <?= $blocked ? "disabled" : "" ?>>
-                        <?= $c['full_name'] ?> (<?= $c['phone'] ?>)
-                        <?= $blocked ? " - Trùng lịch" : "" ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
             <div class="action-row">
                 <button type="submit" name="prev_step" value="1" class="btn-prev">← Quay lại</button>
                 <button type="submit" name="next_2" value="1" class="btn-submit">Tiếp tục</button>
@@ -137,9 +132,7 @@
         </div>
         <?php endif; ?>
 
-        <!-- ===========================================================
-             STEP 3 — DỊCH VỤ
-        ============================================================ -->
+        <!-- STEP 3 — DỊCH VỤ -->
         <?php if ($current_step == 3): ?>
         <div class="card card-full">
             <h4>Dịch Vụ</h4>
@@ -200,6 +193,25 @@
                     <option value="da_huy" <?= $old_status == "da_huy" ? "selected" : "" ?>>
                         Đã hủy
                     </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Khách đại diện</label>
+                <select name="main_customer" class="form-select">
+                    <option value="">-- Chọn đại diện --</option>
+                    <?php 
+                        $main_selected = $_POST['main_customer'] ?? $main_old;
+                        foreach ($customers as $c):
+                            $blocked = in_array($c['customer_id'], $blocked_customers);
+                        ?>
+                    <option value="<?= $c['customer_id'] ?>"
+                        <?= ($main_selected == $c['customer_id']) ? "selected" : "" ?>
+                        <?= $blocked ? "disabled" : "" ?>>
+                        <?= $c['full_name'] ?> (<?= $c['phone'] ?>)
+                        <?= $blocked ? " - Trùng lịch" : "" ?>
+                    </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
 

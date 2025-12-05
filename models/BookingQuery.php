@@ -543,7 +543,7 @@ class BookingQuery extends BaseModel
         return $stm->fetchColumn();
     }
 
-    private function autoStatus($start_date, $end_date){
+    public function autoStatus($start_date, $end_date){
         $today = date('Y-m-d');
         if ($today < $start_date) return 'sap_dien_ra';
         if ($today >= $start_date && $today <= $end_date) return 'dang_dien_ra';
