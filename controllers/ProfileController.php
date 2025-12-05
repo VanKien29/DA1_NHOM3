@@ -1,16 +1,19 @@
 <?php
+
 class ProfileController {
 
-    private $UserQuery;
+    private $UsersQuery;
 
     public function __construct() {
-        $this->UserQuery = new UsersQuery();
+        $this->UsersQuery = new UsersQuery();
     }
     public function profileInfo() {
     $user_id = $_SESSION['user']['id'];
-    $user = $this->UserQuery->findUser($user_id);
-    $ongoingTours = $this->UserQuery->getGuideTours($user_id, 'dang_dien_ra');
-    $completedTours = $this->UserQuery->getGuideTours($user_id, 'hoan_thanh');
+    $user = $this->UsersQuery->findUser($user_id);
+    $guide = $this->UsersQuery->getGuideByUserId($user_id);
+    $ongoingTours   = $this->UsersQuery->getGuideTours($user_id, 'dang_dien_ra');
+    $completedTours = $this->UsersQuery->getGuideTours($user_id, 'da_hoan_thanh');
+
     require './views/Profile/Profile.php';
 }
     public function updateProfile() {
@@ -20,9 +23,9 @@ class ProfileController {
         $phone = $_POST['phone'];
         $avatar = null;
         if (!empty($_FILES['avatar']['name'])) {
-            $avatar = upload_file('image/UserAvatar', $_FILES['avatar']);
+            $avatar = upload_file('image/GuideImages', $_FILES['avatar']);
         }
-        $this->UserQuery->updateProfile($id, $name, $email, $phone, $avatar);
+        $this->UsersQuery->updateProfile($id, $name, $email, $phone, $avatar);
         $_SESSION['user']['name']  = $name;
         $_SESSION['user']['email'] = $email;
         $_SESSION['user']['phone'] = $phone;

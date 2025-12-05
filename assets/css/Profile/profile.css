@@ -1,211 +1,158 @@
-/* =============== WRAPPER =============== */
-.profile-wrapper {
-    display: flex;
-    gap: 30px;
-    padding: 30px;
-    animation: fadeIn .35s ease;
-    font-family: "Inter", sans-serif;
-}
-
-/* =============== LEFT PANEL =============== */
-.profile-left {
-    width: 300px;
+.profile-card-table {
     background: #ffffff;
-    padding: 28px 22px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-    border: 1px solid #e6ebf5;
+    padding: 22px;
+    border-radius: 14px;
+    border: 1px solid #e5e9f3;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    margin-bottom: 25px;
 }
 
-/* Avatar */
-.profile-avatar {
-    width: 165px;
-    height: 165px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid #1e40af;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    margin-bottom: 12px;
-}
-
-/* Name */
-.profile-name {
-    font-size: 22px;
-    font-weight: 700;
-    color: #1e2a4a;
-    margin-bottom: 5px;
-}
-
-/* Role */
-.role {
-    font-size: 15px;
-    color: #6b7a99;
-    font-weight: 500;
-    margin-bottom: 18px;
-}
-
-/* INFO BLOCK */
-.info-block p {
-    background: #f4f7fc;
-    padding: 12px 14px;
-    border-radius: 10px;
-    margin: 8px 0;
-    border-left: 4px solid #3b5bdb;
-    border: 1px solid #e0e6f1;
-    color: #2c3e55;
-    font-size: 15px;
-    transition: .2s;
-}
-
-.info-block p:hover {
-    background: #eef3ff;
-    transform: translateX(3px);
-}
-
-/* EDIT BUTTON */
-.btn-edit {
-    display: inline-block;
-    background: linear-gradient(135deg, #1e40af, #3b65ff);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 10px;
-    margin-top: 15px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: .25s;
-    width: 100%;
-}
-
-.btn-edit:hover {
-    background: linear-gradient(135deg, #1c3a9d, #3358e0);
-    transform: translateY(-2px);
-}
-
-/* =============== RIGHT PANEL =============== */
-.profile-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-/* CARD */
-.card {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 16px;
-    border: 1px solid #e6ebf5;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-}
-
-.card h3 {
+.profile-card-table h3 {
     font-size: 20px;
     font-weight: 700;
-    color: #1e2a4a;
-    margin-bottom: 15px;
-}
-
-/* Achievements List */
-.achievements li {
-    padding: 10px 14px;
-    font-size: 15px;
-    background: #f7faff;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    font-weight: 600;
     color: #1e3a8a;
-    border-left: 4px solid #3b5bdb;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.achievements li:hover {
-    background: #edf2ff;
+/* Bảng */
+.tour-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-/* =============== MODAL (UPDATE PROFILE) =============== */
+.tour-table th {
+    background: #eef2ff;
+    color: #1e40af;
+    font-weight: 600;
+    padding: 12px;
+    border-bottom: 2px solid #d9e3ff;
+    text-align: left;
+    font-size: 15px;
+}
+
+.tour-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f4fa;
+    font-size: 15px;
+    color: #334155;
+}
+
+.tour-table tr:hover {
+    background: #f9fbff;
+}
+
+/* Trạng thái */
+.badge-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.status-processing {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-done {
+    background: #e0e7ff;
+    color: #4338ca;
+}
+
+.empty {
+    font-style: italic;
+    color: #94a3b8;
+    padding: 10px 0;
+}
+/* ============================== */
+/*          POPUP EDIT           */
+/* ============================== */
+
 .edit-modal {
-    display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.35);
-    justify-content: center;
+    display: none;
     align-items: center;
-    z-index: 999;
-    animation: fadeIn .3s ease;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(3px);
+    z-index: 9999;
 }
 
 .edit-box {
-    background: white;
-    padding: 28px;
     width: 420px;
+    background: #fff;
+    padding: 28px 26px;
     border-radius: 16px;
-    animation: fadeInUp .35s ease;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    animation: popup_in .25s ease;
 }
 
-.edit-box h2 {
-    margin-bottom: 18px;
-    color: #1e2a4a;
+.edit-box h3 {
     font-size: 20px;
     font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 18px;
 }
 
-/* Input Styles */
+.edit-box label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+    color: #334155;
+    font-size: 15px;
+}
+
 .edit-box input {
     width: 100%;
-    padding: 11px 12px;
-    border-radius: 10px;
-    border: 1px solid #d9dfeb;
-    outline: none;
-    margin: 7px 0 14px;
-    font-size: 15px;
-    transition: .2s;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    margin-top: 6px;
+    font-size: 14px;
 }
 
-.edit-box input:focus {
-    border-color: #3b65ff;
-    box-shadow: 0 0 0 3px rgba(59,102,255,0.15);
-}
-
-/* ACTION BUTTONS */
 .edit-actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
+    margin-top: 18px;
 }
 
 .btn-save {
     background: #1e40af;
-    color: white;
-    border: none;
+    color: #fff;
     padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
     cursor: pointer;
-    transition: .2s;
 }
 
 .btn-save:hover {
-    background: #18358f;
+    background: #1e3a8a;
 }
 
 .btn-close {
-    background: #6b7280;
-    color: white;
+    background: #e2e8f0;
     padding: 10px 16px;
-    border-radius: 10px;
+    color: #334155;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
     cursor: pointer;
 }
 
-/* ANIMATIONS */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.btn-close:hover {
+    background: #cbd5e1;
 }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Animation */
+@keyframes popup_in {
+    from { opacity: 0; transform: scale(.85); }
+    to   { opacity: 1; transform: scale(1); }
 }
