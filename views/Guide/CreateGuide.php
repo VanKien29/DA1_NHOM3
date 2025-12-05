@@ -6,7 +6,7 @@
 
         <form method="POST" enctype="multipart/form-data">
             <?php if (!empty($err['empty'])): ?>
-            <div class="text-danger"><?= $err['empty'] ?></div>
+                <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
 
             <div class="mb-3">
@@ -14,10 +14,9 @@
                 <select name="user_id" class="form-select">
                     <option value="">Chọn user</option>
                     <?php foreach ($users as $u): ?>
-                    <option value="<?= $u['user_id'] ?>"
-                        <?= (isset($_POST['user_id']) && $_POST['user_id'] == $u['user_id']) ? 'selected' : '' ?>>
-                        <?= $u['name'] ?> (<?= $u['email'] ?>)
-                    </option>
+                        <option value="<?= $u['user_id'] ?>" <?= (isset($_POST['user_id']) && $_POST['user_id'] == $u['user_id']) ? 'selected' : '' ?>>
+                            <?= $u['name'] ?> (<?= $u['email'] ?>)
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -26,8 +25,26 @@
                 <label>Ảnh hướng dẫn viên</label>
                 <input type="file" name="avatar" class="form-control">
                 <?php if (!empty($err['avatar'])): ?>
-                <div class="text-danger err"><?= htmlspecialchars($err['avatar']) ?></div>
+                    <div class="text-danger err"><?= htmlspecialchars($err['avatar']) ?></div>
                 <?php endif; ?>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="<?= $_POST['email'] ?? '' ?>">
+                <div class="err"><?= $err['exp'] ?? '' ?></div>
+            </div>
+
+            <div class="mb-3">
+                <label>Số điện thoại</label>
+                <input type="number" name="phone" class="form-control" value="<?= $_POST['phone'] ?? '' ?>">
+                <div class="err"><?= $err['exp'] ?? '' ?></div>
+            </div>
+
+            <div class="mb-3">
+                <label>Căm cước công dân</label>
+                <input type="number" name="cccd" class="form-control" value="<?= $_POST['cccd'] ?? '' ?>">
+                <div class="err"><?= $err['exp'] ?? '' ?></div>
             </div>
 
             <div class="mb-3">
