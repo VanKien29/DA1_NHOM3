@@ -106,66 +106,67 @@
     <div class="card mb-4">
         <div class="card-header fw-bold">Danh Sách Khách</div>
         <div class="card-body">
-
+            <?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy'): ?>
             <button class="btn btn-addCustomer"
                 onclick="document.getElementById('addCustomerForm').style.display='block'">
                 + Thêm khách
             </button>
-
+            <?php endif; ?>
             <?php if (count($customers) > 0): ?>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Điểm danh</th>
-                            <th>Ghi chú</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($customers as $c): ?>
-                            <tr>
-                                <td><?= $c['customer_id'] ?></td>
-                                <td><?= $c['full_name'] ?></td>
-                                <td><?= $c['email'] ?></td>
-                                <td><?= $c['phone'] ?></td>
-                                <?php foreach ($attendance as $a):
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>SĐT</th>
+                        <th>Điểm danh</th>
+                        <th>Ghi chú</th>
+                        <th><?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy'){ echo 'Hành động'; } ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($customers as $c): ?>
+                    <tr>
+                        <td><?= $c['customer_id'] ?></td>
+                        <td><?= $c['full_name'] ?></td>
+                        <td><?= $c['email'] ?></td>
+                        <td><?= $c['phone'] ?></td>
+                        <?php foreach ($attendance as $a):
                                     if ($a['customer_id'] == $c['customer_id']) {
-                                        ?>
-                                        <td>
-                                            <?php if ($a['status'] == 'present'): ?>
-                                                <span class="badge bg-success">Có mặt</span>
-                                            <?php elseif ($a['status'] == 'absent'): ?>
-                                                <span class="badge bg-danger">Vắng</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-secondary">—</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><?= $a['note'] ?></td>
-                                    <?php }endforeach; ?>
-                                <td class="action-col">
-                                    <a href="?action=admin-deleteCustomerBooking&id=<?= $c['bc_id'] ?>&booking_id=<?= $booking['booking_id'] ?>"
-                                        class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa khách này?')">
-                                        Xóa
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        ?>
+                        <td>
+                            <?php if ($a['status'] == 'present'): ?>
+                            <span class="badge bg-success">Có mặt</span>
+                            <?php elseif ($a['status'] == 'absent'): ?>
+                            <span class="badge bg-danger">Vắng</span>
+                            <?php else: ?>
+                            <span class="badge bg-secondary">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= $a['note'] ?></td>
+                        <?php } endforeach; if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy'){ ?>
+                        <td class="action-col">
+                            <a href="?action=admin-deleteCustomerBooking&id=<?= $c['bc_id'] ?>&booking_id=<?= $booking['booking_id'] ?>"
+                                class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa khách này?')">
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                    <?php } endforeach; ?>
+                </tbody>
+            </table>
 
-                <?php if (!empty($_SESSION['message'])): ?>
-                    <div class="alert alert-success fade-alert"><?= $_SESSION['message']; ?></div>
-                    <?php unset($_SESSION['message']); ?>
-                <?php endif; ?>
+            <?php if (!empty($_SESSION['message'])): ?>
+            <div class="alert alert-success fade-alert"><?= $_SESSION['message']; ?></div>
+            <?php unset($_SESSION['message']); ?>
+            <?php endif; ?>
 
-                <p class=" fw-bold mt-3">Tổng số khách: <?= count($customers) ?> người</p>
+            <p class=" fw-bold mt-3">Tổng số khách: <?= count($customers) ?> người</p>
 
             <?php else: ?>
-                <p class="text-muted">Chưa thêm khách nào cho booking này.</p>
+            <p class="text-muted">Chưa thêm khách nào cho booking này.</p>
             <?php endif; ?>
 
             <div id="addCustomerForm" style="display:none;" class="border rounded p-3 mb-3 bg-light">
@@ -175,10 +176,10 @@
                     <select name="add_customer_id" class="form-select mb-3">
                         <option value="">-- Chọn khách --</option>
                         <?php foreach ($customers_all as $c): ?>
-                            <option value="<?= $c['customer_id'] ?>">
-                                <?= $c['customer_id'] ?> -
-                                <?= $c['full_name'] ?> - <?= $c['phone'] ?>
-                            </option>
+                        <option value="<?= $c['customer_id'] ?>">
+                            <?= $c['customer_id'] ?> -
+                            <?= $c['full_name'] ?> - <?= $c['phone'] ?>
+                        </option>
                         <?php endforeach; ?>
                     </select>
                     <button type="submit" class="btn btn-secondary">Lưu khách</button>
@@ -189,13 +190,13 @@
         </div>
 
         <?php if (!empty($_SESSION['message'])): ?>
-            <div class="alert alert-success fade-alert"><?= $_SESSION['message']; ?></div>
-            <?php unset($_SESSION['message']); ?>
+        <div class="alert alert-success fade-alert"><?= $_SESSION['message']; ?></div>
+        <?php unset($_SESSION['message']); ?>
         <?php endif; ?>
 
         <?php if (!empty($_SESSION['error'])): ?>
-            <div class="alert alert-danger fade-alert"><?= $_SESSION['error']; ?></div>
-            <?php unset($_SESSION['error']); ?>
+        <div class="alert alert-danger fade-alert"><?= $_SESSION['error']; ?></div>
+        <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
     </div>
 
