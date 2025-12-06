@@ -20,27 +20,52 @@ class ProfileController
         require './views/Profile/Profile.php';
     }
     public function updateProfile()
-    {
-        $id = $_SESSION['user']['id'];
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $cccd = $_POST['cccd'];
-        $avatar = null;
-        if (!empty($_FILES['avatar']['name'])) {
-            $avatar = upload_file('image/GuideImages', $_FILES['avatar']);
-        }
-        $this->UsersQuery->updateProfile($id, $name, $email, $phone, $cccd, $avatar);
-        $_SESSION['user']['name'] = $name;
-        $_SESSION['user']['email'] = $email;
-        $_SESSION['user']['phone'] = $phone;
-        $_SESSION['user']['cccd'] = $cccd;
-        if ($avatar)
-            $_SESSION['user']['avatar'] = $avatar;
+{
+    $id = $_SESSION['user']['id'];
 
-        echo "<script>
-              alert('Cập nhật thông tin thành công!');
-              window.location='?action=profile-info';
-              </script>";
+    // Dữ liệu từ form
+    $name  = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $cccd  = $_POST['cccd'];
+
+    // Xử lý upload avatar (avatar nằm ở bảng guides)
+    $avatar = null;
+    if (!empty($_FILES['avatar']['name'])) {
+        $avatar = upload_file('image/GuideImages', $_FILES['avatar']);
     }
+
+    // ==============================
+    // 1) UPDATE bảng USERS
+    // ==============================
+    $this->UsersQuery->updateProfile($id, $name, $email, $phone, $cccd);
+
+    // ==============================
+    // 2) UPDATE avatar bảng GUIDES
+    // ==============================
+    if ($avatar !== null) {
+        $this->UsersQuery->updateGuideAvatar($id, $avatar);
+    }
+
+    // ==============================
+    // 3) Update SESSION
+    // ==============================
+    $_SESSION['user']['name']  = $name;
+    $_SESSION['user']['email'] = $email;
+    $_SESSION['user']['phone'] = $phone;
+    $_SESSION['user']['cccd']  = $cccd;
+
+    if ($avatar !== null) {
+        $_SESSION['user']['avatar'] = $avatar;
+    }
+
+    // ==============================
+    // 4) Thông báo
+    // ==============================
+    echo "<script>
+            alert('Cập nhật thông tin thành công!');
+            window.location='?action=profile-info';
+          </script>";
+}
+
 }

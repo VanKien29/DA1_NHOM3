@@ -8,7 +8,6 @@ class UsersQuery extends BaseModel
     public $name;
     public $email;
     public $phone;
-    public $cccd;
 
     // ====== Lấy toàn bộ người dùng ======
     public function getAllUsers()
@@ -45,8 +44,8 @@ class UsersQuery extends BaseModel
     // ====== Thêm user ======
     public function createUser()
     {
-        $sql = "INSERT INTO users (username, password, role, name, email, phone, cccd)
-                VALUES (:username, :password, :role, :name, :email, :phone , :cccd)";
+        $sql = "INSERT INTO users (username, password, role, name, email, phone)
+                VALUES (:username, :password, :role, :name, :email, :phone)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':username', $this->username);
         $stmt->bindParam(':password', $this->password);
@@ -54,7 +53,6 @@ class UsersQuery extends BaseModel
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':phone', $this->phone);
-        $stmt->bindParam(':cccd', $this->cccd);
         return $stmt->execute();
     }
 
@@ -67,8 +65,7 @@ class UsersQuery extends BaseModel
                     role = :role,
                     name = :name,
                     email = :email,
-                    phone = :phone,
-                    cccd = :cccd
+                    phone = :phone
                 WHERE user_id = :user_id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
@@ -78,7 +75,6 @@ class UsersQuery extends BaseModel
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':phone', $this->phone);
-        $stmt->bindParam(':cccd', $this->cccd);
         return $stmt->execute();
     }
 
@@ -108,61 +104,56 @@ class UsersQuery extends BaseModel
         ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getGuideByUserId($uid)
-    {
-        $sql = "SELECT * FROM guides WHERE user_id = :uid";
-        $stm = $this->pdo->prepare($sql);
-        $stm->execute([':uid' => $uid]);
-        return $stm->fetch(PDO::FETCH_ASSOC);
-    }
+   public function getGuideByUserId($uid)
+{
+    $sql = "SELECT * FROM guides WHERE user_id = :uid";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([':uid' => $uid]);
+    return $stm->fetch(PDO::FETCH_ASSOC);
+}
 
-    public function getToursByGuideStatus($guide_id, $status)
-    {
-        $sql = "SELECT b.*, t.tour_name
+public function getToursByGuideStatus($guide_id, $status)
+{
+    $sql = "SELECT b.*, t.tour_name
             FROM bookings b
             JOIN tours t ON b.tour_id = t.tour_id
             WHERE b.guide_id = :gid
             AND b.status = :stt
             ORDER BY b.start_date DESC";
 
-        $stm = $this->pdo->prepare($sql);
-        $stm->execute([
-            ':gid' => $guide_id,
-            ':stt' => $status
-        ]);
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([
+        ':gid' => $guide_id,
+        ':stt' => $status
+    ]);
 
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
-    }
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
+}
 
-    public function updateProfile($id, $name, $email, $phone, $cccd, $avatar = null)
-    {
-        $sql = "UPDATE users SET 
+public function updateProfile($id, $name, $email, $phone, $cccd)
+{
+    $sql = "UPDATE users SET 
                 name = :name,
                 email = :email,
                 phone = :phone,
-                cccd = :cccd"
-            . ($avatar ? ", avatar = :avatar" : "") .
-            " WHERE user_id = :id";
+                cccd = :cccd
+            WHERE user_id = :id";
 
-        $stm = $this->pdo->prepare($sql);
+    $stm = $this->pdo->prepare($sql);
 
-        $stm->bindParam(':name', $name);
-        $stm->bindParam(':email', $email);
-        $stm->bindParam(':phone', $phone);
-        $stm->bindParam(':cccd', $cccd);
-        $stm->bindParam(':id', $id);
+    $stm->bindParam(':name', $name);
+    $stm->bindParam(':email', $email);
+    $stm->bindParam(':phone', $phone);
+    $stm->bindParam(':cccd', $cccd);
+    $stm->bindParam(':id', $id);
 
-        if ($avatar) {
-            $stm->bindParam(':avatar', $avatar);
-        }
+    return $stm->execute();
+}
 
-        return $stm->execute();
 
-    }
-
-    public function getGuideTours($user_id, $status = null)
-    {
-        $sql = "
+public function getGuideTours($user_id, $status = null)
+{
+    $sql = "
         SELECT 
             b.*, t.tour_name
         FROM bookings b
@@ -171,19 +162,32 @@ class UsersQuery extends BaseModel
         WHERE g.user_id = :uid
     ";
 
-        if ($status !== null) {
-            $sql .= " AND b.status = :status ";
-        }
-
-        $stm = $this->pdo->prepare($sql);
-        $stm->bindParam(':uid', $user_id);
-
-        if ($status !== null) {
-            $stm->bindParam(':status', $status);
-        }
-
-        $stm->execute();
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    if ($status !== null) {
+        $sql .= " AND b.status = :status ";
     }
+
+    $stm = $this->pdo->prepare($sql);
+    $stm->bindParam(':uid', $user_id);
+
+    if ($status !== null) {
+        $stm->bindParam(':status', $status);
+    }
+
+    $stm->execute();
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
+}
+public function updateGuideAvatar($user_id, $avatar)
+{
+    $sql = "UPDATE guides SET avatar = :avatar WHERE user_id = :uid";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([
+        ':avatar' => $avatar,
+        ':uid' => $user_id
+    ]);
+}
+
+
+
+
 }
 ?>
