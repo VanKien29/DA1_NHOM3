@@ -1,10 +1,13 @@
+/* ======================== FORM WRAPPER ======================== */
 .admin-form-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 60px 20px;
 }
-
+a {
+  text-decoration: none;
+}
 .admin-form-card {
   background: #ffffff;
   border-radius: 20px;
@@ -15,6 +18,7 @@
   border: 1px solid #eef2ff;
 }
 
+/* ======================== TITLE ======================== */
 .form-title {
   font-size: 24px;
   font-weight: 700;
@@ -22,9 +26,9 @@
   border-bottom: 2px solid #e5e7eb;
   padding-bottom: 12px;
   margin-bottom: 32px;
-  text-align: left;
 }
 
+/* ======================== FORM GROUP ======================== */
 .form-group {
   margin-bottom: 18px;
 }
@@ -37,6 +41,7 @@
   font-size: 15px;
 }
 
+/* ======================== INPUTS ======================== */
 .form-control,
 .form-select,
 textarea {
@@ -46,8 +51,8 @@ textarea {
   border: 1px solid #d1d5db;
   transition: all 0.25s ease;
   font-size: 15px;
-  color: #111827;
   background-color: #f9fafb;
+  color: #111827;
 }
 
 textarea {
@@ -61,24 +66,32 @@ textarea:focus {
   background-color: #fff;
   border-color: #0d6efd;
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
-  outline: none;
 }
 
+/* ======================== ERROR ======================== */
+.err,
+.text-danger {
+  color: #dc2626 !important;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* ======================== BUTTON GROUP ======================== */
 .form-action {
   display: flex;
   justify-content: center;
-  align-items: center;
   gap: 12px;
   margin-top: 30px;
 }
 
+/* ======================== BUTTON PRIMARY ======================== */
 .btn-primary {
   background: linear-gradient(90deg, #0d6efd, #3b82f6);
   border: none;
   color: #fff;
   font-weight: 600;
-  border-radius: 10px;
   padding: 12px 28px;
+  border-radius: 10px;
   font-size: 15px;
   box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
   transition: all 0.25s ease;
@@ -90,6 +103,7 @@ textarea:focus {
   box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
 }
 
+/* ======================== BUTTON SECONDARY ======================== */
 .btn-secondary {
   background-color: #f3f4f6;
   color: #374151;
@@ -105,6 +119,7 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
+/* ======================== RESPONSIVE ======================== */
 @media (max-width: 768px) {
   .admin-form-card {
     padding: 28px 24px;
@@ -114,8 +129,4 @@ textarea:focus {
     font-size: 20px;
     text-align: center;
   }
-}
-
-.err {
-  color: red !important;
 }

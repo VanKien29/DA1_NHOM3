@@ -1,8 +1,9 @@
 <div class="container mt-4">
-    <h3 class="mb-3">Danh Sách Tour</h3>
-
-    <div class="d-flex justify-content-between mb-3">
-        <a href="?action=admin-createTours" class="btn btn-primary">+ Thêm Tour</a>
+    <div class="header-wrapper">
+        <h4 class="title">Danh Sách Tour</h4>
+        <a href="?action=admin-createTours" class="btn btn-add">
+            + Thêm Tour
+        </a>
     </div>
 
     <table class="table table-bordered table-striped align-middle">

@@ -320,8 +320,8 @@ class BookingController
             }
             $customers = $filtered;
         } else {
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
+            $start_date = $_POST['start_date'] ?? '';
+            $end_date   = $_POST['end_date'] ?? '';
             if ($start_date && $end_date) {
                 foreach ($customers as $c) {
                     if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date, $id)) {
@@ -475,6 +475,9 @@ class BookingController
                             $is_main = ($cid == $main) ? 1 : 0;
                             $this->bookingQuery->addBookingCustomers($id, $cid, $is_main, $price);
                             $this->bookingQuery->addAttendance($id, $cid);
+                            if ($status == 'da_hoan_thanh') {
+                                $this->bookingQuery->updateHistoryGuideTour($id);
+                            }
                         }
 
                         echo "<script>alert('Cập nhật booking thành công!'); window.location.href='?action=admin-listBooking';</script>";
@@ -483,6 +486,7 @@ class BookingController
                 }
             }
         }
+        $selected_customers = $customers_arr ?? $selected_old;
         require './views/Booking/updateBooking.php';
     }
 

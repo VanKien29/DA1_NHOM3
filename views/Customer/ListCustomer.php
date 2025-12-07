@@ -2,17 +2,15 @@
     <div class="table-container">
         <div class="admin-table-container">
             <div class="table-header d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold">Danh sách Khách Hàng</h4><br>
+                <h4 class="fw-bold">Danh Sách Khách Hàng</h4>
                 <a href="?action=admin-createCustomer" class="btn btn-primary">
-                    Thêm Khách Hàng
+                    + Thêm Khách Hàng
                 </a>
             </div>
-
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>ID</th>
                         <th>Họ và Tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
@@ -26,7 +24,6 @@
                     <?php $stt = 1; foreach($customers as $customer): ?>
                     <tr>
                         <td><?= $stt++; ?></td>
-                        <td><?= $customer['customer_id']; ?></td>
                         <td><?= htmlspecialchars($customer['full_name']); ?></td>
                         <td><?= htmlspecialchars($customer['email']); ?></td>
                         <td><?= htmlspecialchars($customer['phone']); ?></td>

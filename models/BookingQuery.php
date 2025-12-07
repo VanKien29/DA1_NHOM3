@@ -578,6 +578,13 @@ class BookingQuery extends BaseModel
         $stmt = $this->pdo->prepare("UPDATE bookings SET status=? WHERE booking_id=?");
         return $stmt->execute([$status, $id]);
     }
+    
+    public function updateHistoryGuideTour($booking_id) {
+        $sql = "UPDATE guide_tours SET status = 'history' WHERE booking_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $booking_id);
+        $stmt->execute();
+    }
 
 }
 ?>

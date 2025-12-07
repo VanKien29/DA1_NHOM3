@@ -13,10 +13,6 @@
 
             <!-- ================= STEP 1: Thông tin tour ================= -->
             <?php if (($current_step ?? 1) == 1): ?>
-            <div class="steps-indicator mb-3">
-                <span class="step active">1. Thông tin tour</span>
-                <span class="step">2. Lịch trình</span>
-            </div>
 
             <div class="mb-3">
                 <label class="form-label">Tên tour</label>
@@ -89,9 +85,9 @@
                 </select>
             </div>
 
-            <div class="text-center mt-3">
-                <button type="submit" name="next_1" value="1" class="btn btn-primary px-5">Tiếp tục</button>
-                <a href="?action=admin-listTours" class="btn btn-secondary ms-2 px-4">Quay lại</a>
+            <div class="form-button-group">
+                <button type="submit" name="next_1" class="btn btn-primary">Tiếp tục</button>
+                <a href="?action=admin-listTours" class="btn btn-secondary">Quay lại</a>
             </div>
 
             <?php endif; ?>
@@ -153,10 +149,10 @@
             <div class="text-danger mb-2"><?= htmlspecialchars($err['schedule']) ?></div>
             <?php endif; ?>
 
-            <div class="text-center mt-3 d-flex justify-content-between">
+            <div class="form-button-group">
+                <button type="submit" name="next_1" class="btn btn-primary">Tiếp tục</button>
                 <button type="submit" name="prev_step" value="1" class="btn btn-outline-secondary px-4">← Quay
                     lại</button>
-                <button type="submit" name="final_submit" value="1" class="btn btn-primary px-5">Hoàn tất</button>
             </div>
             <?php endif; ?>
         </form>

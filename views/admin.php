@@ -159,7 +159,7 @@ $user = $_SESSION['user'];
                 </li>
                 <li>
                     <a href="?action=admin-listTours"
-                        class="<?= ($action == 'admin-listTours' || $action == 'admin-createTour' || $action == 'admin-updateTour') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listTours' || $action == 'admin-createTours' || $action == 'admin-updateTours' || $action == 'admin-detailTour') ? 'active' : '' ?>">
                         <i class="fa-solid fa-suitcase-rolling"></i> Danh Sách Tour
                     </a>
                 </li>
@@ -177,7 +177,7 @@ $user = $_SESSION['user'];
                 </li>
                 <li>
                     <a href="?action=admin-listUsers"
-                        class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUser' || $action == 'admin-updateUser') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUsers' || $action == 'admin-updateUsers') ? 'active' : '' ?>">
                         <i class="fa-solid fa-user-tie"></i> Quản Trị Viên
                     </a>
                 </li>
@@ -209,12 +209,7 @@ $user = $_SESSION['user'];
                 <li>
                     <a href="?action=admin-listHotel"
                         class="<?= ($action == 'admin-listHotel' || $action == 'admin-createHotel' || $action == 'admin-updateHotel') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-truck-field"></i> Khách Sạn
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa-solid fa-comments"></i> Đánh Giá
+                        <i class="fa-solid fa-hotel"></i> Khách Sạn
                     </a>
                 </li>
             </ul>

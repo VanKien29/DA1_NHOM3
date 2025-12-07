@@ -46,7 +46,7 @@
 
             <div class="form-action">
                 <button class="btn btn-primary" type="submit">Cập nhật</button>
-                <a href="?action=admin-listGuide" class="btn btn-secondary">Hủy</a>
+                <a href="?action=admin-listGuide" class="btn btn-secondary">Quay lại</a>
             </div>
 
         </form>

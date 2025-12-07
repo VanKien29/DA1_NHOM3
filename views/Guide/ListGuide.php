@@ -1,13 +1,14 @@
-<link rel="stylesheet" href="./views/User/listUsers.css">
-
 <div class="table-container">
-    <h4>Danh Sách Hướng Dẫn Viên</h4>
-
+    <div class="table-header d-flex justify-content-between align-items-center mb-3">
+        <h4 class="title">Danh Sách Hướng Dẫn Viên</h4>
+        <a href="?action=admin-createGuide" class="btn btn-primary">
+            + Thêm Hướng Dẫn Viên
+        </a>
+    </div>
     <table class="table">
         <thead>
             <tr>
                 <th>#</th>
-                <th>ID</th>
                 <th>Ảnh đại diện</th>
                 <th>Tên</th>
                 <th>Email</th>
@@ -23,7 +24,6 @@
             <?php $stt = 1; foreach ($guides as $g): ?>
             <tr>
                 <td><?= $stt++ ?></td>
-                <td><?= $g['guide_id'] ?></td>
                 <td>
                     <?php if (!empty($g['avatar'])): ?>
                     <img src="<?= BASE_ASSETS_UPLOADS . $g['avatar'] ?>" width="60">
@@ -49,8 +49,4 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-
-    <div class="add-btn-container">
-        <a href="?action=admin-createGuide" class="btn btn-success">+ Thêm Hướng Dẫn Viên</a>
-    </div>
 </div>

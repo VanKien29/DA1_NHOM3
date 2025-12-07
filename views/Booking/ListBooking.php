@@ -2,7 +2,6 @@
 <div class="main-content p-4">
     <div class="table-container">
         <div class="admin-table-container">
-
             <div class="table-header d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold">Danh Sách Booking</h4>
                 <a href="?action=admin-createBooking" class="btn btn-primary">
