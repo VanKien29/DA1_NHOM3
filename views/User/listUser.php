@@ -2,17 +2,15 @@
     <div class="table-container">
         <div class="admin-table-container">
             <div class="table-header d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold">Danh sách Quản Trị Viên</h4><br>
+                <h4 class="fw-bold">Danh Sách Quản Trị Viên</h4>
                 <a href="?action=admin-createUsers" class="btn btn-primary">
-                    Thêm Quản Trị Viên
+                    + Thêm Quản Trị Viên
                 </a>
             </div>
-
             <table class="table table-striped align-middle">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>ID</th>
                         <th>Tên đăng nhập</th>
                         <th>Mật Khẩu</th>
                         <th>Họ tên</th>
@@ -25,32 +23,29 @@
                 </thead>
 
                 <tbody>
-                    <?php $stt = 1;
-                    foreach ($users as $user): ?>
-                        <tr>
-                            <td><?= $stt++; ?></td>
-                            <td><?= $user['user_id']; ?></td>
-                            <td><?= htmlspecialchars($user['username']); ?></td>
-                            <td><?= htmlspecialchars($user['password']); ?></td>
-                            <td><?= htmlspecialchars($user['name']); ?></td>
-                            <td><?= htmlspecialchars($user['email']); ?></td>
-                            <td><?= htmlspecialchars($user['phone']); ?></td>
-                            <td><?= htmlspecialchars($user['cccd']); ?></td>
-                            <td>
-                                <?php if ($user['role'] == 'admin'): ?>
-                                    <span class="badge bg-success">Admin</span>
-                                <?php else: ?>
-                                    <span class="badge bg-secondary">Hướng Dẫn Viên</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <a href="?action=admin-updateUsers&id=<?= $user['user_id']; ?>"
-                                    class="btn btn-sm btn-outline-success">Sửa</a>
-                                <a href="?action=admin-deleteUsers&id=<?= $user['user_id']; ?>"
-                                    onclick="return confirm('Xác nhận xóa người dùng này?')"
-                                    class="btn btn-sm btn-outline-danger">Xóa</a>
-                            </td>
-                        </tr>
+                    <?php $stt = 1; foreach($users as $user): ?>
+                    <tr>
+                        <td><?= $stt++; ?></td>
+                        <td><?= htmlspecialchars($user['username']); ?></td>
+                        <td><?= htmlspecialchars($user['password']); ?></td>
+                        <td><?= htmlspecialchars($user['name']); ?></td>
+                        <td><?= htmlspecialchars($user['email']); ?></td>
+                        <td><?= htmlspecialchars($user['phone']); ?></td>
+                        <td>
+                            <?php if($user['role'] == 'admin'): ?>
+                            <span class="badge bg-success">Admin</span>
+                            <?php else: ?>
+                            <span class="badge bg-secondary">Hướng Dẫn Viên</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="?action=admin-updateUsers&id=<?= $user['user_id']; ?>"
+                                class="btn btn-sm btn-outline-success">Sửa</a>
+                            <a href="?action=admin-deleteUsers&id=<?= $user['user_id']; ?>"
+                                onclick="return confirm('Xác nhận xóa người dùng này?')"
+                                class="btn btn-sm btn-outline-danger">Xóa</a>
+                        </td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

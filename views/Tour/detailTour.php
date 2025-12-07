@@ -13,20 +13,11 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-4 mb-3 mb-md-0 text-center">
-                <?php if (!empty($tour['tour_images'])): ?>
-                <img src="image/TourImages/<?= htmlspecialchars($tour['tour_images']) ?>" class="img-fluid rounded"
-                    style="max-height:220px;object-fit:cover;">
-                <?php else: ?>
-                <div class="text-muted fst-italic">Chưa có ảnh tour</div>
-                <?php endif; ?>
-            </div>
             <div class="col-md-8">
-                <h5 class="mb-2"><?= htmlspecialchars($tour['tour_name']) ?></h5>
+                <h3 class="mb-2"><?= htmlspecialchars($tour['tour_name']) ?></h3>
                 <p class="mb-1"><strong>Danh mục:</strong> <?= htmlspecialchars($tour['category_name']) ?></p>
                 <p class="mb-1"><strong>Giá người lớn:</strong> <?= number_format($tour['price_adult']) ?> đ</p>
                 <p class="mb-1"><strong>Giá trẻ em:</strong> <?= number_format($tour['price_child'] ?? 0) ?> đ</p>
-                <p class="mb-1"><strong>Giá VIP:</strong> <?= number_format($tour['price_vip'] ?? 0) ?> đ</p>
                 <p class="mb-1"><strong>Thời lượng:</strong> <?= (int)$tour['days'] ?> ngày</p>
                 <p class="mt-2"><strong>Mô tả:</strong><br><?= nl2br(htmlspecialchars($tour['description'])) ?></p>
             </div>

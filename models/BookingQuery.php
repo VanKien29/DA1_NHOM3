@@ -81,6 +81,7 @@ class BookingQuery extends BaseModel
                     h.service_name AS hotel_name,
                     h.hotel_manager AS hotel_manager,
                     h.hotel_manager_phone AS hotel_manager_phone,
+                    h.price_per_night AS price_per_night,
                     -- Vehicle
                     v.service_name AS vehicle_name,
                     v.driver_name,
@@ -620,6 +621,13 @@ class BookingQuery extends BaseModel
     {
         $stmt = $this->pdo->prepare("UPDATE bookings SET status=? WHERE booking_id=?");
         return $stmt->execute([$status, $id]);
+    }
+    
+    public function updateHistoryGuideTour($booking_id) {
+        $sql = "UPDATE guide_tours SET status = 'history' WHERE booking_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $booking_id);
+        $stmt->execute();
     }
 
 }

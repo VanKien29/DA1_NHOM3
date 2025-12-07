@@ -27,7 +27,6 @@
                     <option value="">-- Chọn tour --</option>
                     <?php foreach ($tours as $t): ?>
                     <option value="<?= $t['tour_id'] ?>" <?php 
-                            // Lấy từ POST hoặc giá trị cũ
                             $selectedTour = $_POST['tour_id'] ?? $booking['tour_id'];
                             echo ($selectedTour == $t['tour_id']) ? "selected" : "";
                         ?>>
@@ -58,10 +57,10 @@
                     value="<?= htmlspecialchars($_POST['start_date'] ?? $booking['start_date']) ?>">
                 <span class="hint-text">Ngày bắt đầu tour</span>
             </div>
-
-            <button type="submit" name="next_1" value="1" class="btn-submit">
-                Tiếp tục
-            </button>
+            <div style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
+                <a href="?action=admin-listBooking" class="btn-back">Quay lại</a>
+                <button type="submit" name="next_1" value="1" class="btn-submit">Tiếp tục</button>
+            </div>
         </div>
         <?php endif; ?>
 
@@ -125,8 +124,8 @@
                 <span class="hint-text">Cần ít nhất 3 khách. Khách trùng lịch sẽ bị khóa.</span>
             </div>
 
-            <div class="action-row">
-                <button type="submit" name="prev_step" value="1" class="btn-prev">← Quay lại</button>
+            <div class="action-row" style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
+                <button type="submit" name="prev_step" value="1" class="btn-back">Quay lại</button>
                 <button type="submit" name="next_2" value="1" class="btn-submit">Tiếp tục</button>
             </div>
         </div>
@@ -199,24 +198,19 @@
             <div class="form-group">
                 <label>Khách đại diện</label>
                 <select name="main_customer" class="form-select">
-                    <option value="">-- Chọn đại diện --</option>
-                    <?php 
-                        $main_selected = $_POST['main_customer'] ?? $main_old;
-                        foreach ($customers as $c):
-                            $blocked = in_array($c['customer_id'], $blocked_customers);
-                        ?>
-                    <option value="<?= $c['customer_id'] ?>"
-                        <?= ($main_selected == $c['customer_id']) ? "selected" : "" ?>
-                        <?= $blocked ? "disabled" : "" ?>>
-                        <?= $c['full_name'] ?> (<?= $c['phone'] ?>)
-                        <?= $blocked ? " - Trùng lịch" : "" ?>
+                    <?php foreach ($selected_customers as $cid): 
+                    $c = $this->CustomerQuery->findCustomer($cid); ?>
+                    <option value="<?= $cid ?>"
+                        <?= ($cid == $main_old || $cid == ($_POST['main_customer'] ?? '')) ? 'selected' : '' ?>>
+                        <?= $c['full_name'] ?>
                     </option>
                     <?php endforeach; ?>
                 </select>
+
             </div>
 
-            <div class="action-row">
-                <button type="submit" name="prev_step" value="2" class="btn-prev">← Quay lại</button>
+            <div class="action-row" style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
+                <button type="submit" name="prev_step" value="2" class="btn-back">Quay lại</button>
                 <button type="submit" name="final_submit" value="1" class="btn-submit">
                     Lưu Cập Nhật
                 </button>

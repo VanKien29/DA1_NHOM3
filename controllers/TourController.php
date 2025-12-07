@@ -55,9 +55,8 @@ class TourController
                 if ($current_step === 1 && isset($_POST['next_1'])) {
                     $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult = $_POST['price_adult'] ?? '';
-                    $price_child = $_POST['price_child'] ?? '';
-                    $price_vip = $_POST['price_vip'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days = (int) ($_POST['days'] ?? 0);
 
@@ -69,9 +68,6 @@ class TourController
                     }
                     if ($price_child === '' || $price_child < 0) {
                         $err['price_child'] = "Giá trẻ em không hợp lệ.";
-                    }
-                    if ($price_vip === '' || $price_vip < 0) {
-                        $err['price_vip'] = "Giá VIP không hợp lệ.";
                     }
                     if ($days <= 0) {
                         $err['days'] = "Số ngày tour phải lớn hơn 0.";
@@ -91,9 +87,8 @@ class TourController
                 if ($current_step === 2 && isset($_POST['final_submit'])) {
                     $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult = $_POST['price_adult'] ?? '';
-                    $price_child = $_POST['price_child'] ?? '';
-                    $price_vip = $_POST['price_vip'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days = (int) ($_POST['days'] ?? 0);
                     $tour_images = $_POST['tour_images_saved'] ?? '';
@@ -102,7 +97,7 @@ class TourController
                     $titles = $_POST['schedule_title'] ?? [];
                     $descs = $_POST['schedule_description'] ?? [];
 
-                    if ($tour_name === '' || $price_adult === '' || $price_child === '' || $price_vip === '' || $days <= 0 || $tour_images === '') {
+                    if ($tour_name === '' || $price_adult === '' || $price_child === '' || $days <= 0 || $tour_images === '') {
                         $err['empty'] = "Thiếu dữ liệu tour, vui lòng kiểm tra lại.";
                     }
 
@@ -124,7 +119,6 @@ class TourController
                         $this->tourQuery->description = $description;
                         $this->tourQuery->price_adult = $price_adult;
                         $this->tourQuery->price_child = $price_child;
-                        $this->tourQuery->price_vip = $price_vip;
                         $this->tourQuery->category_id = $category_id;
                         $this->tourQuery->tour_images = $tour_images;
                         $this->tourQuery->days = $days;
@@ -181,9 +175,8 @@ class TourController
                 if ($current_step === 1 && isset($_POST['next_1'])) {
                     $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult = $_POST['price_adult'] ?? '';
-                    $price_child = $_POST['price_child'] ?? '';
-                    $price_vip = $_POST['price_vip'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days = (int) ($_POST['days'] ?? 0);
 
@@ -195,9 +188,6 @@ class TourController
                     }
                     if ($price_child === '' || $price_child < 0) {
                         $err['price_child'] = "Giá trẻ em không hợp lệ.";
-                    }
-                    if ($price_vip === '' || $price_vip < 0) {
-                        $err['price_vip'] = "Giá VIP không hợp lệ.";
                     }
                     if ($days <= 0) {
                         $err['days'] = "Số ngày tour phải lớn hơn 0.";
@@ -218,9 +208,8 @@ class TourController
                 if ($current_step === 2 && isset($_POST['final_submit'])) {
                     $tour_name = trim($_POST['tour_name'] ?? '');
                     $description = $_POST['description'] ?? '';
-                    $price_adult = $_POST['price_adult'] ?? '';
-                    $price_child = $_POST['price_child'] ?? '';
-                    $price_vip = $_POST['price_vip'] ?? '';
+                    $price_adult       = $_POST['price_adult'] ?? '';
+                    $price_child       = $_POST['price_child'] ?? '';
                     $category_id = $_POST['category_id'] ?? '';
                     $days = (int) ($_POST['days'] ?? 0);
                     $tour_images = $_POST['tour_images_saved'] ?? $tour['tour_images'];
@@ -228,7 +217,7 @@ class TourController
                     $titles = $_POST['schedule_title'] ?? [];
                     $descs = $_POST['schedule_description'] ?? [];
 
-                    if ($tour_name === '' || $price_adult === '' || $price_child === '' || $price_vip === '' || $days <= 0) {
+                    if ($tour_name === '' || $price_adult === '' || $price_child === '' || $days <= 0) {
                         $err['empty'] = "Thiếu dữ liệu tour, vui lòng kiểm tra lại.";
                     }
 
@@ -238,7 +227,6 @@ class TourController
                         $this->tourQuery->description = $description;
                         $this->tourQuery->price_adult = $price_adult;
                         $this->tourQuery->price_child = $price_child;
-                        $this->tourQuery->price_vip = $price_vip;
                         $this->tourQuery->category_id = $category_id;
                         $this->tourQuery->tour_images = $tour_images;
                         $this->tourQuery->days = $days;

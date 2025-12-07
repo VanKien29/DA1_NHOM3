@@ -1,8 +1,8 @@
+/* ===== FORM WRAPPER ===== */
 .admin-form-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding: 60px 20px;
+  padding: 50px 20px;
 }
 
 a {
@@ -10,48 +10,42 @@ a {
 }
 
 .admin-form-card {
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(13, 110, 253, 0.08);
+  background: #fff;
   width: 100%;
-  max-width: 720px;
-  padding: 40px 48px;
-  border: 1px solid #eef2ff;
+  max-width: 750px;
+  padding: 35px 40px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
+/* ===== TITLE ===== */
 .form-title {
-  font-size: 24px;
+  text-align: center;
+  font-size: 26px;
   font-weight: 700;
-  color: #0d6efd;
-  border-bottom: 2px solid #e5e7eb;
-  padding-bottom: 12px;
-  margin-bottom: 32px;
-  text-align: left;
+  color: #2563eb;
+  margin-bottom: 30px;
 }
 
-.form-group {
-  margin-bottom: 18px;
-}
-
-.form-group label {
-  display: block;
+/* ===== INPUT GROUP ===== */
+.form-label {
   font-weight: 600;
   color: #374151;
   margin-bottom: 6px;
-  font-size: 15px;
+  display: block;
 }
 
 .form-control,
 .form-select,
 textarea {
   width: 100%;
-  border-radius: 12px;
-  padding: 12px 14px;
+  padding: 11px 14px;
+  border-radius: 10px;
   border: 1px solid #d1d5db;
-  transition: all 0.25s ease;
-  font-size: 15px;
-  color: #111827;
   background-color: #f9fafb;
+  transition: 0.2s ease;
+  font-size: 15px;
 }
 
 textarea {
@@ -59,74 +53,103 @@ textarea {
   min-height: 90px;
 }
 
+/* Hover + Focus */
+.form-control:hover,
+.form-select:hover,
+textarea:hover {
+  border-color: #93c5fd;
+}
+
 .form-control:focus,
 .form-select:focus,
 textarea:focus {
-  background-color: #fff;
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+  background: #fff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
   outline: none;
 }
 
-/* --- Nút hành động --- */
-.form-action {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 12px;
-  margin-top: 30px;
+/* ===== ERROR TEXT ===== */
+.err,
+.text-danger {
+  font-size: 14px;
+  color: #dc2626 !important;
+  margin-top: 4px;
 }
 
-.btn-primary {
-  background: linear-gradient(90deg, #0d6efd, #3b82f6);
-  border: none;
+/* ===== STEP INDICATOR ===== */
+.steps-indicator {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.steps-indicator .step {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.steps-indicator .active {
+  background: #2563eb;
   color: #fff;
+}
+
+/* ===== SCHEDULE BOX ===== */
+.schedule-day-box {
+  border: 1px solid #e5e7eb;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.schedule-day-box h6 {
+  font-weight: 600;
+  color: #1e40af;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: #2563eb;
+  border: none;
+  padding: 11px 26px;
+  color: white;
   font-weight: 600;
   border-radius: 10px;
-  padding: 12px 28px;
-  font-size: 15px;
-  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
-  transition: all 0.25s ease;
+  transition: 0.2s;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(90deg, #0b5ed7, #2563eb);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
+  background: #1d4ed8;
 }
 
-.btn-secondary {
-  background-color: #f3f4f6;
-  color: #374151;
-  border: none;
-  padding: 12px 24px;
+.btn-secondary,
+.btn-outline-secondary {
+  background: #e5e7eb;
+  padding: 11px 24px;
   border-radius: 10px;
   font-weight: 600;
-  transition: 0.25s;
+  color: #374151;
 }
 
-.btn-secondary:hover {
-  background-color: #e5e7eb;
-  transform: translateY(-1px);
+.btn-secondary:hover,
+.btn-outline-secondary:hover {
+  background: #d1d5db;
 }
 
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .admin-form-card {
-    padding: 28px 24px;
-  }
-
-  .form-title {
-    font-size: 20px;
-    text-align: center;
+    padding: 25px;
   }
 }
-
-.err {
-  color: red !important;
-}
-
-a {
-  text-decoration: none;
+.form-button-group {
+  margin-top: 28px; /* bạn có thể đổi 24 / 28 / 32 tùy ý */
+  display: flex;
+  gap: 12px;
 }
 
 .text-danger {
