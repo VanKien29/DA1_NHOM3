@@ -2,9 +2,9 @@
     <div class="table-container">
         <div class="admin-table-container">
             <div class="table-header d-flex justify-content-between align-items-center mb-3">
-                <h4 class="fw-bold">Danh Sách Quản Trị Viên</h4>
+                <h4 class="fw-bold">Danh Sách Tài khoản</h4>
                 <a href="?action=admin-createUsers" class="btn btn-primary">
-                    + Thêm Quản Trị Viên
+                    + Thêm Tài khoản
                 </a>
             </div>
             <table class="table table-striped align-middle">

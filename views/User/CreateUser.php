@@ -1,6 +1,6 @@
 <div class="admin-form-container">
     <div class="admin-form-card">
-        <h4 class="form-title text-center mb-4">Thêm Quản Trị Viên</h4>
+        <h4 class="form-title text-center mb-4">Thêm Tài khoản</h4>
 
         <form method="POST">
             <?php if (!empty($err['empty'])): ?>
@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-action text-center">
-                <button type="submit" class="btn btn-primary btn-lg px-5">Thêm Quản Trị Viên</button>
+                <button type="submit" class="btn btn-primary btn-lg px-5">Thêm Tài khoản</button>
                 <a href="?action=admin-listUsers" class="btn btn-secondary btn-lg ms-2 px-4">Quay lại</a>
             </div>
         </form>

@@ -20,9 +20,10 @@
     padding: 22px;
     border-radius: 14px;
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     border: 1px solid #e5e7eb;
-    margin-top: 6px; /* giúp cân với bảng */
+    margin-top: 6px;
+    /* giúp cân với bảng */
 }
 
 .profile-left img {
@@ -85,7 +86,7 @@
     background: #fff;
     padding: 20px;
     border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     border: 1px solid #e5e7eb;
 }
 
@@ -164,7 +165,7 @@
     display: none;
     justify-content: center;
     align-items: center;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .edit-box {
@@ -172,7 +173,7 @@
     background: #fff;
     padding: 24px;
     border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .edit-box input {
@@ -201,7 +202,6 @@
     background: #ccc;
     border-radius: 8px;
 }
-
 </style>
 
 <div class="profile-container">
@@ -215,7 +215,7 @@
 
         <div class="info-block">
             <p><strong>Email:</strong> <?= $user['email'] ?></p>
-            <p><strong>CCCD:</strong> <?= $user['cccd'] ?></p>
+            <p><strong>CCCD:</strong> <?= $guide['cccd'] ?></p>
             <p><strong>SĐT:</strong> <?= $user['phone'] ?></p>
         </div>
 
@@ -230,25 +230,25 @@
             <h3>🚍 Tour Hiện Tại</h3>
 
             <?php if (!empty($ongoingTours)) { ?>
-                <table class="tour-table">
-                    <tr>
-                        <th>Mã Tour</th>
-                        <th>Tên Tour</th>
-                        <th>Bắt đầu</th>
-                        <th>Trạng thái</th>
-                    </tr>
+            <table class="tour-table">
+                <tr>
+                    <th>Mã Tour</th>
+                    <th>Tên Tour</th>
+                    <th>Bắt đầu</th>
+                    <th>Trạng thái</th>
+                </tr>
 
-                    <?php foreach ($ongoingTours as $t) { ?>
-                        <tr>
-                            <td><?= $t['booking_id'] ?></td>
-                            <td><?= $t['tour_name'] ?></td>
-                            <td><?= $t['start_date'] ?></td>
-                            <td><span class="badge-status status-processing">Đang diễn ra</span></td>
-                        </tr>
-                    <?php } ?>
-                </table>
+                <?php foreach ($ongoingTours as $t) { ?>
+                <tr>
+                    <td><?= $t['booking_id'] ?></td>
+                    <td><?= $t['tour_name'] ?></td>
+                    <td><?= $t['start_date'] ?></td>
+                    <td><span class="badge-status status-processing">Đang diễn ra</span></td>
+                </tr>
+                <?php } ?>
+            </table>
             <?php } else { ?>
-                <p class="empty">Không có tour nào.</p>
+            <p class="empty">Không có tour nào.</p>
             <?php } ?>
         </div>
 
@@ -257,25 +257,25 @@
             <h3>🎉 Tour Đã Hoàn Thành</h3>
 
             <?php if (!empty($completedTours)) { ?>
-                <table class="tour-table">
-                    <tr>
-                        <th>Mã Tour</th>
-                        <th>Tên Tour</th>
-                        <th>Kết thúc</th>
-                        <th>Trạng thái</th>
-                    </tr>
+            <table class="tour-table">
+                <tr>
+                    <th>Mã Tour</th>
+                    <th>Tên Tour</th>
+                    <th>Kết thúc</th>
+                    <th>Trạng thái</th>
+                </tr>
 
-                    <?php foreach ($completedTours as $t) { ?>
-                        <tr>
-                            <td><?= $t['booking_id'] ?></td>
-                            <td><?= $t['tour_name'] ?></td>
-                            <td><?= $t['end_date'] ?></td>
-                            <td><span class="badge-status status-done">Hoàn thành</span></td>
-                        </tr>
-                    <?php } ?>
-                </table>
+                <?php foreach ($completedTours as $t) { ?>
+                <tr>
+                    <td><?= $t['booking_id'] ?></td>
+                    <td><?= $t['tour_name'] ?></td>
+                    <td><?= $t['end_date'] ?></td>
+                    <td><span class="badge-status status-done">Hoàn thành</span></td>
+                </tr>
+                <?php } ?>
+            </table>
             <?php } else { ?>
-                <p class="empty">Chưa có tour hoàn thành.</p>
+            <p class="empty">Chưa có tour hoàn thành.</p>
             <?php } ?>
         </div>
 
@@ -283,7 +283,7 @@
 
 </div>
 
- 
+
 <div class="edit-modal" id="editModal">
     <div class="edit-box">
         <h3>Chỉnh sửa thông tin</h3>
@@ -297,7 +297,7 @@
             <input type="email" name="email" value="<?= $user['email'] ?>">
 
             <label>CCCD</label>
-            <input type="text" name="cccd" value="<?= $user['cccd'] ?>">
+            <input type="text" name="cccd" value="<?= $guide['cccd'] ?>">
 
             <label>Số điện thoại</label>
             <input type="text" name="phone" value="<?= $user['phone'] ?>">
@@ -320,6 +320,11 @@
 
 
 <script>
-    function openEdit() { document.getElementById('editModal').style.display = 'flex'; }
-    function closeEdit() { document.getElementById('editModal').style.display = 'none'; }
+function openEdit() {
+    document.getElementById('editModal').style.display = 'flex';
+}
+
+function closeEdit() {
+    document.getElementById('editModal').style.display = 'none';
+}
 </script>

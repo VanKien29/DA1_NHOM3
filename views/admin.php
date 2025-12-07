@@ -179,7 +179,7 @@ $user = $_SESSION['user'];
                 <li>
                     <a href="?action=admin-listUsers"
                         class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUsers' || $action == 'admin-updateUsers') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-user-tie"></i> Quản Trị Viên
+                        <i class="fa-solid fa-user-tie"></i> Tài khoản
                     </a>
                 </li>
                 <li>
@@ -216,34 +216,29 @@ $user = $_SESSION['user'];
             </ul>
         </nav>
         <?php } else { ?>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-calendar"></i> Lịch Tour
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=profile-info" class="<?= ($action == 'profile-info') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-user"></i> Thông Tin Cá Nhân
-                        </a>
-                    </li>
-                    <li>
-                        <a href="?action=guide-stats" class="<?= ($action == 'guide-stats') ? 'active' : '' ?>">
-                            <i class="fa-solid fa-chart-line"></i> Thống Kê
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <nav>
+            <ul>
+                <li>
+                    <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-calendar"></i> Lịch Tour
+                    </a>
+                </li>
+                <li>
+                    <a href="?action=guide-stats" class="<?= ($action == 'guide-stats') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-chart-line"></i> Thống Kê
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <?php } ?>
         <div class="sidebar-footer">
             <p><?= $user['name'] ?></p>
             <small><?= $user['role'] == "admin" ? "Quản Trị Viên" : "Hướng Dẫn Viên" ?></small>
             <div class="auth-buttons">
                 <?php if (empty($user)) { ?>
-                    <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
+                <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
                 <?php } else { ?>
-                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                 <?php } ?>
             </div>
         </div>
@@ -277,7 +272,7 @@ $user = $_SESSION['user'];
                 </button>
 
                 <div class="tb-user" tabindex="0">
-                    <span><?= $user['name'] ?></span>
+                    <span><a href="?action=profile-info"><?= $user['name'] ?></a></span>
                 </div>
             </div>
         </header>
