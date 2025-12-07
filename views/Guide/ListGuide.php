@@ -33,6 +33,7 @@
                 <td class="fw-semibold"><?= $g['name'] ?></td>
                 <td><?= $g['email'] ?></td>
                 <td><?= $g['phone'] ?></td>
+                <td><?= $g['cccd'] ?></td>
                 <td><?= $g['experience_years'] ?> năm</td>
                 <td><?= $g['specialization'] ?></td>
                 <td><?= $g['note'] ?></td>

@@ -6,50 +6,39 @@
 
         <form method="POST" enctype="multipart/form-data">
             <?php if (!empty($err['empty'])): ?>
-                <div class="text-danger"><?= $err['empty'] ?></div>
+            <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
             <div class="mb-3">
                 <label>Người dùng (User)</label>
                 <select name="user_id" class="form-select">
                     <?php foreach ($users as $u): ?>
-                        <option value="<?= $u['user_id'] ?>" <?= ($guide['user_id'] == $u['user_id']) ? 'selected' : '' ?>>
-                            <?= $u['name'] ?> (<?= $u['email'] ?>)
-                        </option>
+                    <option value="<?= $u['user_id'] ?>" <?= ($guide['user_id'] == $u['user_id']) ? 'selected' : '' ?>>
+                        <?= $u['name'] ?> (<?= $u['email'] ?>)
+                    </option>
                     <?php endforeach; ?>
                 </select>
+                <div class="err"><?= $err['user_id'] ?? '' ?></div>
             </div>
 
             <div class="mb-3">
                 <label>Ảnh hướng dẫn viên</label>
                 <input type="file" name="avatar" class="form-control">
                 <?php if (!empty($guide['avatar'])): ?>
-                    <img src="<?= BASE_ASSETS_UPLOADS . $guide['avatar'] ?>" width="120" class="mt-2">
+                <img src="<?= BASE_ASSETS_UPLOADS . $guide['avatar'] ?>" width="120" class="mt-2">
                 <?php endif; ?>
-            </div>
-
-            <div class="mb-3">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control" value="<?= $guide['email'] ?>">
-                <div class="err"><?= $err['exp'] ?? '' ?></div>
-            </div>
-
-            <div class="mb-3">
-                <label>Số điện thoại</label>
-                <input type="number" name="phone" class="form-control" value="<?= $guide['phone'] ?>">
-                <div class="err"><?= $err['exp'] ?? '' ?></div>
             </div>
 
             <div class="mb-3">
                 <label>Căn cước công dân</label>
                 <input type="number" name="cccd" class="form-control" value="<?= $guide['cccd'] ?>">
-                <div class="err"><?= $err['exp'] ?? '' ?></div>
+                <div class="err"><?= $err['cccd'] ?? '' ?></div>
             </div>
 
             <div class="mb-3">
                 <label>Kinh nghiệm (năm)</label>
                 <input type="number" name="experience_years" class="form-control"
                     value="<?= $guide['experience_years'] ?>">
-                <div class="err"><?= $err['exp'] ?? '' ?></div>
+                <div class="err"><?= $err['experience_years'] ?? '' ?></div>
             </div>
 
             <div class="mb-3">

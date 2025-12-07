@@ -9,7 +9,7 @@ class GuideQuery extends BaseModel
 
     public function getAllGuides()
     {
-        $sql = "SELECT g.*, u.name, u.email, u.phone, u.cccd
+        $sql = "SELECT g.*, u.name, u.email, u.phone
             FROM guides g
             INNER JOIN users u ON g.user_id = u.user_id 
             ORDER BY g.guide_id DESC";
@@ -21,7 +21,7 @@ class GuideQuery extends BaseModel
 
     public function findGuide($id)
     {
-        $sql = "SELECT guides.*, users.name, users.email, users.phone, users.cccd, users.user_id
+        $sql = "SELECT guides.*, users.name, users.email, users.phone, users.user_id
                 FROM guides
                 INNER JOIN users ON guides.user_id = users.user_id
                 WHERE guide_id = :id";
@@ -48,13 +48,14 @@ class GuideQuery extends BaseModel
 
     public function createGuide()
     {
-        $sql = "INSERT INTO guides (user_id, experience_years, specialization, note, avatar)
-                VALUES (:user_id, :experience_years, :specialization, :note, :avatar)";
+        $sql = "INSERT INTO guides (user_id, experience_years, specialization, note, cccd, avatar)
+                VALUES (:user_id, :experience_years, :specialization, :note, :cccd, :avatar)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':user_id', $this->user_id);
         $stmt->bindParam(':experience_years', $this->experience_years);
         $stmt->bindParam(':specialization', $this->specialization);
         $stmt->bindParam(':note', $this->note);
+        $stmt->bindParam(':cccd', $this->cccd);
         $stmt->bindParam(':avatar', $this->avatar);
         return $stmt->execute();
     }
@@ -66,6 +67,7 @@ class GuideQuery extends BaseModel
                 experience_years = :experience_years,
                 specialization = :specialization,
                 note = :note,
+                cccd = :cccd,
                 avatar = :avatar
                 WHERE guide_id = :guide_id";
         $stmt = $this->pdo->prepare($sql);
@@ -74,6 +76,7 @@ class GuideQuery extends BaseModel
         $stmt->bindParam(':experience_years', $this->experience_years);
         $stmt->bindParam(':specialization', $this->specialization);
         $stmt->bindParam(':note', $this->note);
+        $stmt->bindParam(':cccd', $this->cccd);
         $stmt->bindParam(':avatar', $this->avatar);
         return $stmt->execute();
     }
