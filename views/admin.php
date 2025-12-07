@@ -39,7 +39,7 @@ $user = $_SESSION['user'];
         case 'admin-detailTour':
             echo '<link rel="stylesheet" href="assets/css/Tour/detailTour.css">';
             break;
-            
+
         // Users
         case 'admin-listUsers':
         case 'admin-searchUsers':
@@ -111,6 +111,7 @@ $user = $_SESSION['user'];
 
         // Bookings
         case 'admin-listBooking':
+        case 'admin-searchBooking':
             echo '<link rel="stylesheet" href="assets/css/Booking/listBooking.css">';
             break;
         case 'admin-detailBooking':
@@ -135,12 +136,12 @@ $user = $_SESSION['user'];
         // Profile
         //
         case 'profile-info':
-            echo '<link rel="stylesheet" href="assets/css/Profile/profile.css?v='.time().'">';
+            echo '<link rel="stylesheet" href="assets/css/Profile/profile.css?v=' . time() . '">';
             break;
         //
-
+    
         case 'guide-stats':
-            echo '<link rel="stylesheet" href="assets/css/GuideStats/stats.css?v='.time().'">';
+            echo '<link rel="stylesheet" href="assets/css/GuideStats/stats.css?v=' . time() . '">';
             break;
     }
     ?>
@@ -215,34 +216,34 @@ $user = $_SESSION['user'];
             </ul>
         </nav>
         <?php } else { ?>
-        <nav>
-            <ul>
-                <li>
-                    <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-calendar"></i> Lịch Tour
-                    </a>
-                </li>
-                <li>
-                    <a href="?action=profile-info" class="<?= ($action == 'profile-info') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-user"></i> Thông Tin Cá Nhân
-                    </a>
-                </li>
-                <li>
-                    <a href="?action=guide-stats" class="<?= ($action == 'guide-stats') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-chart-line"></i> Thống Kê
-                    </a>
-                </li>
-            </ul>
-        </nav>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="?action=guide-schedule" class="<?= ($action == 'guide-schedule') ? 'active' : '' ?>">
+                            <i class="fa-solid fa-calendar"></i> Lịch Tour
+                        </a>
+                    </li>
+                    <li>
+                        <a href="?action=profile-info" class="<?= ($action == 'profile-info') ? 'active' : '' ?>">
+                            <i class="fa-solid fa-user"></i> Thông Tin Cá Nhân
+                        </a>
+                    </li>
+                    <li>
+                        <a href="?action=guide-stats" class="<?= ($action == 'guide-stats') ? 'active' : '' ?>">
+                            <i class="fa-solid fa-chart-line"></i> Thống Kê
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         <?php } ?>
         <div class="sidebar-footer">
             <p><?= $user['name'] ?></p>
             <small><?= $user['role'] == "admin" ? "Quản Trị Viên" : "Hướng Dẫn Viên" ?></small>
             <div class="auth-buttons">
                 <?php if (empty($user)) { ?>
-                <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
+                    <a href="?action=login"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</a>
                 <?php } else { ?>
-                <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                    <a href="?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
                 <?php } ?>
             </div>
         </div>
@@ -292,7 +293,7 @@ $user = $_SESSION['user'];
                     case 'guide-updateAttendance':
                         (new GuideScheduleController)->updateAttendance();
                         break;
-                        // profile
+                    // profile
                     case 'profile-info':
                         (new ProfileController)->profileInfo();
                         break;
@@ -328,7 +329,7 @@ $user = $_SESSION['user'];
                     case 'admin-detailTour':
                         (new TourController)->detailTour($id);
                         break;
-                        
+
                     // Users
                     case 'admin-listUsers':
                         (new UsersController)->listUsers();
@@ -451,6 +452,9 @@ $user = $_SESSION['user'];
                         break;
                     case 'admin-updateBooking':
                         (new BookingController)->updateBooking($id);
+                        break;
+                    case 'admin-searchBooking':
+                        (new BookingController)->searchBooking($id);
                         break;
                     case 'admin-deleteBooking':
                         (new BookingController)->deleteBooking($id);

@@ -36,6 +36,9 @@ class UsersController
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
                 $err['phone'] = "Số điện thoại không hợp lệ.";
             }
+            if (!preg_match("/^\+?\d{9,13}$/", $_POST['cccd'])) {
+                $err['cccd'] = "Số căn cước công dân.";
+            }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
                 $err['email'] = "Email không hợp lệ.";
             }
@@ -46,6 +49,7 @@ class UsersController
                 $this->userQuery->name = $_POST['name'];
                 $this->userQuery->email = $_POST['email'];
                 $this->userQuery->phone = $_POST['phone'];
+                $this->userQuery->cccd = $_POST['cccd'];
                 if ($this->userQuery->createUser()) {
                     echo "<script>
                         alert('Thêm quản trị thành công!');
@@ -63,7 +67,7 @@ class UsersController
         $user = $this->userQuery->findUser($id);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
-           if (strlen($_POST['username']) <= 6) {
+            if (strlen($_POST['username']) <= 6) {
                 $err['username'] = "Tên người dùng phải trên 6 kí tự.";
             }
             if (strpbrk($_POST['name'], '0123456789') || strlen($_POST['name']) <= 6) {
@@ -74,6 +78,9 @@ class UsersController
             }
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
                 $err['phone'] = "Số điện thoại không hợp lệ.";
+            }
+            if (!preg_match("/^\+?\d{9,13}$/", $_POST['cccd'])) {
+                $err['cccd'] = "Số căn cước công dân.";
             }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
                 $err['email'] = "Email không hợp lệ.";
@@ -86,6 +93,7 @@ class UsersController
                 $this->userQuery->name = $_POST['name'];
                 $this->userQuery->email = $_POST['email'];
                 $this->userQuery->phone = $_POST['phone'];
+                $this->userQuery->cccd = $_POST['cccd'];
 
                 if ($this->userQuery->updateUser()) {
                     echo "<script>

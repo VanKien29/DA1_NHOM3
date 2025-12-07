@@ -5,10 +5,10 @@
         <h4 class="form-title text-center mb-3">Thêm Tour</h4>
 
         <form method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="current_step" value="<?= isset($current_step) ? (int)$current_step : 1 ?>">
+            <input type="hidden" name="current_step" value="<?= isset($current_step) ? (int) $current_step : 1 ?>">
 
             <?php if (!empty($err['empty'])): ?>
-            <div class="text-danger mb-2"><?= htmlspecialchars($err['empty']) ?></div>
+                <div class="text-danger mb-2"><?= htmlspecialchars($err['empty']) ?></div>
             <?php endif; ?>
 
             <!-- ================= STEP 1: Thông tin tour ================= -->
@@ -85,10 +85,11 @@
 
             <!-- ================= STEP 2: Lịch trình ================= -->
             <?php if (($current_step ?? 1) == 2): ?>
-            <?php
-                $days = (int)($_POST['days'] ?? 1);
-                if ($days < 1) $days = 1;
-                $tour_name   = $_POST['tour_name']   ?? '';
+                <?php
+                $days = (int) ($_POST['days'] ?? 1);
+                if ($days < 1)
+                    $days = 1;
+                $tour_name = $_POST['tour_name'] ?? '';
                 $description = $_POST['description'] ?? '';
                 $price_adult       = $_POST['price_adult'] ?? '';
                 $price_child       = $_POST['price_child'] ?? '';
@@ -126,17 +127,39 @@
                         value="<?= htmlspecialchars($_POST['schedule_title'][$d-1] ?? '') ?>">
                 </div>
 
-                <div class="mb-2">
-                    <label class="form-label">Nội dung / Hoạt động</label>
-                    <textarea name="schedule_description[]" rows="3"
-                        class="form-control"><?= htmlspecialchars($_POST['schedule_description'][$d-1] ?? '') ?></textarea>
+                <div class="mb-3">
+                    <strong>Lịch trình cho tour: </strong><?= htmlspecialchars($tour_name) ?>
+                    (<?= $days ?> ngày)
                 </div>
-            </div>
-            <?php endfor; ?>
 
-            <?php if (!empty($err['schedule'])): ?>
-            <div class="text-danger mb-2"><?= htmlspecialchars($err['schedule']) ?></div>
-            <?php endif; ?>
+                <?php for ($d = 1; $d <= $days; $d++): ?>
+                    <div class="schedule-day-box mb-3 p-3 border rounded">
+                        <h4 class="mb-2">Ngày <?= $d ?></h4>
+                        <input type="hidden" name="day_number[]" value="<?= $d ?>">
+
+                        <div class="mb-2">
+                            <label class="form-label">Tiêu đề ngày</label>
+                            <input type="text" name="schedule_title[]" class="form-control"
+                                value="<?= htmlspecialchars($_POST['schedule_title'][$d - 1] ?? '') ?>">
+                            <?php if (!empty($err['day_numbers'])): ?>
+                                <div class="text-danger err"><?= htmlspecialchars($err['day_numbers']) ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Nội dung / Hoạt động</label>
+                            <textarea name="schedule_description[]" rows="3"
+                                class="form-control"><?= htmlspecialchars($_POST['schedule_description'][$d - 1] ?? '') ?></textarea>
+                            <?php if (!empty($err['titles'])): ?>
+                                <div class="text-danger err"><?= htmlspecialchars($err['titles']) ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endfor; ?>
+
+                <?php if (!empty($err['schedule'])): ?>
+                    <div class="text-danger mb-2"><?= htmlspecialchars($err['schedule']) ?></div>
+                <?php endif; ?>
 
             <div class="form-button-group">
                 <button type="submit" name="prev_step" value="1" class="btn btn-outline-secondary px-4">Quay

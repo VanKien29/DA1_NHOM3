@@ -9,7 +9,7 @@ class GuideQuery extends BaseModel
 
     public function getAllGuides()
     {
-        $sql = "SELECT g.*, u.name, u.email, u.phone
+        $sql = "SELECT g.*, u.name, u.email, u.phone, u.cccd
             FROM guides g
             INNER JOIN users u ON g.user_id = u.user_id 
             ORDER BY g.guide_id DESC";
@@ -21,7 +21,7 @@ class GuideQuery extends BaseModel
 
     public function findGuide($id)
     {
-        $sql = "SELECT guides.*, users.name, users.email, users.phone, users.user_id
+        $sql = "SELECT guides.*, users.name, users.email, users.phone, users.cccd, users.user_id
                 FROM guides
                 INNER JOIN users ON guides.user_id = users.user_id
                 WHERE guide_id = :id";
@@ -139,4 +139,5 @@ class GuideQuery extends BaseModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 }
