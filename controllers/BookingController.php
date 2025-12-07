@@ -256,7 +256,7 @@ class BookingController
                         $this->bookingQuery->vehicle_id = $vehicle_id;
                         $this->bookingQuery->start_date = $start_date;
                         $this->bookingQuery->end_date   = $end_date;
-                        $this->bookingQuery->status     = $this->autoStatus($start_date, $end_date);
+                        $this->bookingQuery->status = $this->bookingQuery->autoStatus($start_date, $end_date);
                         $this->bookingQuery->report     = '';
                         $this->bookingQuery->created_at = date('Y-m-d H:i:s');
 
@@ -433,7 +433,7 @@ class BookingController
                     $end_date = $_POST['end_date'] ?? "";
                     $customers_arr = $_POST['customers'] ?? [];
                     $main = $_POST['main_customer'] ?? "";
-                    $status = $_POST['status'] ?? "cho_duyet";
+                    $status = $_POST['status'] ?? "sap_dien_ra";
 
                     if (!$tour_id || !$guide_id || !$hotel_id || !$vehicle_id) {
                         $err['empty'] = "Vui lòng nhập đầy đủ thông tin.";
