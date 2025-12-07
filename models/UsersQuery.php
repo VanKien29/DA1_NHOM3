@@ -130,25 +130,39 @@ public function getToursByGuideStatus($guide_id, $status)
     return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function updateProfile($id, $name, $email, $phone, $cccd)
+public function updateProfile($id, $name, $email, $phone, $cccd, $password = null)
 {
+    // SQL base: luôn update các trường này
     $sql = "UPDATE users SET 
                 name = :name,
                 email = :email,
                 phone = :phone,
-                cccd = :cccd
-            WHERE user_id = :id";
+                cccd = :cccd";
+
+    // Nếu có mật khẩu mới thì thêm vào SQL
+    if (!empty($password)) {
+        $sql .= ", password = :password";
+    }
+
+    $sql .= " WHERE user_id = :id";
 
     $stm = $this->pdo->prepare($sql);
 
+    // Bind các giá trị luôn có
     $stm->bindParam(':name', $name);
     $stm->bindParam(':email', $email);
     $stm->bindParam(':phone', $phone);
     $stm->bindParam(':cccd', $cccd);
     $stm->bindParam(':id', $id);
 
+    // Nếu có mật khẩu → bind thêm
+    if (!empty($password)) {
+        $stm->bindParam(':password', $password);
+    }
+
     return $stm->execute();
 }
+
 
 
 public function getGuideTours($user_id, $status = null)
