@@ -51,6 +51,7 @@ class BookingQuery extends BaseModel
                     h.service_name AS hotel_name,
                     h.hotel_manager AS hotel_manager,
                     h.hotel_manager_phone AS hotel_manager_phone,
+                    h.price_per_night AS price_per_night,
                     -- Vehicle
                     v.service_name AS vehicle_name,
                     v.driver_name,

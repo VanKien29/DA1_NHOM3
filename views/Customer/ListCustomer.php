@@ -14,6 +14,7 @@
                         <th>Họ và Tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
+                        <th>Tuổi</th>
                         <th>Địa chỉ</th>
                         <th>Loại Khách</th>
                         <th>Hành động</th>
@@ -27,6 +28,7 @@
                         <td><?= htmlspecialchars($customer['full_name']); ?></td>
                         <td><?= htmlspecialchars($customer['email']); ?></td>
                         <td><?= htmlspecialchars($customer['phone']); ?></td>
+                        <td><?= htmlspecialchars($customer['age']); ?> tuổi</td>
                         <td><?= htmlspecialchars($customer['address']); ?></td>
                         <td><?= htmlspecialchars($customer['role']) == "adult" ? "Người lớn" : (htmlspecialchars($customer['role']) == "vip" ? "VIP" : "Trẻ em"); ?>
                         </td>

@@ -15,7 +15,6 @@
                 <th>Danh mục</th>
                 <th>Giá người lớn</th>
                 <th>Giá trẻ em</th>
-                <th>Giá VIP</th>
                 <th>Số ngày</th>
                 <th>Mô tả</th>
                 <th>Hành động</th>
@@ -36,7 +35,6 @@
                 <td><?= htmlspecialchars($t['category_name']) ?></td>
                 <td><?= number_format($t['price_adult']) ?> đ</td>
                 <td><?= number_format($t['price_child'] ?? 0) ?> đ</td>
-                <td><?= number_format($t['price_vip'] ?? 0) ?> đ</td>
                 <td><?= (int)($t['days'] ?? 0) ?> ngày</td>
                 <td><?= htmlspecialchars(mb_substr($t['description'], 0, 60)) ?>...</td>
                 <td class="d-flex gap-1">

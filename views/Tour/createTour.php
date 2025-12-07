@@ -56,15 +56,6 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Giá VIP</label>
-                <input type="number" name="price_vip" class="form-control"
-                    value="<?= htmlspecialchars($_POST['price_vip'] ?? '') ?>">
-                <?php if (!empty($err['price_vip'])): ?>
-                <div class="text-danger err"><?= htmlspecialchars($err['price_vip']) ?></div>
-                <?php endif; ?>
-            </div>
-
-            <div class="mb-3">
                 <label class="form-label">Số ngày tour</label>
                 <input type="number" name="days" class="form-control"
                     value="<?= htmlspecialchars($_POST['days'] ?? '') ?>" min="1">
@@ -101,7 +92,6 @@
                 $description = $_POST['description'] ?? '';
                 $price_adult       = $_POST['price_adult'] ?? '';
                 $price_child       = $_POST['price_child'] ?? '';
-                $price_vip         = $_POST['price_vip']   ?? '';
                 $category_id = $_POST['category_id'] ?? '';
                 $tour_images = $_POST['tour_images_saved'] ?? '';
             ?>
@@ -111,7 +101,6 @@
             <input type="hidden" name="description" value="<?= htmlspecialchars($description) ?>">
             <input type="hidden" name="price_adult" value="<?= htmlspecialchars($price_adult) ?>">
             <input type="hidden" name="price_child" value="<?= htmlspecialchars($price_child) ?>">
-            <input type="hidden" name="price_vip" value="<?= htmlspecialchars($price_vip) ?>">
             <input type="hidden" name="days" value="<?= htmlspecialchars($days) ?>">
             <input type="hidden" name="category_id" value="<?= htmlspecialchars($category_id) ?>">
             <input type="hidden" name="tour_images_saved" value="<?= htmlspecialchars($tour_images) ?>">
@@ -150,9 +139,9 @@
             <?php endif; ?>
 
             <div class="form-button-group">
-                <button type="submit" name="next_1" class="btn btn-primary">Tiếp tục</button>
-                <button type="submit" name="prev_step" value="1" class="btn btn-outline-secondary px-4">← Quay
+                <button type="submit" name="prev_step" value="1" class="btn btn-outline-secondary px-4">Quay
                     lại</button>
+                <button type="submit" name="final_submit" class="btn btn-primary">Tạo Tour</button>
             </div>
             <?php endif; ?>
         </form>

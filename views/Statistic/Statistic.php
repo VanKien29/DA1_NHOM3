@@ -1,244 +1,317 @@
 <style>
-body {
-    background: #f4f6f9;
+/* ========== DASHBOARD WRAPPER ========== */
+.dashboard-wrapper {
+    padding: 20px 28px;
     font-family: "Segoe UI", sans-serif;
+    background: #f4f7fc;
 }
 
-.dashboard-container {
-    padding: 20px 40px;
+/* ========== HEADER ========== */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
 }
 
-h2.title {
-    font-size: 28px;
+.dashboard-header h1 {
+    font-size: 26px;
     font-weight: 700;
-    margin-bottom: 25px;
-    color: #333;
+    color: #1e2a3a;
 }
 
-/* ====== STAT CARDS ====== */
-.stats-grid {
+.year-select {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #ced6e0;
+    background: #fff;
+    font-size: 14px;
+}
+
+/* ========== STAT CARDS GRID ========== */
+.card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    margin-bottom: 22px;
 }
 
 .stat-card {
-    background: white;
+    background: #ffffff;
     padding: 20px;
     border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    transition: 0.2s ease;
+    border: 1px solid #e6ebf2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: .2s;
 }
 
 .stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
-.stat-card h4 {
+.stat-card h3 {
+    font-size: 13px;
     margin: 0;
-    color: #666;
-    font-size: 15px;
-    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #7c8a97;
 }
 
 .stat-card .value {
-    font-size: 28px;
-    margin-top: 8px;
-    font-weight: bold;
-    color: #222;
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #1f2937;
 }
 
+/* DOANH THU */
 .stat-card.revenue {
-    background: linear-gradient(135deg, #3ac27e, #4be28b);
-    color: white;
-}
-
-.stat-card.revenue h4 {
-    color: white;
-}
-
-.stat-card.revenue .value {
+    background: linear-gradient(135deg, #4fa3ff, #76baff);
+    border: none;
     color: #fff;
 }
 
-/* ====== CHARTS ====== */
-.charts-grid {
-    margin-top: 30px;
+.stat-card.revenue h3 {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-card.revenue .value {
+    color: #ffffff;
+}
+
+
+/* ========== CHART GRID ========== */
+.chart-section {
     display: grid;
-    gap: 25px;
+    gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
 }
 
 .chart-box {
     background: white;
-    padding: 20px;
+    padding: 18px 20px;
     border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e4e8ef;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 .chart-box h3 {
+    font-size: 17px;
+    font-weight: 600;
     margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-    text-align: center;
+    color: #1e293b;
 }
 
-/* ====== RANK LISTS ====== */
-.rank-grid {
+/* ========== TABLE WRAPPER ========== */
+.table-section {
     margin-top: 30px;
-    display: grid;
-    gap: 25px;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
-.rank-box {
-    background: white;
-    padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-.rank-box h3 {
-    margin-bottom: 15px;
+.table-section h3 {
     font-size: 18px;
-    color: #333;
-    text-align: center;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1e293b;
 }
 
-.rank-item {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    font-size: 16px;
+.stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e6ebf2;
 }
 
-.rank-item:last-child {
-    border-bottom: none;
+.stat-table thead {
+    background: #f1f4f9;
 }
 
-@media(max-width: 600px) {
+.stat-table th {
+    text-align: left;
+    font-size: 14px;
+    padding: 12px 14px;
+    color: #475569;
+    font-weight: 600;
+}
 
-    .charts-grid,
-    .rank-grid {
+.stat-table td {
+    padding: 12px 14px;
+    font-size: 15px;
+    color: #334155;
+    border-top: 1px solid #eef2f6;
+}
+
+.stat-table tr:hover td {
+    background: #f8fbff;
+}
+
+/* ========== RESPONSIVE FIX ========== */
+@media(max-width: 768px) {
+    .chart-section {
         grid-template-columns: 1fr;
     }
 }
 </style>
 
-<div class="dashboard-container">
 
-    <h2 class="title">📊 Dashboard Thống Kê</h2>
+<div class="dashboard-wrapper">
 
-    <!-- ======= STAT CARDS ======= -->
-    <div class="stats-grid">
+    <div class="dashboard-header">
+        <h1>📊 Dashboard Thống Kê</h1>
+
+        <!-- Chọn năm -->
+        <form method="GET">
+            <input type="hidden" name="action" value="admin-statistic">
+            <select name="year" class="year-select" onchange="this.form.submit()">
+                <?php 
+                    $current = date("Y"); 
+                    for ($y = $current; $y >= $current - 5; $y--): 
+                ?>
+                <option value="<?= $y ?>" <?= ($data['year'] == $y ? 'selected' : '') ?>>
+                    <?= $y ?>
+                </option>
+                <?php endfor; ?>
+            </select>
+        </form>
+    </div>
+
+
+    <!-- STAT CARDS -->
+    <div class="card-grid">
 
         <div class="stat-card">
-            <h4>Tổng Tour</h4>
+            <h3>Tổng Tour</h3>
             <div class="value"><?= $data['total_tours'] ?></div>
         </div>
 
         <div class="stat-card">
-            <h4>Tổng Booking</h4>
+            <h3>Tổng Booking</h3>
             <div class="value"><?= $data['total_bookings'] ?></div>
         </div>
 
         <div class="stat-card">
-            <h4>Tổng Khách hàng</h4>
+            <h3>Tổng Khách hàng</h3>
             <div class="value"><?= $data['total_customers'] ?></div>
         </div>
 
         <div class="stat-card">
-            <h4>Tổng Hướng dẫn viên</h4>
+            <h3>Tổng Hướng Dẫn Viên</h3>
             <div class="value"><?= $data['total_guides'] ?></div>
         </div>
 
         <div class="stat-card revenue">
-            <h4>Tổng Doanh Thu</h4>
+            <h3>Tổng Doanh Thu</h3>
             <div class="value"><?= number_format($data['total_revenue']) ?> VND</div>
         </div>
 
     </div>
 
-    <!-- ======= CHARTS ======= -->
-    <div class="charts-grid">
+
+    <!-- CHARTS -->
+    <div class="chart-section">
 
         <div class="chart-box">
             <h3>📈 Booking Theo Tháng</h3>
-            <canvas id="bookingChart"></canvas>
+            <canvas id="chartBooking"></canvas>
         </div>
 
         <div class="chart-box">
             <h3>💰 Doanh Thu Theo Tháng</h3>
-            <canvas id="revenueChart"></canvas>
+            <canvas id="chartRevenue"></canvas>
         </div>
 
     </div>
 
-    <!-- ======= RANK LISTS ======= -->
-    <div class="rank-grid">
 
-        <div class="rank-box">
-            <h3>🔥 Top 5 Tour Bán Chạy</h3>
-            <?php foreach ($data['top_tours'] as $t): ?>
-            <div class="rank-item">
-                <span><?= $t['tour_name'] ?></span>
-                <strong><?= $t['total'] ?> booking</strong>
-            </div>
-            <?php endforeach; ?>
-        </div>
 
-        <div class="rank-box">
-            <h3>⭐ Top 5 Hướng Dẫn Viên</h3>
-            <?php foreach ($data['top_guides'] as $g): ?>
-            <div class="rank-item">
-                <span><?= $g['guide_name'] ?></span>
-                <strong><?= $g['total'] ?> tour</strong>
-            </div>
-            <?php endforeach; ?>
-        </div>
+    <!-- TABLE STATISTICS -->
+    <div class="table-section">
+
+        <h3>🔥 Top 5 Tour Bán Chạy</h3>
+
+        <table class="stat-table">
+            <thead>
+                <tr>
+                    <th>Tour</th>
+                    <th>Lượt Booking</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data['top_tours'] as $t): ?>
+                <tr>
+                    <td><?= $t['tour_name'] ?></td>
+                    <td><?= $t['total'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+
+        <h3 style="margin-top:30px;">⭐ Top 5 Hướng Dẫn Viên</h3>
+
+        <table class="stat-table">
+            <thead>
+                <tr>
+                    <th>Hướng Dẫn Viên</th>
+                    <th>Số Tour Dẫn</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data['top_guides'] as $g): ?>
+                <tr>
+                    <td><?= $g['guide_name'] ?></td>
+                    <td><?= $g['total'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
 
     </div>
 
 </div>
 
 
-<!-- ===== Chart.js ===== -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-// Booking chart
-const bookingLabels = <?= json_encode(array_column($data['booking_month'], 'month')) ?>;
-const bookingData = <?= json_encode(array_column($data['booking_month'], 'total')) ?>;
+const bookingData = <?= json_encode($data['booking_month']) ?>;
+const revenueData = <?= json_encode($data['revenue_month']) ?>;
 
-new Chart(document.getElementById("bookingChart"), {
+// Format data
+const bookingLabels = bookingData.map(x => "Tháng " + x.month);
+const bookingValues = bookingData.map(x => x.total);
+
+const revenueLabels = revenueData.map(x => "Tháng " + x.month);
+const revenueValues = revenueData.map(x => x.revenue);
+
+
+// Booking chart
+new Chart(document.getElementById("chartBooking"), {
     type: "bar",
     data: {
         labels: bookingLabels,
         datasets: [{
-            label: "Số booking",
-            data: bookingData,
-            backgroundColor: "#4e73df"
+            label: "Booking",
+            data: bookingValues,
+            backgroundColor: "#3b82f6",
+            borderRadius: 6
         }]
     }
 });
 
-// Revenue chart
-const revenueLabels = <?= json_encode(array_column($data['revenue_month'], 'month')) ?>;
-const revenueData = <?= json_encode(array_column($data['revenue_month'], 'revenue')) ?>;
-
-new Chart(document.getElementById("revenueChart"), {
+// Revenue Chart
+new Chart(document.getElementById("chartRevenue"), {
     type: "line",
     data: {
         labels: revenueLabels,
         datasets: [{
-            label: "Doanh thu (VND)",
-            data: revenueData,
-            borderColor: "#1cc88a",
+            label: "Doanh thu",
+            data: revenueValues,
+            borderColor: "#16a34a",
+            backgroundColor: "rgba(22,163,74,0.3)",
             borderWidth: 3,
-            fill: false
+            tension: 0.4
         }]
     }
 });

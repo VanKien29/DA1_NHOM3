@@ -14,6 +14,7 @@
                     <th>Biển số xe</th>
                     <th>Số Chỗ</th>
                     <th>Giá / Ngày</th>
+                    <th>Mô tả</th>
                     <th>Hành Động</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                     <td><?= htmlspecialchars($d['license_plate']); ?></td>
                     <td><?= htmlspecialchars($d['seat']); ?></td>
                     <td><?= number_format($d['price_per_day'], 0, ',', '.'); ?> đ</td>
+                    <td><?= htmlspecialchars($d['description']); ?></td>
                     <td>
                         <a href="?action=admin-updateVehicles&id=<?= $d['vehicle_service_id']; ?>"
                             class="btn btn-sm btn-outline-success px-3">

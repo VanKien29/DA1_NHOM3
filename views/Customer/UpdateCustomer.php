@@ -44,6 +44,11 @@
                 <?php endif; ?>
             </div>
 
+            <div class="form-group mb-3">
+                <label>Tuổi</label>
+                <input type="number" name="age" class="form-control form-control-lg"
+                    value="<?= htmlspecialchars($customer['age']) ?>">
+            </div>
             <div class="form-action text-center">
                 <button type="submit" class="btn btn-primary btn-lg px-5">Cập nhật</button>
                 <a href="?action=admin-listCustomer" class="btn btn-secondary btn-lg ms-2 px-4">Quay lại</a>

@@ -37,11 +37,13 @@
             <div class="mb-3">
                 <label>Chuyên môn</label>
                 <input type="text" name="specialization" class="form-control" value="<?= $guide['specialization'] ?>">
+                <div class="err"><?= $err['specialization'] ?? '' ?></div>
             </div>
 
             <div class="mb-3">
                 <label>Ghi chú</label>
                 <textarea name="note" class="form-control" rows="3"><?= $guide['note'] ?></textarea>
+                <div class="err"><?= $err['note'] ?? '' ?></div>
             </div>
 
             <div class="form-action">

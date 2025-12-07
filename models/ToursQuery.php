@@ -62,14 +62,13 @@ class ToursQuery extends BaseModel
 
     public function createTour()
     {
-        $sql = "INSERT INTO tours (tour_name, description, price_adult, price_child, price_vip, days, category_id, tour_images)
-        VALUES (:tour_name, :description, :price_adult, :price_child, :price_vip, :days, :category_id, :tour_images)";
+        $sql = "INSERT INTO tours (tour_name, description, price_adult, price_child, days, category_id, tour_images)
+        VALUES (:tour_name, :description, :price_adult, :price_child, :days, :category_id, :tour_images)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':tour_name', $this->tour_name);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':price_adult', $this->price_adult);
         $stmt->bindParam(':price_child', $this->price_child);
-        $stmt->bindParam(':price_vip', $this->price_vip);
         $stmt->bindParam(':days', $this->days, PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':tour_images', $this->tour_images);
@@ -84,7 +83,6 @@ class ToursQuery extends BaseModel
                     description = :description,
                     price_adult       = :price_adult,
                     price_child       = :price_child,
-                    price_vip         = :price_vip,
                     days        = :days,
                     category_id = :category_id,
                     tour_images = :tour_images
@@ -95,7 +93,6 @@ class ToursQuery extends BaseModel
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':price_adult', $this->price_adult);
         $stmt->bindParam(':price_child', $this->price_child);
-        $stmt->bindParam(':price_vip', $this->price_vip);
         $stmt->bindParam(':days', $this->days, PDO::PARAM_INT);
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':tour_images', $this->tour_images);

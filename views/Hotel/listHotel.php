@@ -12,8 +12,8 @@
                     <th>Tên Hotel</th>
                     <th>Chủ khách sạn</th>
                     <th>Số điện thoại</th>
-                    <th>Loại Phòng</th>
                     <th>Giá / Đêm</th>
+                    <th>Mô tả</th>
                     <th style="text-align: center;">Hành Động</th>
                 </tr>
             </thead>
@@ -34,8 +34,8 @@
                     <td class="fw-semibold"><?= htmlspecialchars($d['service_name']); ?></td>
                     <td class="fw-semibold"><?= htmlspecialchars($d['hotel_manager']); ?></td>
                     <td class="fw-semibold"><?= htmlspecialchars($d['hotel_manager_phone']); ?></td>
-                    <td><?= htmlspecialchars($d['room_type']); ?></td>
                     <td><?= number_format($d['price_per_night'], 0, ',', '.'); ?> đ</td>
+                    <td><?= htmlspecialchars($d['description']); ?></td>
                     <td style="text-align: center;">
                         <a href="?action=admin-updateHotel&id=<?= $d['hotel_service_id']; ?>"
                             class="btn btn-sm btn-outline-success">

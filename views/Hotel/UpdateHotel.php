@@ -33,16 +33,6 @@
                 <?php endif; ?>
             </div>
 
-            <!-- Loại phòng -->
-            <div class="form-group mb-3">
-                <label>Loại Phòng</label>
-                <input type="text" name="room_type" class="form-control"
-                    value="<?= htmlspecialchars($hotel['room_type'] ?? '') ?>">
-                <?php if (!empty($err['room_type'])): ?>
-                <div class="text-danger err"><?= $err['room_type']; ?></div>
-                <?php endif; ?>
-            </div>
-
             <!-- Giá mỗi đêm -->
             <div class="form-group mb-3">
                 <label>Giá Mỗi Đêm</label>

@@ -47,6 +47,7 @@
             <div class="mb-3">
                 <label>Ghi chú</label>
                 <textarea name="note" class="form-control" rows="3"><?= $_POST['note'] ?? '' ?></textarea>
+                <div class="err"><?= $err['note'] ?? '' ?></div>
             </div>
 
             <div class="form-action">
