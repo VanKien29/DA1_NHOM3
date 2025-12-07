@@ -28,17 +28,14 @@ class ProfileController
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $cccd  = $_POST['cccd'];
+    $password = $_POST['password'] ?? null;
 
     // Xử lý upload avatar (avatar nằm ở bảng guides)
     $avatar = null;
     if (!empty($_FILES['avatar']['name'])) {
         $avatar = upload_file('image/GuideImages', $_FILES['avatar']);
     }
-
-    // ==============================
-    // 1) UPDATE bảng USERS
-    // ==============================
-    $this->UsersQuery->updateProfile($id, $name, $email, $phone, $cccd);
+$this->UsersQuery->updateProfile($id, $name, $email, $phone, $cccd, $password);
 
     // ==============================
     // 2) UPDATE avatar bảng GUIDES
