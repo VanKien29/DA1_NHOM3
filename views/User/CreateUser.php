@@ -4,14 +4,14 @@
 
         <form method="POST">
             <?php if (!empty($err['empty'])): ?>
-            <div class="text-danger"><?= $err['empty'] ?></div>
+                <div class="text-danger"><?= $err['empty'] ?></div>
             <?php endif; ?>
             <div class="form-group mb-3">
                 <label>Tên đăng nhập</label>
                 <input type="text" name="username" class="form-control form-control-lg" placeholder="Nhập tên đăng nhập"
                     value="<?= htmlspecialchars($_POST['username'] ?? '') ?>">
                 <?php if (!empty($err['username'])): ?>
-                <div class="text-danger err"><?= $err['username'] ?></div>
+                    <div class="text-danger err"><?= $err['username'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -20,7 +20,7 @@
                 <input type="password" name="password" class="form-control form-control-lg" placeholder="Nhập mật khẩu"
                     value="<?= htmlspecialchars($_POST['password'] ?? '') ?>">
                 <?php if (!empty($err['password'])): ?>
-                <div class="text-danger err"><?= $err['password'] ?></div>
+                    <div class="text-danger err"><?= $err['password'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -37,7 +37,7 @@
                 <input type="text" name="name" class="form-control form-control-lg" placeholder="Nhập họ tên"
                     value="<?= htmlspecialchars($_POST['name'] ?? '') ?>">
                 <?php if (!empty($err['name'])): ?>
-                <div class="text-danger err"><?= $err['name'] ?></div>
+                    <div class="text-danger err"><?= $err['name'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -46,7 +46,7 @@
                 <input type="text" name="email" class="form-control form-control-lg" placeholder="example@email.com"
                     value="<?= htmlspecialchars($_POST['email'] ?? '') ?>">
                 <?php if (!empty($err['email'])): ?>
-                <div class="text-danger err"><?= $err['email'] ?></div>
+                    <div class="text-danger err"><?= $err['email'] ?></div>
                 <?php endif; ?>
             </div>
 
@@ -55,7 +55,16 @@
                 <input type="text" name="phone" class="form-control form-control-lg" placeholder="Nhập số điện thoại"
                     value="<?= htmlspecialchars($_POST['phone'] ?? '') ?>">
                 <?php if (!empty($err['phone'])): ?>
-                <div class="text-danger err"><?= $err['phone'] ?></div>
+                    <div class="text-danger err"><?= $err['phone'] ?></div>
+                <?php endif; ?>
+            </div>
+
+            <div class="form-group mb-4">
+                <label>Căn cước công dân</label>
+                <input type="text" name="cccd" class="form-control form-control-lg"
+                    placeholder="Nhập số căn cước công dân" value="<?= htmlspecialchars($_POST['cccd'] ?? '') ?>">
+                <?php if (!empty($err['cccd'])): ?>
+                    <div class="text-danger err"><?= $err['cccd'] ?></div>
                 <?php endif; ?>
             </div>
 

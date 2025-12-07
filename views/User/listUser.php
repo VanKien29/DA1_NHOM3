@@ -16,6 +16,7 @@
                         <th>Họ tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
+                        <th>Căn cước công dân</th>
                         <th>Vai trò</th>
                         <th>Hành động</th>
                     </tr>

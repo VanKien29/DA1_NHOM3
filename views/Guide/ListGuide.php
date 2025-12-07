@@ -13,6 +13,7 @@
                 <th>Tên</th>
                 <th>Email</th>
                 <th>Số điện thoại</th>
+                <th>Căn cước công dân</th>
                 <th>Kinh nghiệm</th>
                 <th>Chuyên môn</th>
                 <th>Ghi chú</th>

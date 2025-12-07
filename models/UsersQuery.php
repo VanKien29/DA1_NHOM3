@@ -104,13 +104,14 @@ class UsersQuery extends BaseModel
         ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function getGuideByUserId($user_id)
+   public function getGuideByUserId($uid)
 {
-    $sql = "SELECT * FROM guides WHERE user_id = ?";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$user_id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT * FROM guides WHERE user_id = :uid";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([':uid' => $uid]);
+    return $stm->fetch(PDO::FETCH_ASSOC);
 }
+
 public function getToursByGuideStatus($guide_id, $status)
 {
     $sql = "SELECT b.*, t.tour_name
@@ -129,45 +130,63 @@ public function getToursByGuideStatus($guide_id, $status)
     return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function updateProfile($id, $name, $email, $phone, $avatar = null)
+public function updateProfile($id, $name, $email, $phone, $cccd)
 {
     $sql = "UPDATE users SET 
                 name = :name,
                 email = :email,
-                phone = :phone"
-                . ($avatar ? ", avatar = :avatar" : "") .
-            " WHERE user_id = :id";
+                phone = :phone,
+                cccd = :cccd
+            WHERE user_id = :id";
 
     $stm = $this->pdo->prepare($sql);
 
     $stm->bindParam(':name', $name);
     $stm->bindParam(':email', $email);
     $stm->bindParam(':phone', $phone);
+    $stm->bindParam(':cccd', $cccd);
     $stm->bindParam(':id', $id);
-
-    if ($avatar) {
-        $stm->bindParam(':avatar', $avatar);
-    }
 
     return $stm->execute();
 }
 
-public function getGuideTours($user_id, $status)
+
+public function getGuideTours($user_id, $status = null)
 {
-    $sql = "SELECT b.*, t.tour_name 
-            FROM bookings b
-            JOIN tours t ON b.tour_id = t.tour_id
-            JOIN guides g ON b.guide_id = g.guide_id
-            WHERE g.user_id = :uid AND b.status = :status";
+    $sql = "
+        SELECT 
+            b.*, t.tour_name
+        FROM bookings b
+        JOIN tours t ON b.tour_id = t.tour_id
+        JOIN guides g ON b.guide_id = g.guide_id
+        WHERE g.user_id = :uid
+    ";
+
+    if ($status !== null) {
+        $sql .= " AND b.status = :status ";
+    }
 
     $stm = $this->pdo->prepare($sql);
-    $stm->execute([
-        ':uid' => $user_id,
-        ':status' => $status
-    ]);
+    $stm->bindParam(':uid', $user_id);
 
+    if ($status !== null) {
+        $stm->bindParam(':status', $status);
+    }
+
+    $stm->execute();
     return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
+public function updateGuideAvatar($user_id, $avatar)
+{
+    $sql = "UPDATE guides SET avatar = :avatar WHERE user_id = :uid";
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([
+        ':avatar' => $avatar,
+        ':uid' => $user_id
+    ]);
+}
+
+
 
 
 }

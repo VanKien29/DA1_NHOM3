@@ -4,9 +4,11 @@
   justify-content: center;
   padding: 50px 20px;
 }
+
 a {
   text-decoration: none;
 }
+
 .admin-form-card {
   background: #fff;
   width: 100%;
@@ -148,4 +150,14 @@ textarea:focus {
   margin-top: 28px; /* bạn có thể đổi 24 / 28 / 32 tùy ý */
   display: flex;
   gap: 12px;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+  font-weight: 500;
+}
+
+.schedule-day-box .text-danger,
+.admin-form-card .text-danger {
+  color: #dc3545 !important;
 }
