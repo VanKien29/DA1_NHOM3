@@ -1,6 +1,6 @@
 <div class="admin-form-container">
     <div class="admin-form-card">
-        <h4 class="form-title text-center mb-4">Cập Nhật Quản Trị Viên</h4>
+        <h4 class="form-title text-center mb-4">Cập Nhật Tài khoản</h4>
 
         <form method="POST" action="">
             <?php if (!empty($err['empty'])): ?>

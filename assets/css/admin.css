@@ -277,3 +277,43 @@ header.topbar {
 .sidebar-footer .auth-buttons i {
   font-size: 14px;
 }
+/* ==== User Button (Topbar User Info) ==== */
+.tb-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: #f7f9fc;
+  border: 1px solid #e5ecf6;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tb-user:hover {
+  background: #eef5ff;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Avatar (optional future use) */
+.tb-user img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+/* Username */
+.tb-user span a {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.tb-user span a:hover {
+  color: #0d6efd;
+}

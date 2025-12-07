@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th12 07, 2025 lúc 12:36 PM
+-- Thời gian đã tạo: Th12 07, 2025 lúc 01:51 PM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -69,7 +69,10 @@ INSERT INTO `attendance` (`id`, `booking_id`, `customer_id`, `status`, `note`) V
 (133, 19, 50, 'absent', NULL),
 (134, 19, 49, 'absent', NULL),
 (135, 19, 48, 'absent', NULL),
-(136, 19, 47, 'absent', NULL);
+(136, 19, 47, 'absent', NULL),
+(137, 20, 42, 'absent', NULL),
+(138, 20, 41, 'absent', NULL),
+(139, 20, 40, 'absent', NULL);
 
 -- --------------------------------------------------------
 
@@ -101,7 +104,8 @@ INSERT INTO `bookings` (`booking_id`, `tour_id`, `guide_id`, `hotel_id`, `vehicl
 (15, 1, 3, 5, 4, 'sap_dien_ra', '', '2025-12-07 03:30:22', '2025-12-27', '2025-12-30', 0.00),
 (17, 3, 4, 4, 4, 'sap_dien_ra', '', '2025-12-07 03:40:12', '2025-12-20', '2025-12-23', 0.00),
 (18, 1, 1, 2, 4, 'sap_dien_ra', '', '2025-12-07 03:40:36', '2025-12-20', '2025-12-23', 0.00),
-(19, 1, 4, 3, 4, 'da_hoan_thanh', '', '2025-12-07 04:10:52', '2025-11-07', '2025-11-10', 0.00);
+(19, 1, 4, 3, 4, 'da_hoan_thanh', '', '2025-12-07 04:10:52', '2025-11-07', '2025-11-10', 0.00),
+(20, 4, 4, 2, 4, 'sap_dien_ra', '', '2025-12-07 06:23:37', '2025-12-27', '2026-01-01', 0.00);
 
 -- --------------------------------------------------------
 
@@ -151,7 +155,10 @@ INSERT INTO `booking_customers` (`id`, `booking_id`, `customer_id`, `is_main`, `
 (133, 19, 50, 0, 8475000),
 (134, 19, 49, 1, 8475000),
 (135, 19, 48, 0, 8475000),
-(136, 19, 47, 0, 8475000);
+(136, 19, 47, 0, 8475000),
+(137, 20, 42, 0, 16166667),
+(138, 20, 41, 1, 13166667),
+(139, 20, 40, 0, 13166667);
 
 -- --------------------------------------------------------
 
@@ -256,19 +263,20 @@ CREATE TABLE `guides` (
   `experience_years` int DEFAULT '0',
   `specialization` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `note` text
+  `note` text,
+  `cccd` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `guides`
 --
 
-INSERT INTO `guides` (`guide_id`, `user_id`, `experience_years`, `specialization`, `avatar`, `note`) VALUES
-(1, 2, 3, 'Du lịch sinh thái', 'image/GuideImages/1763637528-tải xuống.jpg', NULL),
-(2, 3, 4, 'Du lịch văn hóa', 'image/GuideImages/1763637528-tải xuống.jpg', NULL),
-(3, 4, 2, 'Du lịch biển', 'image/GuideImages/1763637528-tải xuống.jpg', NULL),
-(4, 5, 5, 'Du lịch núi', 'image/GuideImages/1763637528-tải xuống.jpg', NULL),
-(5, 6, 1, 'City tour', 'image/GuideImages/1763637528-tải xuống.jpg', '');
+INSERT INTO `guides` (`guide_id`, `user_id`, `experience_years`, `specialization`, `avatar`, `note`, `cccd`) VALUES
+(1, 2, 3, 'Du lịch sinh thái', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
+(2, 3, 4, 'Du lịch văn hóa', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
+(3, 4, 2, 'Du lịch biển', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
+(4, 5, 5, 'Du lịch núi', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
+(5, 6, 1, 'City tour', 'image/GuideImages/1763637528-tải xuống.jpg', '', 123123123);
 
 -- --------------------------------------------------------
 
@@ -294,7 +302,8 @@ INSERT INTO `guide_tours` (`id`, `guide_id`, `booking_id`, `tour_id`, `status`) 
 (80, 3, 15, 1, 'current'),
 (82, 4, 17, 3, 'current'),
 (83, 1, 18, 1, 'current'),
-(84, 4, 19, 1, 'current');
+(84, 4, 19, 1, 'current'),
+(85, 4, 20, 4, 'current');
 
 -- --------------------------------------------------------
 
@@ -560,19 +569,19 @@ ALTER TABLE `vehicles`
 -- AUTO_INCREMENT cho bảng `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT cho bảng `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `booking_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_customers`
 --
 ALTER TABLE `booking_customers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -596,7 +605,7 @@ ALTER TABLE `guides`
 -- AUTO_INCREMENT cho bảng `guide_tours`
 --
 ALTER TABLE `guide_tours`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT cho bảng `hotels`
@@ -626,7 +635,7 @@ ALTER TABLE `tour_schedules`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `vehicles`
