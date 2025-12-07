@@ -578,6 +578,26 @@ class BookingQuery extends BaseModel
         $stmt = $this->pdo->prepare("UPDATE bookings SET status=? WHERE booking_id=?");
         return $stmt->execute([$status, $id]);
     }
+    public function getHistoryTours($guide_id) {
+    $sql = "
+        SELECT 
+            b.*, 
+            t.tour_name,
+            COUNT(bc.customer_id) AS customer_count
+        FROM bookings b
+        JOIN tours t ON b.tour_id = t.tour_id
+        LEFT JOIN booking_customers bc ON b.booking_id = bc.booking_id
+        WHERE b.guide_id = :gid
+        AND b.status = 'da_hoan_thanh'
+        GROUP BY b.booking_id
+        ORDER BY b.end_date DESC
+    ";
+
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([':gid' => $guide_id]);
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }
 ?>

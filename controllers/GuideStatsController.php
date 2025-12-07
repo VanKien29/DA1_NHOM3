@@ -8,24 +8,23 @@ class GuideStatsController {
     }
 
     public function stats() {
-        $user_id = $_SESSION['user']['id'];
+    $user_id = $_SESSION['user']['id'];
 
-        // Lấy guide_id theo user
-        $guide = $this->bookingQuery->getGuideByUserId($user_id);
-        $guide_id = $guide['guide_id'];
+    // Lấy guide info
+    $guide = $this->bookingQuery->getGuideByUserId($user_id);
+    $guide_id = $guide['guide_id'];
 
-        // Tổng số tour
-        $totalTours = $this->bookingQuery->countToursByGuide($guide_id);
+    // Dữ liệu tổng quan
+    $totalTours = $this->bookingQuery->countToursByGuide($guide_id);
+    $finishedTours = $this->bookingQuery->countFinishedToursByGuide($guide_id);
+    $runningTours = $this->bookingQuery->countRunningToursByGuide($guide_id);
+    $totalCustomers = $this->bookingQuery->countCustomersByGuide($guide_id);
 
-        // Tour đã hoàn thành
-        $finishedTours = $this->bookingQuery->countFinishedToursByGuide($guide_id);
+    // Lịch sử tour HDV
+    $historyTours = $this->bookingQuery->getHistoryTours($guide_id);
 
-        // Tour đang diễn ra
-        $runningTours = $this->bookingQuery->countRunningToursByGuide($guide_id);
 
-        // Số khách đã phục vụ
-        $totalCustomers = $this->bookingQuery->countCustomersByGuide($guide_id);
+    require './views/GuideStats/Stats.php';
+}
 
-        require './views/GuideStats/Stats.php';
-    }
 }
