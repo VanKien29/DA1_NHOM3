@@ -226,3 +226,44 @@ a {
   background-color: #fd810d;
   color: #fff;
 }
+/* ===== HEADER TOUR LIST ===== */
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0 18px;
+  border-bottom: 2px solid #e5efff;
+  margin-bottom: 18px;
+}
+
+/* Title */
+.header-wrapper .title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0d6efd;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Add Button */
+.header-wrapper .btn-add {
+  background: linear-gradient(90deg, #0d6efd, #3b82f6);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25);
+  transition: 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-wrapper .btn-add:hover {
+  background: linear-gradient(90deg, #0b5ed7, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
+}

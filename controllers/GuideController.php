@@ -27,17 +27,31 @@ class GuideController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
 
-            if ($_POST['experience_years'] < 0) {
-                $err['exp'] = "Kinh nghiệm phải là số >= 0.";
+            if (empty($_POST['user_id'])) {
+                $err['user_id'] = "Vui lòng chọn user!";
+            }
+            if (!is_numeric($_POST['experience_years']) || $_POST['experience_years'] < 0) {
+                $err['experience_years'] = "Kinh nghiệm phải là số >= 0.";
+            }
+            if (empty($_POST['specialization'])) {
+                $err['specialization'] = "Chuyên môn không được để trống!";
+            }
+            if (empty($_POST['note'])) {
+                $err['note'] = "Ghi chú không được để trống!";
             }
             if ($_FILES['avatar']['size'] <= 0) {
-                $err['avatar'] = "Ảnh hướng dẫn viễn không được để trống!";
+                $err['avatar'] = "Ảnh hướng dẫn viên không được để trống!";
             }
+            if (!preg_match('/^[0-9]{12}$/', $_POST['cccd']) || empty($_POST['cccd'])) {
+                $err['cccd'] = "CCCD phải gồm đúng 12 số!";
+            }
+
             if (empty($err)) {
                 $this->guideQuery->user_id = $_POST['user_id'];
                 $this->guideQuery->experience_years = $_POST['experience_years'];
                 $this->guideQuery->specialization = $_POST['specialization'];
                 $this->guideQuery->note = $_POST['note'];
+                $this->guideQuery->cccd = $_POST['cccd'];
                 if (isset($_FILES["avatar"]) && $_FILES["avatar"]["size"] > 0) {
                     $this->guideQuery->avatar = upload_file('image/GuideImages', $_FILES["avatar"]);
                 }
@@ -59,8 +73,20 @@ class GuideController
         $users = $this->guideQuery->getAllGuideUsers();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $err = [];
+            if (empty($_POST['user_id'])) {
+                $err['user_id'] = "Vui lòng chọn user!";
+            }
             if (!is_numeric($_POST['experience_years']) || $_POST['experience_years'] < 0) {
-                $err['exp'] = "Kinh nghiệm phải là số >= 0.";
+                $err['experience_years'] = "Kinh nghiệm phải là số >= 0.";
+            }
+            if (empty($_POST['specialization'])) {
+                $err['specialization'] = "Chuyên môn không được để trống!";
+            }
+            if (empty($_POST['note'])) {
+                $err['note'] = "Ghi chú không được để trống!";
+            }
+            if (!preg_match('/^[0-9]{12}$/', $_POST['cccd']) || empty($_POST['cccd'])) {
+                $err['cccd'] = "CCCD phải gồm đúng 12 số!";
             }
             if (empty($err)) {
                 $this->guideQuery->guide_id = $id;
@@ -68,6 +94,7 @@ class GuideController
                 $this->guideQuery->experience_years = $_POST['experience_years'];
                 $this->guideQuery->specialization = $_POST['specialization'];
                 $this->guideQuery->note = $_POST['note'];
+                $this->guideQuery->cccd = $_POST['cccd'];
                 if ($_FILES['avatar']['size'] > 0) {
                     $this->guideQuery->avatar = upload_file('image/GuideImages', $_FILES['avatar']);
                 } else {

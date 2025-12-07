@@ -1,87 +1,136 @@
 <?php
+// models/StatisticQuery.php
+
 class StatisticQuery extends BaseModel
 {
-    // Tổng tour
-    public function getTotalTours() {
+    // Tổng tour (all time)
+    public function getTotalTours()
+    {
         $sql = "SELECT COUNT(*) AS total FROM tours";
-        return $this->pdo->query($sql)->fetch()['total'];
+        $stmt = $this->pdo->query($sql);
+        return (int) ($stmt->fetch()['total'] ?? 0);
     }
 
-    // Tổng booking
-    public function getTotalBookings() {
-        $sql = "SELECT COUNT(*) AS total FROM bookings";
-        return $this->pdo->query($sql)->fetch()['total'];
-    }
-
-    // Tổng khách hàng
-    public function getTotalCustomers() {
+    // Tổng khách hàng (all time)
+    public function getTotalCustomers()
+    {
         $sql = "SELECT COUNT(*) AS total FROM customers";
-        return $this->pdo->query($sql)->fetch()['total'];
+        $stmt = $this->pdo->query($sql);
+        return (int) ($stmt->fetch()['total'] ?? 0);
     }
 
-    // Tổng hướng dẫn viên
-    public function getTotalGuides() {
+    // Tổng hướng dẫn viên (all time)
+    public function getTotalGuides()
+    {
         $sql = "SELECT COUNT(*) AS total FROM guides";
-        return $this->pdo->query($sql)->fetch()['total'];
+        $stmt = $this->pdo->query($sql);
+        return (int) ($stmt->fetch()['total'] ?? 0);
     }
 
-    // Tổng doanh thu
-    public function getTotalRevenue() {
+    // Tổng booking theo năm
+    public function getTotalBookings($year)
+    {
+        $sql = "
+            SELECT COUNT(*) AS total
+            FROM bookings
+            WHERE start_date IS NOT NULL
+              AND YEAR(start_date) = :year
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return (int) ($stmt->fetch()['total'] ?? 0);
+    }
+
+    // Tổng doanh thu theo năm (tính từ booking_customers)
+    public function getTotalRevenue($year)
+    {
         $sql = "
             SELECT SUM(bc.price_per_customer) AS revenue
-            FROM booking_customers bc
+            FROM bookings b
+            JOIN booking_customers bc ON b.booking_id = bc.booking_id
+            WHERE b.start_date IS NOT NULL
+              AND YEAR(b.start_date) = :year
         ";
-        return $this->pdo->query($sql)->fetch()['revenue'] ?? 0;
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return (float) ($stmt->fetch()['revenue'] ?? 0);
     }
 
-    // Booking theo tháng
-    public function getBookingByMonth() {
+    // Booking theo tháng (dựa trên start_date)
+    public function getBookingByMonth($year)
+    {
         $sql = "
-            SELECT MONTH(created_at) AS month, COUNT(*) AS total
+            SELECT 
+                MONTH(start_date) AS month,
+                COUNT(*) AS total
             FROM bookings
-            GROUP BY MONTH(created_at)
-            ORDER BY MONTH(created_at)
+            WHERE start_date IS NOT NULL
+              AND YEAR(start_date) = :year
+            GROUP BY MONTH(start_date)
+            ORDER BY MONTH(start_date)
         ";
-        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Doanh thu theo tháng
-    public function getRevenueByMonth() {
+    public function getRevenueByMonth($year)
+    {
         $sql = "
-            SELECT MONTH(b.created_at) AS month,
-                   SUM(bc.price_per_customer) AS revenue
+            SELECT 
+                MONTH(b.start_date) AS month,
+                SUM(bc.price_per_customer) AS revenue
             FROM bookings b
             JOIN booking_customers bc ON b.booking_id = bc.booking_id
-            GROUP BY MONTH(b.created_at)
-            ORDER BY MONTH(b.created_at)
+            WHERE b.start_date IS NOT NULL
+              AND YEAR(b.start_date) = :year
+            GROUP BY MONTH(b.start_date)
+            ORDER BY MONTH(b.start_date)
         ";
-        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Top 5 tour bán chạy
-    public function getTopTours() {
+    // Top 5 tour bán chạy theo năm (theo số booking)
+    public function getTopTours($year)
+    {
         $sql = "
-            SELECT t.tour_name, COUNT(b.booking_id) AS total
+            SELECT 
+                t.tour_name, 
+                COUNT(b.booking_id) AS total
             FROM bookings b
             JOIN tours t ON b.tour_id = t.tour_id
+            WHERE b.start_date IS NOT NULL
+              AND YEAR(b.start_date) = :year
             GROUP BY t.tour_id
             ORDER BY total DESC
             LIMIT 5
         ";
-        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Top 5 hướng dẫn viên dẫn nhiều tour nhất
-    public function getTopGuides() {
+    // Top 5 hướng dẫn viên dẫn nhiều tour nhất theo năm
+    public function getTopGuides($year)
+    {
         $sql = "
-            SELECT u.name AS guide_name, COUNT(b.booking_id) AS total
+            SELECT 
+                u.name AS guide_name, 
+                COUNT(b.booking_id) AS total
             FROM bookings b
             JOIN guides g ON b.guide_id = g.guide_id
             JOIN users u ON g.user_id = u.user_id
+            WHERE b.start_date IS NOT NULL
+              AND YEAR(b.start_date) = :year
             GROUP BY g.guide_id
             ORDER BY total DESC
             LIMIT 5
         ";
-        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

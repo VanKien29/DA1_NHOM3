@@ -23,33 +23,33 @@
         <tbody>
             <?php $stt = 1;
             foreach ($reports as $r): ?>
-                <tr>
-                    <td><?= $stt++; ?></td>
-                    <td><?= $r['report_id']; ?></td>
-                    <td><?= htmlspecialchars($r['guide_name']); ?></td>
-                    <td><?= htmlspecialchars($r['tour_name']); ?></td>
-                    <td><?= htmlspecialchars($r['report_date']); ?></td>
+            <tr>
+                <td><?= $stt++; ?></td>
+                <td><?= $r['report_id']; ?></td>
+                <td><?= htmlspecialchars($r['guide_name']); ?></td>
+                <td><?= htmlspecialchars($r['tour_name']); ?></td>
+                <td><?= htmlspecialchars($r['report_date']); ?></td>
 
-                    <td style="max-width:240px;">
-                        <?= htmlspecialchars($r['content']); ?>
-                    </td>
+                <td style="max-width:240px;">
+                    <?= htmlspecialchars($r['content']); ?>
+                </td>
 
-                    <td>
-                        <span class="badge bg-warning text-dark fw-bold">
-                            <?= $r['rating'] ?> ★
-                        </span>
-                    </td>
+                <td>
+                    <span class="badge bg-warning text-dark fw-bold">
+                        <?= $r['rating'] ?> ★
+                    </span>
+                </td>
 
-                    <td>
-                        <a href="?action=admin-updateReport&id=<?= $r['report_id'] ?>"
-                            class="btn btn-outline-success btn-sm">Sửa</a>
+                <td>
+                    <a href="?action=admin-updateReport&id=<?= $r['report_id'] ?>"
+                        class="btn btn-outline-success btn-sm">Sửa</a>
 
-                        <a href="?action=admin-deleteReport&id=<?= $r['report_id'] ?>" class="btn btn-outline-danger btn-sm"
-                            onclick="return confirm('Xóa báo cáo này?')">
-                            Xóa
-                        </a>
-                    </td>
-                </tr>
+                    <a href="?action=admin-deleteReport&id=<?= $r['report_id'] ?>" class="btn btn-outline-danger btn-sm"
+                        onclick="return confirm('Xóa báo cáo này?')">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
             <?php endforeach; ?>
         </tbody>
     </table>

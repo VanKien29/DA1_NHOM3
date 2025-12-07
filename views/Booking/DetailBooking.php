@@ -56,8 +56,9 @@
                 <div class="card-header fw-bold">Thông Tin Khách Sạn</div>
                 <div class="card-body">
                     <p><strong>Tên khách sạn:</strong> <?= $booking['hotel_name'] ?></p>
-                    <p><strong>Chủ khách sạn:</strong> <?= $booking['hotel_manager'] ?></p>
-                    <p><strong>SĐT Chủ KS:</strong> <?= $booking['hotel_manager_phone'] ?></p>
+                    <p><strong>Người đại diện:</strong> <?= $booking['hotel_manager'] ?></p>
+                    <p><strong>SĐT người đại diện:</strong> <?= $booking['hotel_manager_phone'] ?></p>
+                    <p><strong>Giá/người/đêm:</strong> <?= number_format($booking['price_per_night']) ?> VND</p>
                 </div>
             </div> <br>
             <!-- THÔNG TIN PHƯƠNG TIỆN -->
@@ -106,7 +107,7 @@
     <div class="card mb-4">
         <div class="card-header fw-bold">Danh Sách Khách</div>
         <div class="card-body">
-            <?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy'): ?>
+            <?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra'): ?>
             <button class="btn btn-addCustomer"
                 onclick="document.getElementById('addCustomerForm').style.display='block'">
                 + Thêm khách
@@ -122,7 +123,7 @@
                         <th>SĐT</th>
                         <th>Điểm danh</th>
                         <th>Ghi chú</th>
-                        <th><?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy'){ echo 'Hành động'; } ?>
+                        <th><?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra'){ echo 'Hành động'; } ?>
                         </th>
                     </tr>
                 </thead>
@@ -133,28 +134,36 @@
                         <td><?= $c['full_name'] ?></td>
                         <td><?= $c['email'] ?></td>
                         <td><?= $c['phone'] ?></td>
-                        <?php foreach ($attendance as $a):
-                                    if ($a['customer_id'] == $c['customer_id']) {
+                        <?php 
+                            $att = null;
+                            foreach ($attendance as $a) {
+                                if ($a['customer_id'] == $c['customer_id']) {
+                                    $att = $a;
+                                    break;
+                                }
+                            }
                         ?>
                         <td>
-                            <?php if ($a['status'] == 'present'): ?>
+                            <?php if ($att): ?>
+                            <?php if ($att['status'] == 'present'): ?>
                             <span class="badge bg-success">Có mặt</span>
-                            <?php elseif ($a['status'] == 'absent'): ?>
+                            <?php elseif ($att['status'] == 'absent'): ?>
                             <span class="badge bg-danger">Vắng</span>
                             <?php else: ?>
                             <span class="badge bg-secondary">—</span>
                             <?php endif; ?>
+                            <?php endif; ?>
                         </td>
-                        <td><?= $a['note'] ?></td>
-                        <?php } endforeach; if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy'){ ?>
+                        <td><?= $att['note'] ?? '' ?></td>
+                        <?php if ($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra'): ?>
                         <td class="action-col">
                             <a href="?action=admin-deleteCustomerBooking&id=<?= $c['bc_id'] ?>&booking_id=<?= $booking['booking_id'] ?>"
-                                class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa khách này?')">
-                                Xóa
-                            </a>
+                                class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa khách này?')">Xóa</a>
                         </td>
+                        <?php endif; ?>
                     </tr>
-                    <?php } endforeach; ?>
+                    <?php endforeach; ?>
+
                 </tbody>
             </table>
 

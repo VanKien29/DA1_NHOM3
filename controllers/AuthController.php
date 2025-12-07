@@ -22,7 +22,11 @@ class AuthController
                 'name' => $user['name'],
                 'role' => $user['role'],
             ];
-            header("Location: ?action=admin");
+            if($user['role'] === 'admin') {
+                header("Location: ?action=admin");
+            } else {
+                header("Location: ?action=guide-schedule");
+            }
             exit();
         }else {
             $error = "Sai tên đăng nhập hoặc mật khẩu!";

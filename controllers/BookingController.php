@@ -19,6 +19,12 @@ class BookingController
         $bookings = $this->bookingQuery->getBookingsByFilter($filter);
         require './views/Booking/listBooking.php';
     }
+    public function searchBooking()
+    {
+        $keyword = $_GET['keyword'] ?? '';
+        $bookings = $this->bookingQuery->searchBooking($keyword);
+        require './views/Booking/listBooking.php';
+    }
 
     public function deleteCustomer($bc_id, $booking_id)
     {
@@ -37,9 +43,9 @@ class BookingController
         $customers = $this->bookingQuery->getBookingCustomers($id);
         $attendance = $this->bookingQuery->getAttendance($id);
         $customers_all = $this->CustomerQuery->getAllCustomers();
-        $tour     = $this->ToursQuery->findTour($booking['tour_id']);
-        $hotel    = $this->HotelQuery->findHotel($booking['hotel_id']);
-        $vehicle  = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
+        $tour = $this->ToursQuery->findTour($booking['tour_id']);
+        $hotel = $this->HotelQuery->findHotel($booking['hotel_id']);
+        $vehicle = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
         $tour_schedules = $this->ToursQuery->getTourSchedule($booking['tour_id']);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_add_customer'])) {
@@ -87,10 +93,10 @@ class BookingController
 
     private function calculatePrice($customer, $tour, $hotel, $vehicle, $start_date, $end_date, $total_customers)
     {
-        $role_price = match($customer['role']) {
+        $role_price = match ($customer['role']) {
             'adult' => $tour['price_adult'],
             'child' => $tour['price_child'],
-            'vip'   => $tour['price_vip'],
+            'vip' => $tour['price_vip'],
             default => 0
         };
         $nights = (strtotime($end_date) - strtotime($start_date)) / 86400;
@@ -250,26 +256,26 @@ class BookingController
                         $this->bookingQuery->vehicle_id = $vehicle_id;
                         $this->bookingQuery->start_date = $start_date;
                         $this->bookingQuery->end_date   = $end_date;
-                        $this->bookingQuery->status     = $this->bookingQuery->autoStatus($start_date, $end_date);
+                        $this->bookingQuery->status = $this->bookingQuery->autoStatus($start_date, $end_date);
                         $this->bookingQuery->report     = '';
                         $this->bookingQuery->created_at = date('Y-m-d H:i:s');
 
                         // Tạo booking
                         $booking_id = $this->bookingQuery->createBooking();
 
-                        $tour  = $this->ToursQuery->findTour($tour_id);
+                        $tour = $this->ToursQuery->findTour($tour_id);
                         $hotel = $this->HotelQuery->findHotel($hotel_id);
                         $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
                         $total_customers = count($customers_arr);
                         foreach ($customers_arr as $cid) {
                             $customer = $this->CustomerQuery->findCustomer($cid);
                             $price = $this->calculatePrice(
-                                $customer, 
-                                $tour, 
-                                $hotel, 
-                                $vehicle, 
-                                $start_date, 
-                                $end_date, 
+                                $customer,
+                                $tour,
+                                $hotel,
+                                $vehicle,
+                                $start_date,
+                                $end_date,
                                 $total_customers
                             );
                             $is_main = ($cid == $main) ? 1 : 0;
@@ -320,8 +326,8 @@ class BookingController
             }
             $customers = $filtered;
         } else {
-            $start_date = $_POST['start_date'];
-            $end_date = $_POST['end_date'];
+            $start_date = $_POST['start_date'] ?? '';
+            $end_date   = $_POST['end_date'] ?? '';
             if ($start_date && $end_date) {
                 foreach ($customers as $c) {
                     if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date, $id)) {
@@ -427,7 +433,7 @@ class BookingController
                     $end_date = $_POST['end_date'] ?? "";
                     $customers_arr = $_POST['customers'] ?? [];
                     $main = $_POST['main_customer'] ?? "";
-                    $status = $_POST['status'] ?? "cho_duyet";
+                    $status = $_POST['status'] ?? "sap_dien_ra";
 
                     if (!$tour_id || !$guide_id || !$hotel_id || !$vehicle_id) {
                         $err['empty'] = "Vui lòng nhập đầy đủ thông tin.";
@@ -458,23 +464,26 @@ class BookingController
                         $this->bookingQuery->deleteBookingCustomersOnly($id);
                         $this->bookingQuery->deleteAttendanceOnly($id);
 
-                        $tour    = $this->ToursQuery->findTour($tour_id);
-                        $hotel   = $this->HotelQuery->findHotel($hotel_id);
+                        $tour = $this->ToursQuery->findTour($tour_id);
+                        $hotel = $this->HotelQuery->findHotel($hotel_id);
                         $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
                         foreach ($customers_arr as $cid) {
                             $customer = $this->CustomerQuery->findCustomer($cid);
                             $price = $this->calculatePrice(
-                                $customer, 
-                                $tour, 
-                                $hotel, 
-                                $vehicle, 
-                                $start_date, 
-                                $end_date, 
+                                $customer,
+                                $tour,
+                                $hotel,
+                                $vehicle,
+                                $start_date,
+                                $end_date,
                                 count($customers_arr)
                             );
                             $is_main = ($cid == $main) ? 1 : 0;
                             $this->bookingQuery->addBookingCustomers($id, $cid, $is_main, $price);
                             $this->bookingQuery->addAttendance($id, $cid);
+                            if ($status == 'da_hoan_thanh') {
+                                $this->bookingQuery->updateHistoryGuideTour($id);
+                            }
                         }
 
                         echo "<script>alert('Cập nhật booking thành công!'); window.location.href='?action=admin-listBooking';</script>";
@@ -483,6 +492,7 @@ class BookingController
                 }
             }
         }
+        $selected_customers = $customers_arr ?? $selected_old;
         require './views/Booking/updateBooking.php';
     }
 

@@ -111,8 +111,7 @@ h3.fw-bold {
 .table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 8px;
-  margin-top: 10px;
+  border-spacing: 0 6px;
 }
 
 .table thead tr {
@@ -122,6 +121,7 @@ h3.fw-bold {
 }
 
 .table thead th {
+  align-items: left;
   padding: 12px 16px;
   font-size: 14px;
 }
@@ -367,4 +367,139 @@ h3.fw-bold {
   color: #475569;
   font-size: 14px;
   margin: 0;
+}
+/* ======================= TABLE WRAPPER ======================= */
+
+.customer-table-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin-top: 20px;
+}
+
+/* ======================= TABLE ======================= */
+
+.customer-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* tạo khoảng cách giữa các dòng */
+  table-layout: fixed; /* GIỮ CỘT THẲNG HÀNG */
+}
+
+.customer-table thead tr {
+  background: #f1f5ff;
+}
+
+.customer-table thead th {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e40af;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+/* ======================= ROWS ======================= */
+
+.customer-table tbody tr {
+  background: #ffffff;
+  box-shadow: 0 0 0 1px #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+
+.customer-table tbody tr:hover {
+  background: #f8faff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.customer-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #374151;
+  vertical-align: middle;
+}
+
+/* ======================= BADGES ======================= */
+
+.badge-present {
+  background: #dcfce7;
+  color: #16a34a;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.badge-absent {
+  background: #fee2e2;
+  color: #dc2626;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.badge-none {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+/* ======================= ACTION BUTTON ======================= */
+
+.action-col {
+  text-align: center;
+}
+
+.btn-delete {
+  border: 2px solid #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  transition: 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-delete:hover {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35);
+}
+
+/* ======================= RESPONSIVE ======================= */
+
+@media (max-width: 768px) {
+  .customer-table td,
+  .customer-table th {
+    font-size: 13px;
+  }
+}
+.table th:nth-child(1),
+.table td:nth-child(1), /* ID */
+.table th:nth-child(4),
+.table td:nth-child(4), /* SĐT */
+.table th:nth-child(5),
+.table td:nth-child(5), /* Điểm danh */
+.table th:nth-child(7),
+.table td:nth-child(7)  /* Hành động */ {
+  text-align: center;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2), /* Họ tên */
+.table th:nth-child(3),
+.table td:nth-child(3), /* Email */
+.table th:nth-child(6),
+.table td:nth-child(6)  /* Ghi chú */ {
+  text-align: left;
+  padding-left: 20px;
 }

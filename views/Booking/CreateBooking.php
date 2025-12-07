@@ -57,8 +57,10 @@
                     <span class="hint-text">Ngày bắt đầu tour</span>
                 </div>
             </div>
-
-            <button type="submit" name="next_1" value="1" class="btn-submit">Tiếp tục</button>
+            <div style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
+                <a href="?action=admin-listBooking" class="btn-back">Quay lại</a>
+                <button type="submit" name="next_1" value="1" class="btn-submit">Tiếp tục</button>
+            </div>
         </div>
         <?php endif; ?>
 
@@ -124,7 +126,7 @@
             </div>
 
             <div style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
-                <button type="submit" name="prev_step" value="1" class="btn-prev">← Quay lại</button>
+                <button type="submit" name="prev_step" value="1" class="btn-back">Quay lại</button>
                 <button type="submit" name="next_2" value="1" class="btn-submit">Tiếp tục</button>
             </div>
         </div>
@@ -193,7 +195,7 @@
 
 
             <div style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
-                <button type="submit" name="prev_step" value="2" class="btn-prev">← Quay lại</button>
+                <button type="submit" name="prev_step" value="2" class="btn-back">Quay lại</button>
                 <button type="submit" name="final_submit" value="1" class="btn-submit">Tạo Booking</button>
             </div>
         </div>

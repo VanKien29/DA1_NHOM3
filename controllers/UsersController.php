@@ -36,9 +36,6 @@ class UsersController
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
                 $err['phone'] = "Số điện thoại không hợp lệ.";
             }
-            if (!preg_match("/^\+?\d{9,13}$/", $_POST['cccd'])) {
-                $err['cccd'] = "Số căn cước công dân.";
-            }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
                 $err['email'] = "Email không hợp lệ.";
             }
@@ -49,7 +46,6 @@ class UsersController
                 $this->userQuery->name = $_POST['name'];
                 $this->userQuery->email = $_POST['email'];
                 $this->userQuery->phone = $_POST['phone'];
-                $this->userQuery->cccd = $_POST['cccd'];
                 if ($this->userQuery->createUser()) {
                     echo "<script>
                         alert('Thêm quản trị thành công!');
@@ -79,9 +75,6 @@ class UsersController
             if (!preg_match("/^\+?\d{9,12}$/", $_POST['phone'])) {
                 $err['phone'] = "Số điện thoại không hợp lệ.";
             }
-            if (!preg_match("/^\+?\d{9,13}$/", $_POST['cccd'])) {
-                $err['cccd'] = "Số căn cước công dân.";
-            }
             if (!preg_match("/^[^\s@]+@[^\s@]+\.[^\s@]+$/", $_POST['email'])) {
                 $err['email'] = "Email không hợp lệ.";
             }
@@ -93,7 +86,6 @@ class UsersController
                 $this->userQuery->name = $_POST['name'];
                 $this->userQuery->email = $_POST['email'];
                 $this->userQuery->phone = $_POST['phone'];
-                $this->userQuery->cccd = $_POST['cccd'];
 
                 if ($this->userQuery->updateUser()) {
                     echo "<script>
