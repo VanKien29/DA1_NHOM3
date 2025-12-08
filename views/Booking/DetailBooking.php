@@ -11,10 +11,18 @@
             <div class="card mb-4">
                 <div class="card-header fw-bold">Thông Tin Booking</div>
                 <div class="card-body">
+                    <?php 
+                        $start = strtotime($booking['start_date']);
+                        $end   = strtotime($booking['end_date']);
+                        $total_days  = ($end - $start) / 86400 + 1;
+                        $total_nights = $total_days - 1; 
+                    ?>
                     <p><strong>Mã Booking:</strong> <?= $booking['booking_id'] ?></p>
                     <p><strong>Tour:</strong> <?= $booking['tour_name'] ?></p>
                     <p><strong>Ngày bắt đầu:</strong> <?= $booking['start_date'] ?></p>
                     <p><strong>Ngày kết thúc:</strong> <?= $booking['end_date'] ?></p>
+                    <p><strong>Ngày/đêm</strong> <?= $total_days ?> ngày
+                        <?= $total_nights == 0 ? "" : " / " . $total_nights . " đêm" ?></p>
                     <p><strong>Tổng giá:</strong> <?= number_format($booking['total_price']) ?> VND</p>
                     <p><strong>Trạng thái:</strong>
                         <?php if ($booking['status'] == 'cho_duyet'): ?>

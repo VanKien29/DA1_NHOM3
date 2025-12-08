@@ -25,7 +25,7 @@
                     <td><?= $index + 1; ?></td>
                     <td>
                         <?php if (!empty($d['hotel_image'])): ?>
-                        <img src="<?= BASE_ASSETS_UPLOADS . $d['hotel_image'] ?>" width="70" height="55"
+                        <img src="<?= BASE_ASSETS_UPLOADS . $d['hotel_image'] ?>" width="100" height="100"
                             style="object-fit: cover; border-radius: 6px;">
                         <?php else: ?>
                         <span class="text-muted">Không có ảnh</span>
