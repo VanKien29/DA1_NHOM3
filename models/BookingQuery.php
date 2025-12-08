@@ -649,6 +649,26 @@ class BookingQuery extends BaseModel
         $stmt->bindParam(':id', $booking_id);
         $stmt->execute();
     }
+    public function getRunningTours($guide_id) {
+    $sql = "
+        SELECT 
+            b.*, 
+            t.tour_name,
+            COUNT(bc.customer_id) AS customer_count
+        FROM bookings b
+        JOIN tours t ON b.tour_id = t.tour_id
+        LEFT JOIN booking_customers bc ON b.booking_id = bc.booking_id
+        WHERE b.guide_id = :gid
+        AND b.status = 'dang_dien_ra'
+        GROUP BY b.booking_id
+        ORDER BY b.start_date DESC
+    ";
+
+    $stm = $this->pdo->prepare($sql);
+    $stm->execute([':gid' => $guide_id]);
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }
 ?>
