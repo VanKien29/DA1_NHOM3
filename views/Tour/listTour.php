@@ -1,56 +1,49 @@
 <div class="container mt-4">
     <div class="header-wrapper">
-        <h4 class="title">Danh Sách Tour</h4>
-        <a href="?action=admin-createTours" class="btn btn-add">
-            + Thêm Tour
-        </a>
+        <h4 class="title">Danh Sách Tour</h4> <a href="?action=admin-createTours" class="btn btn-add"> + Thêm Tour </a>
     </div>
+    <div class="tour-grid">
+        <?php foreach ($tours as $t): ?>
+        <div class="tour-card fade-in">
 
-    <table class="table table-bordered table-striped align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Ảnh</th>
-                <th>Tên tour</th>
-                <th>Danh mục</th>
-                <th>Giá người lớn</th>
-                <th>Giá trẻ em</th>
-                <th>Số ngày</th>
-                <th>Mô tả</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
+            <div class="tour-image">
+                <?php if (!empty($t['tour_images'])): ?>
+                <img src="<?= BASE_ASSETS_UPLOADS . $t['tour_images'] ?>" alt="">
+                <?php endif; ?>
+            </div>
+            <div class="tour-body">
+                <h4 class="tour-title"><?= $t['tour_name'] ?></h4>
 
-        <tbody>
-            <?php $i = 1; foreach ($tours as $t): ?>
-            <tr>
-                <td><?= $i++ ?></td>
-                <td>
-                    <?php if (!empty($t['tour_images'])): ?>
-                    <img src="image/TourImages/<?= htmlspecialchars($t['tour_images']) ?>" width="80" height="60"
-                        style="object-fit: cover;">
-                    <?php endif; ?>
-                </td>
-                <td><?= htmlspecialchars($t['tour_name']) ?></td>
-                <td><?= htmlspecialchars($t['category_name']) ?></td>
-                <td><?= number_format($t['price_adult']) ?> đ</td>
-                <td><?= number_format($t['price_child'] ?? 0) ?> đ</td>
-                <td><?= (int)($t['days'] ?? 0) ?> ngày</td>
-                <td><?= htmlspecialchars(mb_substr($t['description'], 0, 60)) ?>...</td>
-                <td class="d-flex gap-1">
-                    <a href="?action=admin-detailTour&id=<?= $t['tour_id'] ?>" class="btn btn-sm btn-outline-detail">
-                        Chi tiết
+                <div class="tour-meta">
+                    <span><i class="fa-regular fa-clock"></i> <?= $t['days'] ?> ngày</span>
+                    <span><i class="fa-solid fa-tag"></i> <?= $t['category_name'] ?></span>
+                </div>
+
+                <div class="tour-price-box">
+                    <span class="adult-price"><?= number_format($t['price_adult']) ?> đ</span>
+
+                    <span class="child-price"><?= number_format($t['price_child']) ?> đ (trẻ em)</span>
+                </div>
+
+                <p class="tour-desc">
+                    <?= mb_substr($t['description'], 0, 120) ?>
+                </p>
+
+                <!-- Nút icon ở góc dưới -->
+                <div class="tour-actions">
+                    <a href="?action=admin-detailTour&id=<?= $t['tour_id'] ?>" class="icon-btn view">
+                        <i class="fa-solid fa-eye"></i>
                     </a>
-                    <a href="?action=admin-updateTours&id=<?= $t['tour_id'] ?>" class="btn btn-outline-success btn-sm">
-                        Sửa
+                    <a href="?action=admin-updateTours&id=<?= $t['tour_id'] ?>" class="icon-btn edit">
+                        <i class="fa-solid fa-pen"></i>
                     </a>
                     <a onclick="return confirm('Xóa tour này?')"
-                        href="?action=admin-deleteTours&id=<?= $t['tour_id'] ?>" class="btn btn-outline-danger btn-sm">
-                        Xóa
+                        href="?action=admin-deleteTours&id=<?= $t['tour_id'] ?>" class="icon-btn delete">
+                        <i class="fa-solid fa-trash"></i>
                     </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+                </div>
+            </div>
+
+        </div>
+        <?php endforeach; ?>
+    </div>

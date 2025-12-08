@@ -25,6 +25,7 @@ $user = $_SESSION['user'];
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <?php
     switch ($action) {
         // Tours
@@ -160,56 +161,56 @@ $user = $_SESSION['user'];
                 </li>
                 <li>
                     <a href="?action=admin-listTours"
-                        class="<?= ($action == 'admin-listTours' || $action == 'admin-createTours' || $action == 'admin-updateTours' || $action == 'admin-detailTour') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listTours' || $action == 'admin-createTours' || $action == 'admin-updateTours' || $action == 'admin-detailTour' || $action == 'admin-searchTours') ? 'active' : '' ?>">
                         <i class="fa-solid fa-suitcase-rolling"></i> Danh Sách Tour
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listBooking"
-                        class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking' || $action == 'admin-detailBooking') ? 'active' : '' ?>">
-                        <i class="fa-solid fa-calendar-check"></i> Đặt Tour
+                        class="<?= ($action == 'admin-listBooking' || $action == 'admin-createBooking' || $action == 'admin-updateBooking' || $action == 'admin-detailBooking' || $action == 'admin-searchBooking') ? 'active' : '' ?>">
+                        <i class="fa-solid fa-calendar-check"></i> Quản Lý Booking
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listCustomer"
-                        class="<?= ($action == 'admin-listCustomer' || $action == 'admin-createCustomer' || $action == 'admin-updateCustomer') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listCustomer' || $action == 'admin-createCustomer' || $action == 'admin-updateCustomer' || $action == 'admin-searchCustomer') ? 'active' : '' ?>">
                         <i class="fa-solid fa-users"></i> Khách Hàng
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listUsers"
-                        class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUsers' || $action == 'admin-updateUsers') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listUsers' || $action == 'admin-createUsers' || $action == 'admin-updateUsers' || $action == 'admin-searchUsers') ? 'active' : '' ?>">
                         <i class="fa-solid fa-user-tie"></i> Tài khoản
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listCategory"
-                        class="<?= ($action == 'admin-listCategory' || $action == 'admin-createCategory' || $action == 'admin-updateCategory') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listCategory' || $action == 'admin-createCategory' || $action == 'admin-updateCategory' || $action == 'admin-searchCategory') ? 'active' : '' ?>">
                         <i class="fa-solid fa-coins"></i> Danh Mục
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listGuide"
-                        class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide' || $action == 'admin-detailGuide') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listGuide' || $action == 'admin-createGuide' || $action == 'admin-updateGuide' || $action == 'admin-detailGuide' || $action == 'admin-searchGuide') ? 'active' : '' ?>">
                         <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listReport"
-                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport' || $action == 'admin-searchReport') ? 'active' : '' ?>">
                         <i class="fa-solid fa-file-lines"></i>
                         Báo Cáo HDV
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listVehicles"
-                        class="<?= ($action == 'admin-listVehicles' || $action == 'admin-createVehicles' || $action == 'admin-updateVehicles') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listVehicles' || $action == 'admin-createVehicles' || $action == 'admin-updateVehicles' || $action == 'admin-searchVehicles') ? 'active' : '' ?>">
                         <i class="fa-solid fa-bus-simple"></i> Phương Tiện
                     </a>
                 </li>
                 <li>
                     <a href="?action=admin-listHotel"
-                        class="<?= ($action == 'admin-listHotel' || $action == 'admin-createHotel' || $action == 'admin-updateHotel') ? 'active' : '' ?>">
+                        class="<?= ($action == 'admin-listHotel' || $action == 'admin-createHotel' || $action == 'admin-updateHotel' || $action == 'admin-searchHotel') ? 'active' : '' ?>">
                         <i class="fa-solid fa-hotel"></i> Khách Sạn
                     </a>
                 </li>
@@ -251,7 +252,8 @@ $user = $_SESSION['user'];
 
                 <div class="searchbar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" name="keyword" placeholder="Search..." />
+                    <input type="text" name="keyword" placeholder="Search..."
+                        value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>" />
                 </div>
             </form>
             <div class="topbar-right">
