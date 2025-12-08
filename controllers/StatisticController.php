@@ -66,6 +66,8 @@ class StatisticController
         $data['top_tours']  = $this->statisticQuery->getTopTours($year);
         $data['top_guides'] = $this->statisticQuery->getTopGuides($year);
 
+        $data['running_tours']  = $this->statisticQuery->getRunningTours();
+        $data['upcoming_tours'] = $this->statisticQuery->getUpcomingTours();
         require './views/Statistic/Statistic.php';
     }
 }

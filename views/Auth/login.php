@@ -134,7 +134,6 @@
             <input type="text" name="user" placeholder="Nhập tên người dùng" value="guide5" required>
             <input type="password" name="pass" placeholder="Nhập mật khẩu" value="123" required>
             <button type="submit">Đăng nhập</button>
-
             <?php if (!empty($error)): ?>
             <div class="error"><?= $error ?></div>
             <?php endif; ?>

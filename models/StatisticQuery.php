@@ -133,4 +133,38 @@ class StatisticQuery extends BaseModel
         $stmt->execute(['year' => $year]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // 5 tour đang diễn ra
+    public function getRunningTours()
+    {
+        $sql = "
+            SELECT b.*, t.tour_name, u.name AS guide_name
+            FROM bookings b
+            JOIN tours t ON b.tour_id = t.tour_id
+            JOIN guides g ON b.guide_id = g.guide_id
+            JOIN users u ON g.user_id = u.user_id
+            WHERE b.start_date <= CURDATE()
+            AND b.end_date >= CURDATE()
+            ORDER BY b.start_date ASC
+            LIMIT 5
+        ";
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // 5 tour sắp diễn ra
+    public function getUpcomingTours()
+    {
+        $sql = "
+            SELECT b.*, t.tour_name, u.name AS guide_name
+            FROM bookings b
+            JOIN tours t ON b.tour_id = t.tour_id
+            JOIN guides g ON b.guide_id = g.guide_id
+            JOIN users u ON g.user_id = u.user_id
+            WHERE b.start_date > CURDATE()
+            ORDER BY b.start_date ASC
+            LIMIT 5
+        ";
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
