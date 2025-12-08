@@ -14,7 +14,7 @@
                     <p><strong>Tour:</strong> <?= $booking['tour_name'] ?></p>
                     <p><strong>Ngày bắt đầu:</strong> <?= $booking['start_date'] ?></p>
                     <p><strong>Ngày kết thúc:</strong> <?= $booking['end_date'] ?></p>
-                    <p class="mt-3"><strong>Ghi chú:</strong> <?= $booking['report'] ?: 'Không có ghi chú' ?></p>
+                    <!-- <p class="mt-3"><strong>Ghi chú:</strong> <?= $booking['report'] ?: 'Không có ghi chú' ?></p> -->
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <strong>Trạng thái:</strong>
                         <span id="statusBadge">
@@ -23,7 +23,7 @@
                                     case 'dang_dien_ra': echo "<span class='badge bg-success'>Đang diễn ra</span>"; break;
                                     case 'sap_dien_ra': echo "<span class='badge bg-warning text-dark'>Sắp diễn ra</span>"; break;
                                     case 'da_hoan_thanh': echo "<span class='badge bg-primary'>Đã hoàn thành</span>"; break;
-                                    case 'cho_xac_nhan_ket_thuc': echo "<span class='badge bg-primary'>Chờ xác nhận kết thúc</span>"; break;
+                                    case 'cho_xac_nhan_ket_thuc': echo "<span class='badge bg-primary'>Chờ xác nhận</span>"; break;
                                     case 'da_huy': echo "<span class='badge bg-danger'>Đã huỷ</span>"; break;
                                 }
                             ?>
@@ -52,7 +52,26 @@
                     </div>
                 </div>
             </div> <br>
+            <div class="card mb-4 note-card">
+                <div class="card-header fw-bold">Ghi chú hướng dẫn viên</div>
+                <div class="card-body">
+                    <?php if ($booking['status'] !== 'da_hoan_thanh'): ?>
+                    <form method="POST" action="?action=guide-updateNote">
+                        <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                        <textarea name="note"><?= $booking['note'] ?></textarea>
+                        <button class="btn btn-primary mt-2">Lưu ghi chú</button>
+                    </form>
+                    <?php else: ?>
+                    <p><?= $booking['note'] ?: 'Không có ghi chú' ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($_SESSION['message'])): ?>
+                    <div class="note-alert"><?= $_SESSION['message']; ?></div>
+                    <?php unset($_SESSION['message']); ?>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
+
 
         <!-- ============= RIGHT COLUMN ============= -->
         <div class="right-column">

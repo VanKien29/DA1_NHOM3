@@ -11,9 +11,12 @@ class TourController
     }
 
     // ===== Danh sách tour =====
-    public function listTours()
-    {
-        $tours = $this->tourQuery->getAllToursWithCategory();
+    public function listTours(){
+        $categories = $this->categoryModel->getAllCategories();
+        $category = $_GET['category'] ?? '';
+        $days = $_GET['days'] ?? '';
+        $price = $_GET['price'] ?? '';
+        $tours = $this->tourQuery->filterTours($category, $days, $price);
         require './views/Tour/listTour.php';
     }
 

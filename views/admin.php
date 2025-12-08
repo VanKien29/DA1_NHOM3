@@ -191,13 +191,13 @@ $user = $_SESSION['user'];
                         <i class="fa-solid fa-coins"></i> Hướng Dẫn Viên
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="?action=admin-listReport"
                         class="<?= ($action == 'admin-listReport' || $action == 'admin-createReport' || $action == 'admin-updateReport' || $action == 'admin-searchReport') ? 'active' : '' ?>">
                         <i class="fa-solid fa-file-lines"></i>
                         Báo Cáo HDV
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="?action=admin-listVehicles"
                         class="<?= ($action == 'admin-listVehicles' || $action == 'admin-createVehicles' || $action == 'admin-updateVehicles' || $action == 'admin-searchVehicles') ? 'active' : '' ?>">
@@ -291,6 +291,10 @@ $user = $_SESSION['user'];
                     case 'guide-updateStatusByGuide':
                         (new GuideScheduleController)->updateStatusByGuide();
                         break;
+                    case 'guide-updateNote':
+                        (new GuideScheduleController)->updateNote();
+                        break;
+
                 }
                 return;
             } else {

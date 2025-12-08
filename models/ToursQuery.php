@@ -156,5 +156,46 @@ class ToursQuery extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function filterTours($category, $days, $price)
+    {
+        $sql = "SELECT t.*, c.category_name
+                FROM tours t
+                LEFT JOIN categories c ON t.category_id = c.category_id
+                WHERE 1 ";
+        
+        $params = [];
+
+        // Category filter
+        if (!empty($category)) {
+            $sql .= " AND t.category_id = :category ";
+            $params['category'] = $category;
+        }
+
+        // Days filter
+        if (!empty($days)) {
+            $sql .= " AND t.days = :days ";
+            $params['days'] = $days;
+        }
+
+        // Price filter
+        if (!empty($price)) {
+            if ($price == 1) {
+                $sql .= " AND t.price_adult < 1000000 ";
+            } elseif ($price == 2) {
+                $sql .= " AND t.price_adult BETWEEN 1000000 AND 3000000 ";
+            } elseif ($price == 3) {
+                $sql .= " AND t.price_adult BETWEEN 3000000 AND 5000000 ";
+            } elseif ($price == 4) {
+                $sql .= " AND t.price_adult > 5000000 ";
+            }
+        }
+
+        $sql .= " ORDER BY t.tour_id DESC ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

@@ -15,8 +15,10 @@ class BookingController
 
     public function listBooking()
     {
-        $filter = $_GET['filter'] ?? '';
-        $bookings = $this->bookingQuery->getBookingsByFilter($filter);
+        $status = $_GET['status'] ?? '';
+        $from = $_GET['from'] ?? '';
+        $to   = $_GET['to'] ?? '';
+        $bookings = $this->bookingQuery->getBookingsByAdvancedFilter($status, $from, $to);
         require './views/Booking/listBooking.php';
     }
     public function searchBooking()

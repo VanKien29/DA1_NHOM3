@@ -58,6 +58,23 @@ class GuideScheduleController
         $_SESSION['msg'] = "Cập nhật trạng thái thành công!";
         header("Location: ?action=guide-detailGuideBooking&id=$booking_id");
         exit;
+    }
+
+    public function updateNote(){
+        if (!isset($_POST['booking_id']) || !isset($_POST['note'])) {
+            die("Thiếu dữ liệu.");
+        }
+
+        $booking_id = $_POST['booking_id'];
+        $note = trim($_POST['note']);
+
+        $this->bookingQuery->updateNote($booking_id, $note);
+        $_SESSION['message'] = "Đã lưu ghi chú thành công!";
+
+        $_SESSION['msg'] = "Đã lưu ghi chú!";
+        header("Location: ?action=guide-detailGuideBooking&id=" . $booking_id);
+        exit;
 }
+
 
 }

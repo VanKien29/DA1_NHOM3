@@ -113,7 +113,10 @@
 
             <div class="mb-3">
                 <strong>Lịch trình cho tour:</strong> <?= htmlspecialchars($tour_name) ?> (<?= $days ?> ngày)
-            </div>
+            </div> <br>
+            <?php if (!empty($err['schedule'])): ?>
+            <div class="text-danger mb-2"><?= htmlspecialchars($err['schedule']) ?></div>
+            <?php endif; ?>
 
             <?php for ($d = 1; $d <= $days; $d++): ?>
             <div class="schedule-day-box mb-3 p-3 border rounded">
@@ -134,9 +137,7 @@
             </div>
             <?php endfor; ?>
 
-            <?php if (!empty($err['schedule'])): ?>
-            <div class="text-danger mb-2"><?= htmlspecialchars($err['schedule']) ?></div>
-            <?php endif; ?>
+
 
             <div class="form-button-group">
                 <button type="submit" name="prev_step" value="1" class="btn btn-outline-secondary px-4">Quay

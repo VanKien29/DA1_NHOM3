@@ -8,35 +8,42 @@
                     + Thêm Booking
                 </a>
             </div>
-            <div class="d-flex gap-2 mb-3">
-                <form method="GET">
+            <div class="filter-bar mb-3">
+                <form method="GET" class="filter-form d-flex gap-2 align-items-center">
                     <input type="hidden" name="action" value="admin-listBooking">
 
-                    <select name="filter" class="form-select filter-select" onchange="this.form.submit()">
-                        <option value="">-- Lọc theo thời gian --</option>
-
-                        <optgroup label="Ngày tới">
-                            <option value="today" <?= ($_GET['filter'] ?? '') == 'today' ? 'selected' : '' ?>>Hôm nay
-                            </option>
-                            <option value="3days" <?= ($_GET['filter'] ?? '') == '3days' ? 'selected' : '' ?>>3 ngày tới
-                            </option>
-                            <option value="7days" <?= ($_GET['filter'] ?? '') == '7days' ? 'selected' : '' ?>>7 ngày tới
-                            </option>
-                            <option value="1month" <?= ($_GET['filter'] ?? '') == '1month' ? 'selected' : '' ?>>1 tháng
-                                tới</option>
-                        </optgroup>
-
-                        <optgroup label="Ngày trước">
-                            <option value="yesterday" <?= ($_GET['filter'] ?? '') == 'yesterday' ? 'selected' : '' ?>>
-                                Hôm qua</option>
-                            <option value="3days_ago" <?= ($_GET['filter'] ?? '') == '3days_ago' ? 'selected' : '' ?>>3
-                                ngày trước</option>
-                            <option value="7days_ago" <?= ($_GET['filter'] ?? '') == '7days_ago' ? 'selected' : '' ?>>7
-                                ngày trước</option>
-                            <option value="1month_ago" <?= ($_GET['filter'] ?? '') == '1month_ago' ? 'selected' : '' ?>>
-                                1 tháng trước</option>
-                        </optgroup>
+                    <!-- Lọc trạng thái -->
+                    <select name="status" class="filter-input">
+                        <option value="">Trạng thái</option>
+                        <option value="sap_dien_ra"
+                            <?= (isset($_GET['status']) && $_GET['status'] == 'sap_dien_ra') ? 'selected' : '' ?>>
+                            Sắp diễn ra
+                        </option>
+                        <option value="dang_dien_ra"
+                            <?= (isset($_GET['status']) && $_GET['status'] == 'dang_dien_ra') ? 'selected' : '' ?>>
+                            Đang diễn ra
+                        </option>
+                        <option value="cho_xac_nhan_ket_thuc"
+                            <?= (isset($_GET['status']) && $_GET['status'] == 'cho_xac_nhan_ket_thuc') ? 'selected' : '' ?>>
+                            Chờ xác nhận
+                        </option>
+                        <option value="da_hoan_thanh"
+                            <?= (isset($_GET['status']) && $_GET['status'] == 'da_hoan_thanh') ? 'selected' : '' ?>>
+                            Đã hoàn thành
+                        </option>
+                        <option value="da_huy"
+                            <?= (isset($_GET['status']) && $_GET['status'] == 'da_huy') ? 'selected' : '' ?>>
+                            Đã hủy
+                        </option>
                     </select>
+
+                    <!-- Lọc ngày -->
+                    <input type="date" name="from" class="filter-input" value="<?= $_GET['from'] ?? '' ?>">
+                    <input type="date" name="to" class="filter-input" value="<?= $_GET['to'] ?? '' ?>">
+                    <button class="btn btn-primary filter-btn">Lọc</button>
+                    <?php if (!empty($_GET['status']) || !empty($_GET['from']) || !empty($_GET['to'])): ?>
+                    <a href="?action=admin-listBooking" class="btn btn-secondary filter-reset">Xóa lọc</a>
+                    <?php endif; ?>
                 </form>
             </div>
 
@@ -83,7 +90,7 @@
                             <?php elseif ($b['status'] == 'dang_dien_ra'): ?>
                             <span class="badge badge-success-soft">Đang diễn ra</span>
                             <?php elseif ($b['status'] == 'cho_xac_nhan_ket_thuc'): ?>
-                            <span class="badge badge-info-soft">Chờ xác nhận kết thúc</span>
+                            <span class="badge badge-info-soft">Chờ xác nhận</span>
                             <?php elseif ($b['status'] == 'da_hoan_thanh'): ?>
                             <span class="badge badge-primary-soft">Đã hoàn thành</span>
                             <?php elseif ($b['status'] == 'da_huy'): ?>
