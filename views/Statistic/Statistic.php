@@ -148,22 +148,22 @@
     background: #f8fbff;
 }
 
-/* DETAIL BUTTON */
 .view-more-btn {
-    display: inline-block;
-    padding: 8px 14px;
-    background: #3b82f6;
-    color: white;
-    border-radius: 6px;
+    display: block;
+    text-align: center;
+    margin: 10px 0 30px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2563eb;
     text-decoration: none;
-    font-size: 14px;
-    margin-bottom: 20px;
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .view-more-btn:hover {
-    background: #2563eb;
+    text-decoration: underline;
+    color: #1d4ed8;
 }
+
 
 /* RESPONSIVE */
 @media(max-width: 768px) {

@@ -16,7 +16,7 @@
                 <th>Căn cước công dân</th>
                 <th>Kinh nghiệm</th>
                 <th>Chuyên môn</th>
-                <th>Ghi chú</th>
+                <!-- <th>Ghi chú</th> -->
                 <th style="text-align: center;">Hành động</th>
             </tr>
         </thead>
@@ -36,7 +36,7 @@
                 <td><?= $g['cccd'] ?></td>
                 <td><?= $g['experience_years'] ?> năm</td>
                 <td><?= $g['specialization'] ?></td>
-                <td><?= $g['note'] ?></td>
+                <!-- <td><?= $g['note'] ?></td> -->
                 <td>
                     <a href="?action=admin-detailGuide&id=<?= $g['guide_id']; ?>"
                         class="btn btn-sm btn-info btn-outline-detail">Chi
