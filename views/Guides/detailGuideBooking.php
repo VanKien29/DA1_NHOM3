@@ -21,8 +21,9 @@
                             <?php
                                 switch ($booking['status']) {
                                     case 'dang_dien_ra': echo "<span class='badge bg-success'>Đang diễn ra</span>"; break;
-                                    case 'cho_duyet': echo "<span class='badge bg-warning text-dark'>Chờ duyệt</span>"; break;
+                                    case 'sap_dien_ra': echo "<span class='badge bg-warning text-dark'>Sắp diễn ra</span>"; break;
                                     case 'da_hoan_thanh': echo "<span class='badge bg-primary'>Đã hoàn thành</span>"; break;
+                                    case 'cho_xac_nhan_ket_thuc': echo "<span class='badge bg-primary'>Chờ xác nhận kết thúc</span>"; break;
                                     case 'da_huy': echo "<span class='badge bg-danger'>Đã huỷ</span>"; break;
                                 }
                             ?>
