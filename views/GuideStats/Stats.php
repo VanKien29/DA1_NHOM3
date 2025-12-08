@@ -57,6 +57,7 @@
 
     </div>
 
+    
     <!-- ===== RECENT 5 TOURS ===== -->
 <div class="history-card">
     <h3>📘 Lịch Sử Dẫn Tour </h3>
@@ -89,5 +90,36 @@
     <?php endif; ?>
 
 </div>
+<div class="history-card">
+    <h3>🚍 Tour Đang Diễn Ra</h3>
+
+    <?php if (empty($runningToursList)): ?>
+        <p class="empty-text">Hiện không có tour nào đang diễn ra.</p>
+    <?php else: ?>
+    
+    <table class="history-table">
+        <tr>
+            <th>Tên tour</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Số khách</th>
+            <th>Trạng thái</th>
+        </tr>
+
+        <?php foreach ($runningToursList as $t): ?>
+        <tr>
+            <td><?= $t['tour_name'] ?></td>
+            <td><?= date('d/m/Y', strtotime($t['start_date'])) ?></td>
+            <td><?= date('d/m/Y', strtotime($t['end_date'])) ?></td>
+            <td><?= $t['customer_count'] ?></td>
+            <td><span class="status processing">Đang diễn ra</span></td>
+        </tr>
+        <?php endforeach; ?>
+
+    </table>
+
+    <?php endif; ?>
+</div>
+
 
 

@@ -318,6 +318,73 @@
 </div>
 
 
+<div class="stats-wrapper">
+
+    <h2 class="stats-title">📊 Thống Kê Hoạt Động Hướng Dẫn Viên</h2>
+
+    <!-- ===== DONUT + HEAT BAR + BAR CHART ===== -->
+    <div class="stats-grid">
+
+        <!-- DONUT CHART -->
+        <div class="card donut-box">
+            <h3>Tỷ lệ tour hoàn thành</h3>
+
+            <?php $percent = $totalTours > 0 ? round(($finishedTours / $totalTours) * 100) : 0; ?>
+
+            <div class="donut">
+                <svg viewBox="0 0 36 36">
+                    <path class="bg"
+                        d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" />
+                    <path class="meter"
+                        stroke-dasharray="<?= $percent ?>, 100"
+                        d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" />
+                </svg>
+
+                <div class="donut-text"><?= $percent ?>%</div>
+            </div>
+        </div>
+
+        <!-- HEAT BAR -->
+        <div class="card heat-box">
+            <h3>Mức độ hoạt động</h3>
+            <div class="heat-bar">
+                <div class="heat-fill" style="width: <?= $percent ?>%"></div>
+            </div>
+            <p class="heat-label"><?= $percent ?>% tổng tour đã hoàn thành</p>
+        </div>
+
+        <div class="stats-box">
+    <div class="stats-label">Biểu đồ số tour</div>
+
+    <div class="bar-chart">
+
+    <div class="bar-item">
+        <div class="bar bar-blue" style="height: <?= $totalTours * 35 ?>px;">
+            <?= $totalTours ?>
+        </div>
+        <label>Tổng</label>
+    </div>
+
+    <div class="bar-item">
+        <div class="bar bar-green" style="height: <?= $finishedTours * 35 ?>px;">
+            <?= $finishedTours ?>
+        </div>
+        <label>Hoàn thành</label>
+    </div>
+
+    <div class="bar-item">
+        <div class="bar bar-orange" style="height: <?= $runningTours * 35 ?>px;">
+            <?= $runningTours ?>
+        </div>
+        <label>Đang diễn ra</label>
+    </div>
+
+</div>
+
+</div>
+
+
+    </div>
 
 <script>
 function openEdit() {

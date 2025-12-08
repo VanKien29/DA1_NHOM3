@@ -130,16 +130,13 @@ public function getToursByGuideStatus($guide_id, $status)
     return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function updateProfile($id, $name, $email, $phone, $cccd, $password = null)
+public function updateProfile($id, $name, $email, $phone, $password = null)
 {
-    // SQL base: luôn update các trường này
     $sql = "UPDATE users SET 
                 name = :name,
                 email = :email,
-                phone = :phone,
-                cccd = :cccd";
+                phone = :phone";
 
-    // Nếu có mật khẩu mới thì thêm vào SQL
     if (!empty($password)) {
         $sql .= ", password = :password";
     }
@@ -147,21 +144,18 @@ public function updateProfile($id, $name, $email, $phone, $cccd, $password = nul
     $sql .= " WHERE user_id = :id";
 
     $stm = $this->pdo->prepare($sql);
-
-    // Bind các giá trị luôn có
     $stm->bindParam(':name', $name);
     $stm->bindParam(':email', $email);
     $stm->bindParam(':phone', $phone);
-    $stm->bindParam(':cccd', $cccd);
     $stm->bindParam(':id', $id);
 
-    // Nếu có mật khẩu → bind thêm
     if (!empty($password)) {
         $stm->bindParam(':password', $password);
     }
 
     return $stm->execute();
 }
+
 
 
 
@@ -197,6 +191,15 @@ public function updateGuideAvatar($user_id, $avatar)
     $stm->execute([
         ':avatar' => $avatar,
         ':uid' => $user_id
+    ]);
+}
+public function updateGuideCCCD($user_id, $cccd)
+{
+    $sql = "UPDATE guides SET cccd = :cccd WHERE user_id = :uid";
+    $stmt = $this->pdo->prepare($sql);
+    return $stmt->execute([
+        ':cccd' => $cccd,
+        ':uid'  => $user_id
     ]);
 }
 
