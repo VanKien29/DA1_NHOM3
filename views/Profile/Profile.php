@@ -227,7 +227,7 @@
 
         <!-- TOUR HIỆN TẠI -->
         <div class="profile-card">
-            <h3>🚍 Tour Hiện Tại</h3>
+            <h3>Tour Hiện Tại</h3>
 
             <?php if (!empty($ongoingTours)) { ?>
             <table class="tour-table">
@@ -254,7 +254,7 @@
 
         <!-- TOUR HOÀN THÀNH -->
         <div class="profile-card">
-            <h3>🎉 Tour Đã Hoàn Thành</h3>
+            <h3>Tour Đã Hoàn Thành</h3>
 
             <?php if (!empty($completedTours)) { ?>
             <table class="tour-table">
@@ -333,10 +333,8 @@
 
             <div class="donut">
                 <svg viewBox="0 0 36 36">
-                    <path class="bg"
-                        d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" />
-                    <path class="meter"
-                        stroke-dasharray="<?= $percent ?>, 100"
+                    <path class="bg" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" />
+                    <path class="meter" stroke-dasharray="<?= $percent ?>, 100"
                         d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32" />
                 </svg>
 
@@ -359,7 +357,30 @@ $maxHeight = 150; // chiều cao tối đa
 
 
         <div class="stats-box">
-    <div class="stats-label">Biểu đồ số tour</div>
+            <div class="stats-label">Biểu đồ số tour</div>
+
+            <div class="bar-chart">
+
+                <div class="bar-item">
+                    <div class="bar bar-blue" style="height: <?= $totalTours * 35 ?>px;">
+                        <?= $totalTours ?>
+                    </div>
+                    <label>Tổng</label>
+                </div>
+
+                <div class="bar-item">
+                    <div class="bar bar-green" style="height: <?= $finishedTours * 35 ?>px;">
+                        <?= $finishedTours ?>
+                    </div>
+                    <label>Hoàn thành</label>
+                </div>
+
+                <div class="bar-item">
+                    <div class="bar bar-orange" style="height: <?= $runningTours * 35 ?>px;">
+                        <?= $runningTours ?>
+                    </div>
+                    <label>Đang diễn ra</label>
+                </div>
 
 <div class="bar-chart">
     
@@ -367,9 +388,9 @@ $maxHeight = 150; // chiều cao tối đa
         <div class="bar bar-blue" 
              style="height: <?= ($totalTours / $maxValue) * $maxHeight ?>px;">
             <?= $totalTours ?>
+            </div>
+
         </div>
-        <label>Tổng</label>
-    </div>
 
     <div class="bar-item">
         <div class="bar bar-green" 
@@ -385,21 +406,15 @@ $maxHeight = 150; // chiều cao tối đa
             <?= $runningTours ?>
         </div>
         <label>Đang diễn ra</label>
-    </div>
-
-</div>
-
-</div>
-
 
     </div>
 
-<script>
-function openEdit() {
-    document.getElementById('editModal').style.display = 'flex';
-}
+    <script>
+    function openEdit() {
+        document.getElementById('editModal').style.display = 'flex';
+    }
 
-function closeEdit() {
-    document.getElementById('editModal').style.display = 'none';
-}
-</script>
+    function closeEdit() {
+        document.getElementById('editModal').style.display = 'none';
+    }
+    </script>

@@ -41,8 +41,7 @@ if (!empty($schedules)) {
             <div class="mb-3">
                 <label class="form-label">Ảnh hiện tại</label><br>
                 <?php if (!empty($tour['tour_images'])): ?>
-                <img src="image/TourImages/<?= htmlspecialchars($tour['tour_images']) ?>" width="120" height="80"
-                    style="object-fit:cover;border-radius:8px;">
+                <img src="<?= BASE_ASSETS_UPLOADS . $tour['tour_images'] ?>" alt="">
                 <?php else: ?>
                 <span class="text-muted">Chưa có ảnh</span>
                 <?php endif; ?>
@@ -61,7 +60,7 @@ if (!empty($schedules)) {
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Giá</label>
+                <label class="form-label">Giá người lớn</label>
                 <input type="number" name="price_adult" class="form-control"
                     value="<?= htmlspecialchars($_POST['price_adult'] ?? $tour['price_adult']) ?>">
                 <?php if (!empty($err['price_adult'])): ?>
@@ -70,7 +69,7 @@ if (!empty($schedules)) {
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Giá</label>
+                <label class="form-label">Giá trẻ em</label>
                 <input type="number" name="price_child" class="form-control"
                     value="<?= htmlspecialchars($_POST['price_child'] ?? $tour['price_child']) ?>">
                 <?php if (!empty($err['price_child'])): ?>

@@ -11,12 +11,19 @@
             <div class="card mb-4">
                 <div class="card-header fw-bold">Thông Tin Booking</div>
                 <div class="card-body">
+                    <?php 
+                        $start = strtotime($booking['start_date']);
+                        $end   = strtotime($booking['end_date']);
+                        $total_days  = ($end - $start) / 86400 + 1;
+                        $total_nights = $total_days - 1; 
+                    ?>
                     <p><strong>Mã Booking:</strong> <?= $booking['booking_id'] ?></p>
                     <p><strong>Tour:</strong> <?= $booking['tour_name'] ?></p>
                     <p><strong>Ngày bắt đầu:</strong> <?= $booking['start_date'] ?></p>
                     <p><strong>Ngày kết thúc:</strong> <?= $booking['end_date'] ?></p>
+                    <p><strong>Ngày/đêm</strong> <?= $total_days ?> ngày
+                        <?= $total_nights == 0 ? "" : " / " . $total_nights . " đêm" ?></p>
                     <p><strong>Tổng giá:</strong> <?= number_format($booking['total_price']) ?> VND</p>
-
                     <p><strong>Trạng thái:</strong>
                         <?php if ($booking['status'] == 'cho_duyet'): ?>
                         <span class="badge bg-warning text-dark">Chờ duyệt</span>
@@ -28,8 +35,7 @@
                         <span class="badge bg-danger">Đã hủy</span>
                         <?php endif; ?>
                     </p>
-
-                    <p><strong>Ghi chú:</strong> <?= $booking['report'] ?: '—' ?></p>
+                    <p><strong>Ghi chú:</strong> <?= $booking['note'] ?: '—' ?></p>
                 </div>
             </div> <br>
 
@@ -107,7 +113,7 @@
     <div class="card mb-4">
         <div class="card-header fw-bold">Danh Sách Khách</div>
         <div class="card-body">
-            <?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra'): ?>
+            <?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra' && $booking['status'] !== 'cho_xac_nhan_ket_thuc'): ?>
             <button class="btn btn-addCustomer"
                 onclick="document.getElementById('addCustomerForm').style.display='block'">
                 + Thêm khách
@@ -123,7 +129,7 @@
                         <th>SĐT</th>
                         <th>Điểm danh</th>
                         <th>Ghi chú</th>
-                        <th><?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra'){ echo 'Hành động'; } ?>
+                        <th><?php if($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra' && $booking['status'] !== 'cho_xac_nhan_ket_thuc'){ echo 'Hành động'; } ?>
                         </th>
                     </tr>
                 </thead>
@@ -131,7 +137,12 @@
                     <?php foreach ($customers as $c): ?>
                     <tr>
                         <td><?= $c['customer_id'] ?></td>
-                        <td><?= $c['full_name'] ?></td>
+                        <td>
+                            <?= $c['full_name'] ?>
+                            <?php if ($c['is_main']): ?>
+                            <span class="badge bg-primary">Chính</span>
+                            <?php endif; ?>
+                        </td>
                         <td><?= $c['email'] ?></td>
                         <td><?= $c['phone'] ?></td>
                         <?php 
@@ -155,7 +166,7 @@
                             <?php endif; ?>
                         </td>
                         <td><?= $att['note'] ?? '' ?></td>
-                        <?php if ($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra'): ?>
+                        <?php if ($booking['status'] !== 'da_hoan_thanh' && $booking['status'] !== 'da_huy' && $booking['status'] !== 'dang_dien_ra' && $booking['status'] !== 'cho_xac_nhan_ket_thuc'): ?>
                         <td class="action-col">
                             <a href="?action=admin-deleteCustomerBooking&id=<?= $c['bc_id'] ?>&booking_id=<?= $booking['booking_id'] ?>"
                                 class="btn btn-sm btn-outline-danger" onclick="return confirm('Xóa khách này?')">Xóa</a>

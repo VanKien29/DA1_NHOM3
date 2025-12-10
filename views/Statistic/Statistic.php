@@ -65,7 +65,7 @@
     color: #1f2937;
 }
 
-/* DOANH THU */
+/* DOANH THU CARD */
 .stat-card.revenue {
     background: linear-gradient(135deg, #4fa3ff, #76baff);
     border: none;
@@ -80,12 +80,12 @@
     color: #ffffff;
 }
 
-
 /* ========== CHART GRID ========== */
 .chart-section {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    margin-bottom: 30px;
 }
 
 .chart-box {
@@ -105,13 +105,13 @@
 
 /* ========== TABLE WRAPPER ========== */
 .table-section {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
-.table-section h3 {
+.section-title {
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin: 20px 0 12px;
     color: #1e293b;
 }
 
@@ -122,6 +122,7 @@
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #e6ebf2;
+    margin-bottom: 20px;
 }
 
 .stat-table thead {
@@ -147,7 +148,24 @@
     background: #f8fbff;
 }
 
-/* ========== RESPONSIVE FIX ========== */
+.view-more-btn {
+    display: block;
+    text-align: center;
+    margin: 10px 0 30px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.view-more-btn:hover {
+    text-decoration: underline;
+    color: #1d4ed8;
+}
+
+
+/* RESPONSIVE */
 @media(max-width: 768px) {
     .chart-section {
         grid-template-columns: 1fr;
@@ -159,9 +177,8 @@
 <div class="dashboard-wrapper">
 
     <div class="dashboard-header">
-        <h1>📊 Dashboard Thống Kê</h1>
+        <h1>Dashboard Thống Kê</h1>
 
-        <!-- Chọn năm -->
         <form method="GET">
             <input type="hidden" name="action" value="admin-statistic">
             <select name="year" class="year-select" onchange="this.form.submit()">
@@ -202,7 +219,7 @@
         </div>
 
         <div class="stat-card revenue">
-            <h3>Tổng Doanh Thu</h3>
+            <h3>Tổng Doanh Thu Tháng</h3>
             <div class="value"><?= number_format($data['total_revenue']) ?> VND</div>
         </div>
 
@@ -213,23 +230,22 @@
     <div class="chart-section">
 
         <div class="chart-box">
-            <h3>📈 Booking Theo Tháng</h3>
+            <h3>Số Booking Theo Tháng</h3>
             <canvas id="chartBooking"></canvas>
         </div>
 
         <div class="chart-box">
-            <h3>💰 Doanh Thu Theo Tháng</h3>
+            <h3>Doanh Thu Theo Tháng</h3>
             <canvas id="chartRevenue"></canvas>
         </div>
 
     </div>
 
 
-
-    <!-- TABLE STATISTICS -->
+    <!-- SECTION: TOP TOURS -->
     <div class="table-section">
 
-        <h3>🔥 Top 5 Tour Bán Chạy</h3>
+        <h3 class="section-title">Tour Bán Chạy</h3>
 
         <table class="stat-table">
             <thead>
@@ -249,24 +265,54 @@
         </table>
 
 
-        <h3 style="margin-top:30px;">⭐ Top 5 Hướng Dẫn Viên</h3>
+        <!-- NEW SECTION: RUNNING TOURS -->
+        <h3 class="section-title">Tour Đang Diễn Ra</h3>
 
         <table class="stat-table">
             <thead>
                 <tr>
-                    <th>Hướng Dẫn Viên</th>
-                    <th>Số Tour Dẫn</th>
+                    <th>Tour</th>
+                    <th>HDV</th>
+                    <th>Ngày bắt đầu</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($data['top_guides'] as $g): ?>
+                <?php foreach ($data['running_tours'] as $t): ?>
                 <tr>
-                    <td><?= $g['guide_name'] ?></td>
-                    <td><?= $g['total'] ?></td>
+                    <td><?= $t['tour_name'] ?></td>
+                    <td><?= $t['guide_name'] ?></td>
+                    <td><?= date('d/m/Y', strtotime($t['start_date'])) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <a href="?action=admin-listBooking&status=dang_dien_ra" class="view-more-btn">Xem toàn bộ</a>
+
+
+        <!-- NEW SECTION: UPCOMING TOURS -->
+        <h3 class="section-title">Tour Sắp Diễn Ra</h3>
+
+        <table class="stat-table">
+            <thead>
+                <tr>
+                    <th>Tour</th>
+                    <th>HDV</th>
+                    <th>Ngày bắt đầu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($data['upcoming_tours'] as $t): ?>
+                <tr>
+                    <td><?= $t['tour_name'] ?></td>
+                    <td><?= $t['guide_name'] ?></td>
+                    <td><?= date('d/m/Y', strtotime($t['start_date'])) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <a href="?action=admin-listBooking&status=sap_dien_ra" class="view-more-btn">Xem toàn bộ</a>
 
     </div>
 
@@ -278,13 +324,11 @@
 const bookingData = <?= json_encode($data['booking_month']) ?>;
 const revenueData = <?= json_encode($data['revenue_month']) ?>;
 
-// Format data
 const bookingLabels = bookingData.map(x => "Tháng " + x.month);
 const bookingValues = bookingData.map(x => x.total);
 
 const revenueLabels = revenueData.map(x => "Tháng " + x.month);
 const revenueValues = revenueData.map(x => x.revenue);
-
 
 // Booking chart
 new Chart(document.getElementById("chartBooking"), {

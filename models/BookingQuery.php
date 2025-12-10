@@ -670,5 +670,70 @@ class BookingQuery extends BaseModel
 }
 
 
+    public function updateNote($booking_id, $note){
+        $sql = "UPDATE bookings SET note = :note WHERE booking_id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            ':note' => $note,
+            ':id' => $booking_id
+        ]);
+    }
+    public function getBookingsByAdvancedFilter($status, $from, $to)
+    {
+        $sql = "SELECT 
+                    b.*, 
+                    t.tour_name,
+                    h.service_name AS hotel_name,
+                    v.service_name AS vehicle_name,
+                    u.name AS guide_name,
+                    (SELECT COUNT(*) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_customers,
+                    (SELECT SUM(price_per_customer) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_price
+                FROM bookings b
+                LEFT JOIN tours t ON b.tour_id = t.tour_id
+                LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
+                LEFT JOIN vehicles v ON b.vehicle_id = v.vehicle_service_id
+                LEFT JOIN guides g ON b.guide_id = g.guide_id
+                LEFT JOIN users u ON g.user_id = u.user_id
+                WHERE 1 ";
+
+        $params = [];
+
+        // lọc trạng thái
+        if (!empty($status)) {
+            $sql .= " AND b.status = :status ";
+            $params['status'] = $status;
+        }
+
+        // lọc ngày bắt đầu
+        if (!empty($from)) {
+            $sql .= " AND b.start_date >= :from ";
+            $params['from'] = $from;
+        }
+
+        // lọc ngày kết thúc
+        if (!empty($to)) {
+            $sql .= " AND b.start_date <= :to ";
+            $params['to'] = $to;
+        }
+
+        $sql .= " GROUP BY b.booking_id ";
+
+        $sql .= " ORDER BY 
+                    CASE b.status
+                        WHEN 'dang_dien_ra' THEN 1
+                        WHEN 'cho_xac_nhan_ket_thuc' THEN 2
+                        WHEN 'sap_dien_ra' THEN 3
+                        WHEN 'da_hoan_thanh' THEN 4
+                        WHEN 'da_huy' THEN 5
+                        ELSE 6
+                    END,
+                    b.booking_id DESC ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

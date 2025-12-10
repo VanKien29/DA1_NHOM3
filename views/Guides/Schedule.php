@@ -60,7 +60,7 @@
                                 echo "<span class='badge bg-success'>Đang diễn ra</span>";
                                 break;
                             case 'cho_xac_nhan_ket_thuc':
-                                echo "<span class='badge bg-warning text-dark'>Chờ xác nhận kết thúc</span>";
+                                echo "<span class='badge bg-warning text-dark'>Chờ xác nhận</span>";
                                 break;
                             case 'da_hoan_thanh':
                                 echo "<span class='badge bg-primary'>Đã hoàn thành</span>";

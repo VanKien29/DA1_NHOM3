@@ -361,3 +361,74 @@ a {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
 }
+/* ==== FILTER BAR ==== */
+.filter-bar {
+  background: #ffffff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.filter-form {
+  width: 100%;
+}
+
+/* Input select + date */
+.filter-input {
+  padding: 10px 14px;
+  border: 2px solid #dbeafe;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #fff;
+  color: #1e3a8a;
+  min-width: 160px;
+  transition: 0.2s;
+}
+
+.filter-input:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 3px 8px rgba(96, 165, 250, 0.25);
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Nút lọc */
+.filter-btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  transition: 0.2s;
+}
+
+.filter-btn:hover {
+  background: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+/* Nút xóa lọc */
+.filter-reset {
+  padding: 10px 18px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  transition: 0.2s;
+}
+
+.filter-reset:hover {
+  background: #d1d5db;
+  transform: translateY(-1px);
+}
