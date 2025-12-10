@@ -352,28 +352,36 @@
             </div>
             <p class="heat-label"><?= $percent ?>% tổng tour đã hoàn thành</p>
         </div>
+<?php
+$maxValue = max($totalTours, $finishedTours, $runningTours);
+$maxHeight = 150; // chiều cao tối đa
+?>
+
 
         <div class="stats-box">
     <div class="stats-label">Biểu đồ số tour</div>
 
-    <div class="bar-chart">
-
+<div class="bar-chart">
+    
     <div class="bar-item">
-        <div class="bar bar-blue" style="height: <?= $totalTours * 35 ?>px;">
+        <div class="bar bar-blue" 
+             style="height: <?= ($totalTours / $maxValue) * $maxHeight ?>px;">
             <?= $totalTours ?>
         </div>
         <label>Tổng</label>
     </div>
 
     <div class="bar-item">
-        <div class="bar bar-green" style="height: <?= $finishedTours * 35 ?>px;">
+        <div class="bar bar-green" 
+             style="height: <?= ($finishedTours / $maxValue) * $maxHeight ?>px;">
             <?= $finishedTours ?>
         </div>
         <label>Hoàn thành</label>
     </div>
 
     <div class="bar-item">
-        <div class="bar bar-orange" style="height: <?= $runningTours * 35 ?>px;">
+        <div class="bar bar-orange" 
+             style="height: <?= ($runningTours / $maxValue) * $maxHeight ?>px;">
             <?= $runningTours ?>
         </div>
         <label>Đang diễn ra</label>

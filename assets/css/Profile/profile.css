@@ -298,44 +298,40 @@
 }
 
 /* BAR CHART */
+.bar-chart-wrapper {
+    width: 100%;
+    overflow: hidden;       /* Không cho tràn ra ngoài */
+    position: relative;
+}
+
 .bar-chart {
     display: flex;
     justify-content: center;
-    gap: 40px; /* Cách xa cột để nhìn thoáng */
-    height: 160px; 
+    gap: 40px;
     align-items: flex-end;
+    height: 180px;
 }
 
 .bar-item {
     text-align: center;
-    position: relative;
 }
 
 .bar {
-    width: 45px;                /* Tăng độ rộng cột */
+    width: 45px;
     border-radius: 10px;
-    position: relative;
     display: flex;
-    justify-content: center;    /* canh giữa theo chiều ngang */
-    align-items: center;        /* canh giữa theo chiều dọc */
-    color: #fff;                /* chữ trắng để nổi bật */
+    justify-content: center;
+    align-items: center;
+    color: #fff;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
 }
 
-.bar-blue {
-    background: #3b82f6; /* xanh đẹp hơn */
-}
+.bar-blue { background: #3b82f6; }
+.bar-green { background: #10b981; }
+.bar-orange { background: #f97316; }
 
-.bar-green {
-    background: #10b981;
-}
-
-.bar-orange {
-    background: #f97316;
-}
-
-/* Nhãn dưới cột */
+/* Label */
 .bar-item label {
     display: block;
     margin-top: 8px;
@@ -343,3 +339,4 @@
     font-weight: 600;
     color: #334155;
 }
+
