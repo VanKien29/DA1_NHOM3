@@ -7,6 +7,9 @@
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: #0f172a;
 }
+a {
+  text-decoration: none;
+}
 .error {
   color: red;
 }
@@ -528,4 +531,179 @@
 
 .btn-search:hover {
   background: #1e47c4;
+}
+.segment-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-exclude {
+  background: #e2e8f0;
+  border: 1px solid #cbd5e1;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.toggle-exclude:hover {
+  background: #cbd5e1;
+}
+
+.exclude-box {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.exclude-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+.customer-item {
+  display: flex;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.customer-item input {
+  margin-right: 10px;
+}
+
+.customer-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.tag-conflict {
+  color: #dc2626;
+  margin-left: 6px;
+}
+
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+/* ================= LỊCH TRÌNH XE ================= */
+
+.trip-box {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+/* ------ Mỗi ngày lịch trình ------ */
+.segment-item {
+  background: #ffffff;
+  border: 1px solid #e8ecf5;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* ------ Header: Ngày + Tên lịch trình + Nút ------ */
+.segment-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.segment-head strong {
+  font-size: 15px;
+  color: #1e2a3a;
+}
+
+.segment-title {
+  color: #54657e;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.segment-head button {
+  background: #f5f7fc;
+  border: 1px solid #d7dce8;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.segment-head button:hover {
+  background: #e9eef9;
+}
+
+/* ------ Body (chọn xe + danh sách khách) ------ */
+.segment-body {
+  margin-top: 5px;
+}
+
+.segment-body label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #304056;
+}
+
+.segment-body select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #cfd7e4;
+  font-size: 14px;
+  background: #f9fbfe;
+}
+
+/* ------ Danh sách khách không đi xe ------ */
+.exclude-box {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8faff;
+  border: 1px dashed #cfd7e4;
+  border-radius: 8px;
+}
+
+.exclude-box.hidden {
+  display: none;
+}
+
+.exclude-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 8px;
+}
+
+.exclude-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  color: #334155;
+}
+
+/* Checkbox đẹp hơn */
+.exclude-item input {
+  transform: scale(1.1);
+  cursor: pointer;
 }

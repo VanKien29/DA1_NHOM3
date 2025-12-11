@@ -1,5 +1,5 @@
-<?php $this->bookingQuery->updateAutoStatus();?>
 <div class="main-content p-4">
+    <?php $this->bookingQuery->updateAutoStatus();?>
     <div class="table-container">
         <div class="admin-table-container">
             <div class="table-header d-flex justify-content-between align-items-center mb-3">
@@ -75,7 +75,7 @@
                         <td><?= $i++; ?></td>
                         <td><?= htmlspecialchars($b['tour_name']); ?></td>
                         <!-- <td><?= htmlspecialchars($b['hotel_name']); ?></td>
-                        <td><?= htmlspecialchars($b['vehicle_name']); ?></td> -->
+                        <td><?= htmlspecialchars($b['vehicle_name']);?></td> -->
                         <td><?= htmlspecialchars($b['guide_name']); ?></td>
                         <td><?= htmlspecialchars($b['total_customers']); ?></td>
                         <td><?= date('d/m/Y', strtotime($b['start_date'])); ?></td>

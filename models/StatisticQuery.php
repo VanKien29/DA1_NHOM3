@@ -48,13 +48,14 @@ class StatisticQuery extends BaseModel
             SELECT SUM(bc.price_per_customer) AS revenue
             FROM bookings b
             JOIN booking_customers bc ON b.booking_id = bc.booking_id
-            WHERE b.start_date IS NOT NULL
-              AND YEAR(b.start_date) = :year
+            WHERE b.status = 'da_hoan_thanh'
+            AND YEAR(b.start_date) = :year
         ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['year' => $year]);
         return (float) ($stmt->fetch()['revenue'] ?? 0);
     }
+
 
     // Booking theo tháng (dựa trên start_date)
     public function getBookingByMonth($year)
@@ -64,8 +65,8 @@ class StatisticQuery extends BaseModel
                 MONTH(start_date) AS month,
                 COUNT(*) AS total
             FROM bookings
-            WHERE start_date IS NOT NULL
-              AND YEAR(start_date) = :year
+            WHERE status = 'da_hoan_thanh'
+            AND YEAR(start_date) = :year
             GROUP BY MONTH(start_date)
             ORDER BY MONTH(start_date)
         ";
@@ -73,6 +74,7 @@ class StatisticQuery extends BaseModel
         $stmt->execute(['year' => $year]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     // Doanh thu theo tháng
     public function getRevenueByMonth($year)
@@ -83,8 +85,8 @@ class StatisticQuery extends BaseModel
                 SUM(bc.price_per_customer) AS revenue
             FROM bookings b
             JOIN booking_customers bc ON b.booking_id = bc.booking_id
-            WHERE b.start_date IS NOT NULL
-              AND YEAR(b.start_date) = :year
+            WHERE b.status = 'da_hoan_thanh'
+            AND YEAR(b.start_date) = :year
             GROUP BY MONTH(b.start_date)
             ORDER BY MONTH(b.start_date)
         ";
@@ -92,6 +94,7 @@ class StatisticQuery extends BaseModel
         $stmt->execute(['year' => $year]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     // Top 5 tour bán chạy theo năm (theo số booking)
     public function getTopTours($year)
@@ -123,8 +126,8 @@ class StatisticQuery extends BaseModel
             FROM bookings b
             JOIN guides g ON b.guide_id = g.guide_id
             JOIN users u ON g.user_id = u.user_id
-            WHERE b.start_date IS NOT NULL
-              AND YEAR(b.start_date) = :year
+            WHERE b.status = 'da_hoan_thanh'
+            AND YEAR(b.start_date) = :year
             GROUP BY g.guide_id
             ORDER BY total DESC
             LIMIT 5
@@ -133,6 +136,7 @@ class StatisticQuery extends BaseModel
         $stmt->execute(['year' => $year]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     // 5 tour đang diễn ra
     public function getRunningTours()
@@ -143,13 +147,13 @@ class StatisticQuery extends BaseModel
             JOIN tours t ON b.tour_id = t.tour_id
             JOIN guides g ON b.guide_id = g.guide_id
             JOIN users u ON g.user_id = u.user_id
-            WHERE b.start_date <= CURDATE()
-            AND b.end_date >= CURDATE()
+            WHERE b.status = 'dang_dien_ra'
             ORDER BY b.start_date ASC
             LIMIT 5
         ";
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     // 5 tour sắp diễn ra
     public function getUpcomingTours()
@@ -160,7 +164,7 @@ class StatisticQuery extends BaseModel
             JOIN tours t ON b.tour_id = t.tour_id
             JOIN guides g ON b.guide_id = g.guide_id
             JOIN users u ON g.user_id = u.user_id
-            WHERE b.start_date > CURDATE()
+            WHERE b.status = 'sap_dien_ra'
             ORDER BY b.start_date ASC
             LIMIT 5
         ";
