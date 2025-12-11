@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th12 07, 2025 lúc 01:51 PM
+-- Thời gian đã tạo: Th12 11, 2025 lúc 10:50 AM
 -- Phiên bản máy phục vụ: 8.0.30
 -- Phiên bản PHP: 8.1.10
 
@@ -40,39 +40,21 @@ CREATE TABLE `attendance` (
 --
 
 INSERT INTO `attendance` (`id`, `booking_id`, `customer_id`, `status`, `note`) VALUES
-(93, 13, 42, 'absent', NULL),
-(94, 13, 41, 'absent', NULL),
-(95, 13, 40, 'absent', NULL),
-(96, 14, 46, 'absent', NULL),
-(97, 14, 45, 'absent', NULL),
-(98, 14, 44, 'absent', NULL),
-(99, 14, 43, 'absent', NULL),
-(100, 14, 46, 'absent', NULL),
-(101, 14, 45, 'absent', NULL),
-(102, 14, 44, 'absent', NULL),
-(103, 14, 43, 'absent', NULL),
-(115, 15, 50, 'absent', NULL),
-(116, 15, 49, 'absent', NULL),
-(117, 15, 48, 'absent', NULL),
-(118, 15, 50, 'absent', NULL),
-(119, 15, 50, 'absent', NULL),
-(120, 15, 49, 'absent', NULL),
-(121, 15, 48, 'absent', NULL),
-(122, 15, 44, 'absent', NULL),
-(126, 17, 50, 'absent', NULL),
-(127, 17, 49, 'absent', NULL),
-(128, 17, 48, 'absent', NULL),
-(129, 17, 47, 'absent', NULL),
-(130, 18, 38, 'absent', NULL),
-(131, 18, 37, 'absent', NULL),
-(132, 18, 36, 'absent', NULL),
-(133, 19, 50, 'absent', NULL),
-(134, 19, 49, 'absent', NULL),
-(135, 19, 48, 'absent', NULL),
-(136, 19, 47, 'absent', NULL),
-(137, 20, 42, 'absent', NULL),
-(138, 20, 41, 'absent', NULL),
-(139, 20, 40, 'absent', NULL);
+(320, 85, 50, 'absent', NULL),
+(321, 85, 49, 'absent', NULL),
+(322, 85, 48, 'absent', NULL),
+(323, 85, 47, 'absent', NULL),
+(324, 85, 46, 'absent', NULL),
+(325, 86, 41, 'absent', NULL),
+(326, 86, 39, 'absent', NULL),
+(327, 86, 38, 'absent', NULL),
+(328, 86, 37, 'absent', NULL),
+(329, 86, 36, 'absent', NULL),
+(330, 87, 45, 'absent', NULL),
+(331, 87, 44, 'absent', NULL),
+(332, 87, 43, 'absent', NULL),
+(333, 87, 42, 'absent', NULL),
+(334, 87, 40, 'absent', NULL);
 
 -- --------------------------------------------------------
 
@@ -91,21 +73,18 @@ CREATE TABLE `bookings` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `total_price` decimal(12,2) NOT NULL DEFAULT '0.00'
+  `total_price` decimal(12,2) NOT NULL DEFAULT '0.00',
+  `note` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `bookings`
 --
 
-INSERT INTO `bookings` (`booking_id`, `tour_id`, `guide_id`, `hotel_id`, `vehicle_id`, `status`, `report`, `created_at`, `start_date`, `end_date`, `total_price`) VALUES
-(13, 3, 2, 1, 4, 'dang_dien_ra', '', '2025-12-05 09:25:47', '2025-12-06', '2025-12-09', 0.00),
-(14, 2, 1, 2, 5, 'dang_dien_ra', '', '2025-12-05 09:28:53', '2025-12-05', '2025-12-09', 0.00),
-(15, 1, 3, 5, 4, 'sap_dien_ra', '', '2025-12-07 03:30:22', '2025-12-27', '2025-12-30', 0.00),
-(17, 3, 4, 4, 4, 'sap_dien_ra', '', '2025-12-07 03:40:12', '2025-12-20', '2025-12-23', 0.00),
-(18, 1, 1, 2, 4, 'sap_dien_ra', '', '2025-12-07 03:40:36', '2025-12-20', '2025-12-23', 0.00),
-(19, 1, 4, 3, 4, 'da_hoan_thanh', '', '2025-12-07 04:10:52', '2025-11-07', '2025-11-10', 0.00),
-(20, 4, 4, 2, 4, 'sap_dien_ra', '', '2025-12-07 06:23:37', '2025-12-27', '2026-01-01', 0.00);
+INSERT INTO `bookings` (`booking_id`, `tour_id`, `guide_id`, `hotel_id`, `vehicle_id`, `status`, `report`, `created_at`, `start_date`, `end_date`, `total_price`, `note`) VALUES
+(85, 21, 3, 3, NULL, 'dang_dien_ra', '', '2025-12-11 02:02:33', '2025-12-11', '2025-12-16', 0.00, NULL),
+(86, 26, 5, 3, NULL, 'dang_dien_ra', '', '2025-12-11 02:53:31', '2025-12-11', '2025-12-13', 0.00, NULL),
+(87, 23, 4, 3, NULL, 'sap_dien_ra', '', '2025-12-11 03:45:02', '2025-12-12', '2025-12-16', 0.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -126,39 +105,77 @@ CREATE TABLE `booking_customers` (
 --
 
 INSERT INTO `booking_customers` (`id`, `booking_id`, `customer_id`, `is_main`, `price_per_customer`) VALUES
-(93, 13, 42, 1, 10500000),
-(94, 13, 41, 0, 10500000),
-(95, 13, 40, 0, 10500000),
-(96, 14, 46, 0, 9200000),
-(97, 14, 45, 0, 9200000),
-(98, 14, 44, 1, 11700000),
-(99, 14, 43, 0, 11700000),
-(100, 14, 46, 0, 9200000),
-(101, 14, 45, 0, 9200000),
-(102, 14, 44, 1, 11700000),
-(103, 14, 43, 0, 11700000),
-(115, 15, 50, 1, 8437500),
-(116, 15, 49, 0, 7437500),
-(117, 15, 48, 0, 7437500),
-(118, 15, 50, 1, 8437500),
-(119, 15, 50, 1, 8437500),
-(120, 15, 49, 0, 7437500),
-(121, 15, 48, 0, 7437500),
-(122, 15, 44, 0, 10437500),
-(126, 17, 50, 0, 7225000),
-(127, 17, 49, 1, 5725000),
-(128, 17, 48, 0, 5725000),
-(129, 17, 47, 0, 5725000),
-(130, 18, 38, 1, 7900000),
-(131, 18, 37, 0, 7900000),
-(132, 18, 36, 0, 7900000),
-(133, 19, 50, 0, 8475000),
-(134, 19, 49, 1, 8475000),
-(135, 19, 48, 0, 8475000),
-(136, 19, 47, 0, 8475000),
-(137, 20, 42, 0, 16166667),
-(138, 20, 41, 1, 13166667),
-(139, 20, 40, 0, 13166667);
+(350, 85, 50, 0, 21840000),
+(351, 85, 49, 0, 19840000),
+(352, 85, 48, 0, 19840000),
+(353, 85, 47, 0, 21840000),
+(354, 85, 46, 0, 18840000),
+(355, 86, 41, 0, 17483333),
+(356, 86, 39, 0, 17483333),
+(357, 86, 38, 0, 15733333),
+(358, 86, 37, 0, 14900000),
+(359, 86, 36, 0, 14900000),
+(360, 87, 45, 0, 11800000),
+(361, 87, 44, 0, 11800000),
+(362, 87, 43, 0, 11800000),
+(363, 87, 42, 1, 13800000),
+(364, 87, 40, 0, 11800000);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `booking_segment_customers`
+--
+
+CREATE TABLE `booking_segment_customers` (
+  `id` int NOT NULL,
+  `booking_id` int NOT NULL,
+  `tour_schedule_id` int NOT NULL,
+  `customer_id` int NOT NULL,
+  `vehicle_id` int NOT NULL,
+  `segment_price_per_customer` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `booking_segment_customers`
+--
+
+INSERT INTO `booking_segment_customers` (`id`, `booking_id`, `tour_schedule_id`, `customer_id`, `vehicle_id`, `segment_price_per_customer`) VALUES
+(85, 85, 119, 50, 2, 440000),
+(86, 85, 119, 49, 2, 440000),
+(87, 85, 119, 48, 2, 440000),
+(88, 85, 119, 47, 2, 440000),
+(89, 85, 119, 46, 2, 440000),
+(90, 85, 120, 50, 3, 700000),
+(91, 85, 120, 49, 3, 700000),
+(92, 85, 120, 48, 3, 700000),
+(93, 85, 120, 47, 3, 700000),
+(94, 85, 120, 46, 3, 700000),
+(95, 85, 121, 50, 4, 833333),
+(96, 85, 121, 49, 4, 0),
+(97, 85, 121, 48, 4, 0),
+(98, 85, 121, 47, 4, 833333),
+(99, 85, 121, 46, 4, 833333),
+(100, 85, 122, 50, 3, 700000),
+(101, 85, 122, 49, 3, 700000),
+(102, 85, 122, 48, 3, 700000),
+(103, 85, 122, 47, 3, 700000),
+(104, 85, 122, 46, 3, 700000),
+(105, 85, 123, 50, 3, 1166667),
+(106, 85, 123, 49, 3, 0),
+(107, 85, 123, 48, 3, 0),
+(108, 85, 123, 47, 3, 1166667),
+(109, 85, 123, 46, 3, 1166667),
+(110, 86, 162, 41, 3, 1750000),
+(111, 86, 162, 39, 3, 1750000),
+(112, 86, 162, 38, 3, 0),
+(113, 86, 162, 37, 3, 0),
+(114, 86, 162, 36, 3, 0),
+(115, 86, 163, 41, 4, 833333),
+(116, 86, 163, 39, 4, 833333),
+(117, 86, 163, 38, 4, 833333),
+(118, 86, 163, 37, 4, 0),
+(119, 86, 163, 36, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -264,7 +281,7 @@ CREATE TABLE `guides` (
   `specialization` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `note` text,
-  `cccd` int NOT NULL
+  `cccd` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -272,11 +289,11 @@ CREATE TABLE `guides` (
 --
 
 INSERT INTO `guides` (`guide_id`, `user_id`, `experience_years`, `specialization`, `avatar`, `note`, `cccd`) VALUES
-(1, 2, 3, 'Du lịch sinh thái', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
-(2, 3, 4, 'Du lịch văn hóa', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
-(3, 4, 2, 'Du lịch biển', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
-(4, 5, 5, 'Du lịch núi', 'image/GuideImages/1763637528-tải xuống.jpg', NULL, 123123123),
-(5, 6, 1, 'City tour', 'image/GuideImages/1763637528-tải xuống.jpg', '', 123123123);
+(1, 2, 3, 'Du lịch sinh thái', 'image/GuideImages/1765211296-tải xuống (9).jpg', 'Luôn đến sớm 15 phút trước giờ đón khách, xử lý tình huống tốt.', '079203001584'),
+(2, 3, 4, 'Du lịch văn hóa', 'image/GuideImages/1765211288-tải xuống (9).jpg', 'Hướng dẫn viên nhiệt huyết, am hiểu văn hóa địa phương và có khả năng dẫn dắt đoàn rất tốt.', '038204009712'),
+(3, 4, 2, 'Du lịch biển', 'image/GuideImages/1765211282-tải xuống (9).jpg', 'Thành thạo tiếng Anh, giao tiếp thân thiện và luôn tạo không khí vui vẻ cho đoàn.', '096303005821'),
+(4, 5, 5, 'Du lịch núi', 'image/GuideImages/1765211273-tải xuống (9).jpg', 'Có nhiều năm kinh nghiệm dẫn tour trải nghiệm và khám phá, đặc biệt ở khu vực miền Trung.', '001192007436'),
+(5, 6, 1, 'City tour', 'image/GuideImages/1765211253-tải xuống (9).jpg', 'Phong cách làm việc chuyên nghiệp, chu đáo với khách lớn tuổi và gia đình có trẻ nhỏ.', '048185003927');
 
 -- --------------------------------------------------------
 
@@ -297,13 +314,9 @@ CREATE TABLE `guide_tours` (
 --
 
 INSERT INTO `guide_tours` (`id`, `guide_id`, `booking_id`, `tour_id`, `status`) VALUES
-(78, 2, 13, 3, 'current'),
-(79, 1, 14, 2, 'current'),
-(80, 3, 15, 1, 'current'),
-(82, 4, 17, 3, 'current'),
-(83, 1, 18, 1, 'current'),
-(84, 4, 19, 1, 'current'),
-(85, 4, 20, 4, 'current');
+(138, 3, 85, 21, 'current'),
+(139, 5, 86, 26, 'current'),
+(140, 4, 87, 23, 'current');
 
 -- --------------------------------------------------------
 
@@ -327,11 +340,11 @@ CREATE TABLE `hotels` (
 --
 
 INSERT INTO `hotels` (`hotel_service_id`, `service_name`, `room_type`, `price_per_night`, `description`, `hotel_manager`, `hotel_manager_phone`, `hotel_image`) VALUES
-(1, 'Hotel A', 'Standard', 500000.00, 'Khách sạn A phòng Standard', 'Nguyễn Thành Long', '0905123456', NULL),
-(2, 'Hotel B', 'Deluxe', 800000.00, 'Khách sạn B phòng Deluxe', 'Trần Hồng Phúc', '0933445566', NULL),
-(3, 'Hotel C', 'Suite', 1200000.00, 'Khách sạn C phòng Suite', 'Lê Ngọc Anh', '0977333222', NULL),
-(4, 'Hotel D', 'Standard', 450000.00, 'Khách sạn D phòng Standard', 'Phạm Thanh Tùng', '0919888777', NULL),
-(5, 'Hotel E', 'Premium', 1500000.00, 'Khách sạn E phòng Premium', 'Võ Minh Quân', '0988777666', NULL);
+(1, 'Hotel A', 'Standard', 500000.00, 'Khách sạn A phòng Standard', 'Nguyễn Thành Long', '0905123456', 'image/HotelImages/1765209636-tải xuống (6).jpg'),
+(2, 'Hotel B', 'Deluxe', 800000.00, 'Khách sạn B phòng Deluxe', 'Trần Hồng Phúc', '0933445566', 'image/HotelImages/1765209628-tải xuống (4).jpg'),
+(3, 'Hotel C', 'Suite', 1200000.00, 'Khách sạn C phòng Suite', 'Lê Ngọc Anh', '0977333222', 'image/HotelImages/1765209620-tải xuống (3).jpg'),
+(4, 'Hotel D', 'Standard', 450000.00, 'Khách sạn D phòng Standard', 'Phạm Thanh Tùng', '0919888777', 'image/HotelImages/1765209613-tải xuống (2).jpg'),
+(5, 'Hotel E', 'Premium', 1500000.00, 'Khách sạn E phòng Premium', 'Võ Minh Quân', '0988777666', 'image/HotelImages/1765209562-tải xuống.jpg');
 
 -- --------------------------------------------------------
 
@@ -371,10 +384,21 @@ CREATE TABLE `tours` (
 --
 
 INSERT INTO `tours` (`tour_id`, `tour_name`, `description`, `price_adult`, `price_child`, `days`, `category_id`, `tour_images`) VALUES
-(1, 'Hà Nội – Hạ Long – Sapa', 'Tour 3N2Đ khám phá miền Bắc', 3000000, 2000000, 3, 1, 'null'),
-(2, 'Đà Nẵng – Hội An – Bà Nà Hills', 'Tour 4N3Đ du lịch miền Trung', 4500000, 3000000, 4, 1, 'null'),
-(3, 'TP.HCM – Phú Quốc', 'Tour nghỉ dưỡng 3N2Đ', 4000000, 2500000, 3, 1, 'null'),
-(4, 'Hà Nội – Bangkok – Pattaya', 'Tour nước ngoài 5N4Đ Thái Lan', 8000000, 5000000, 5, 2, 'null');
+(1, 'Hà Nội – Hạ Long – Sapa', 'Tour 3N2Đ khám phá miền Bắc', 1000000, 800000, 3, 1, 'image/TourImages/1765172227-tải xuống (3).jpg'),
+(2, 'Đà Nẵng – Hội An – Bà Nà Hills', 'Tour 4N3Đ du lịch miền Trung', 1000000, 1200000, 4, 1, 'image/TourImages/1765172200-tải xuống (2).jpg'),
+(3, 'TP.HCM – Phú Quốc', 'Tour nghỉ dưỡng 3N2Đ', 10000000, 1500000, 3, 1, 'image/TourImages/1765172170-tải xuống (1).jpg'),
+(4, 'Hà Nội – Bangkok – Pattaya', 'Tour nước ngoài 5N4Đ Thái Lan', 2800000, 1800000, 5, 2, 'image/TourImages/1765171334-tải xuống.jpg'),
+(15, 'Hà Nội – Ninh Bình – Tam Cốc', 'Hành trình khám phá danh thắng Tràng An – Tam Cốc, du thuyền trên dòng Ngô Đồng và thưởng thức ẩm thực đặc sản Ninh Bình. Tour phù hợp gia đình và nhóm bạn thích trải nghiệm thiên nhiên.', 1400000, 900000, 2, 1, 'image/TourImages/1765173010-tải xuống (13).jpg'),
+(16, 'Phan Thiết – Mũi Né – Đồi Cát Bay', 'Tour nghỉ dưỡng nhẹ nhàng tại Mũi Né, tham quan đồi cát bay, Bàu Trắng và vui chơi tại biển. Lịch trình được thiết kế tối ưu để du khách thư giãn và chụp ảnh sống ảo.', 2000000, 1300000, 3, 1, 'image/TourImages/1765172990-tải xuống (12).jpg'),
+(17, 'Cần Thơ – Chợ Nổi Cái Răng – Mỹ Khánh', 'Khám phá miền Tây sông nước, trải nghiệm văn hóa chợ nổi, thưởng thức trái cây miệt vườn tươi ngon và tham quan khu du lịch Mỹ Khánh.', 1700000, 1100000, 2, 1, 'image/TourImages/1765172969-tải xuống (11).jpg'),
+(18, 'Sài Gòn City Tour – Một ngày khám phá', 'City Tour tham quan Nhà thờ Đức Bà, Bưu điện Thành phố, Dinh Độc Lập và các điểm tham quan nổi tiếng khác. Tour ngắn phù hợp lịch trình bận rộn.', 900000, 600000, 1, 1, 'image/TourImages/1765172932-tải xuống (10).jpg'),
+(19, 'Đà Lạt – Thành phố ngàn hoa', 'Hành trình 3 ngày khám phá Đà Lạt với nhiều điểm đến nổi tiếng: Hồ Xuân Hương, đồi chè Cầu Đất, quảng trường Lâm Viên và nhiều trải nghiệm thú vị.', 2400000, 1600000, 3, 1, 'image/TourImages/1765172902-tải xuống (9).jpg'),
+(20, 'Huế – Đại Nội – Chùa Thiên Mụ', 'Tour văn hóa – lịch sử dành cho du khách yêu thích nét cổ kính. Khám phá quần thể di tích triều Nguyễn cùng những món ăn đặc trưng xứ Huế.', 2300000, 1500000, 2, 1, 'image/TourImages/1765172880-tải xuống (8).jpg'),
+(21, 'Hà Nội – Tokyo – Núi Phú Sĩ', 'Tour Nhật Bản 5 ngày 4 đêm trải nghiệm văn hóa, thưởng thức ẩm thực Nhật và tham quan núi Phú Sĩ – biểu tượng nổi tiếng thế giới.', 12000000, 9000000, 5, 2, 'image/TourImages/1765172855-tải xuống (7).jpg'),
+(22, 'Hà Nội – Seoul – Everland', 'Khám phá Hàn Quốc với cung điện Gyeongbokgung, công viên Everland và phố mua sắm Myeongdong. Tour phù hợp cho gia đình và cặp đôi.', 10000000, 8000000, 5, 2, 'image/TourImages/1765172811-tải xuống (6).jpg'),
+(23, 'Hà Nội – Singapore – Marina Bay', 'Hành trình 4N3Đ tham quan Gardens by the Bay, Marina Bay Sands, Merlion Park và nhiều địa điểm hiện đại nổi tiếng tại Singapore.', 9000000, 7000000, 4, 2, 'image/TourImages/1765172787-tải xuống (5).jpg'),
+(24, 'Hà Nội – Bali – Thiên đường biển đảo', 'Trải nghiệm tour nghỉ dưỡng Bali cao cấp: tắm biển, vui chơi ở Waterbom, tham quan đền Uluwatu và thưởng thức show Kecak truyền thống.', 10000000, 5000000, 4, 2, 'image/TourImages/1765172761-tải xuống (4).jpg'),
+(26, 'Sài Gòn – Singapore – Bali', 'Tour quốc tế 6N5Đ khám phá thiên đường du lịch Singapore & Bali\r\n', 12500000, 12500000, 2, 1, 'image/TourImages/1765187880-tải xuống (7).jpg');
 
 -- --------------------------------------------------------
 
@@ -395,16 +419,51 @@ CREATE TABLE `tour_schedules` (
 --
 
 INSERT INTO `tour_schedules` (`tour_schedule_id`, `tour_id`, `day_number`, `title`, `description`) VALUES
-(4, 1, 1, 'Khởi hành – Hạ Long', 'Tham quan vịnh Hạ Long, hang Sửng Sốt, chèo kayak.'),
-(5, 1, 2, 'Hạ Long – Sapa', 'Di chuyển đi Sapa, tham quan bản Cát Cát, núi Hàm Rồng.'),
-(6, 1, 3, 'Fansipan – Hà Nội', 'Chinh phục Fansipan, quay về Hà Nội kết thúc chuyến đi.'),
-(7, 2, 1, 'Đà Nẵng – Mỹ Khê', 'Tham quan biển Mỹ Khê, cầu Rồng.'),
-(8, 2, 2, 'Hội An cổ kính', 'Tham quan phố cổ, chùa Cầu, thưởng thức ẩm thực Hội An.'),
-(9, 2, 3, 'Bà Nà Hills', 'Check in Cầu Vàng, tham quan Bà Nà Hills.'),
-(10, 2, 4, 'Đà Nẵng – Kết thúc', 'Tự do mua sắm và trở về.'),
-(11, 3, 1, 'Bãi Sao – Sunset Sanato', 'Tắm biển, check-in hoàng hôn đẹp nhất Phú Quốc.'),
-(12, 3, 2, 'VinWonders – Safari', 'Tham quan Safari và VinWonders.'),
-(13, 3, 3, 'Chợ đêm – Trở về', 'Tham quan chợ đêm Phú Quốc, kết thúc chuyến đi.');
+(94, 4, 1, 'Khởi hành – Nhận phòng – Tham quan địa phương', 'Du khách tập trung tại điểm hẹn, khởi hành đến địa điểm du lịch. Sau khi nhận phòng và nghỉ ngơi, đoàn bắt đầu tham quan các điểm nổi bật trong khu vực, hòa mình vào không khí trong lành và trải nghiệm văn hóa bản địa.'),
+(95, 4, 2, 'Tham quan các điểm nổi bật – Hoạt động trải nghiệm', 'Trong ngày thứ hai, đoàn sẽ khám phá những thắng cảnh nổi tiếng, tham gia các hoạt động ngoài trời, chụp ảnh lưu niệm và thưởng thức các món ăn đặc sản địa phương. Đây là ngày có nhiều trải nghiệm thú vị nhất của hành trình.'),
+(96, 4, 3, 'Tự do vui chơi – Mua sắm – Kết thúc hành trình', 'Buổi sáng du khách tự do dạo chơi, nghỉ dưỡng hoặc mua quà lưu niệm. Sau đó đoàn làm thủ tục trả phòng và di chuyển về điểm đón ban đầu, kết thúc chuyến đi đầy kỷ niệm.'),
+(105, 23, 1, 'Gardens by the Bay', 'Tham quan siêu cây và Cloud Forest.'),
+(106, 23, 2, 'Marina Bay Sands', 'Ngắm toàn cảnh Singapore từ tầng cao.'),
+(107, 23, 3, 'Sentosa', 'Vui chơi tại đảo Sentosa.'),
+(108, 23, 4, 'Chợ đêm ChinaTown', 'Mua sắm – ăn uống.'),
+(109, 22, 1, 'Cung điện Gyeongbokgung', 'Mặc Hanbok chụp ảnh tại cung điện.'),
+(110, 22, 2, 'Everland', 'Vui chơi trong công viên giải trí lớn nhất Hàn Quốc.'),
+(111, 22, 3, 'Tháp Namsan', 'Tham quan và ngắm toàn cảnh Seoul.'),
+(112, 22, 4, 'Myeongdong', 'Mua sắm mỹ phẩm – thời trang.'),
+(113, 22, 5, 'Trở về', 'Di chuyển ra sân bay.'),
+(119, 21, 1, 'Bay đến Tokyo', 'Tham quan Tokyo Tower và phố Shibuya.'),
+(120, 21, 2, 'Núi Phú Sĩ', 'Chụp ảnh tại trạm 5 núi Phú Sĩ – làng cổ Oshino Hakkai.'),
+(121, 21, 3, 'Disneyland Tokyo', 'Vui chơi trọn ngày tại công viên giải trí.'),
+(122, 21, 4, 'Shopping – Akihabara', 'Tự do mua sắm.'),
+(123, 21, 5, 'Trở về Việt Nam', 'Làm thủ tục và bay về.'),
+(124, 20, 1, 'Đại Nội Huế', 'Khám phá Hoàng thành và kiến trúc triều Nguyễn.'),
+(125, 20, 2, 'Chùa Thiên Mụ – Sông Hương', 'Du thuyền sông Hương và thưởng thức món ăn Huế.'),
+(126, 19, 1, 'Check-in Đà Lạt', 'Tham quan quảng trường Lâm Viên, hồ Xuân Hương.'),
+(127, 19, 2, 'Đồi chè Cầu Đất – Đồi thông', 'Chụp ảnh tại đồi chè và cảnh quan núi rừng.'),
+(128, 19, 3, 'Chợ đêm Đà Lạt', 'Tự do ăn uống – mua sắm.'),
+(129, 17, 1, 'Chợ nổi Cái Răng', 'Khám phá chợ nổi vào buổi sáng, thưởng thức trái cây miền Tây.'),
+(130, 17, 2, 'Mỹ Khánh – Tham quan vườn', 'Thăm quan khu du lịch Mỹ Khánh và trải nghiệm văn hóa địa phương.'),
+(131, 16, 1, 'Khởi hành – Biển Mũi Né', 'Nhận phòng, tắm biển và tham quan làng chài Mũi Né.'),
+(132, 16, 2, 'Đồi cát bay – Bàu Trắng', 'Chụp ảnh đồi cát, trải nghiệm moto địa hình.'),
+(133, 16, 3, 'Tự do nghỉ dưỡng', 'Dạo biển – check-out – trở về.'),
+(134, 15, 1, 'Khởi hành – Tràng An', 'Tham quan quần thể Tràng An, đi thuyền xuyên hang và khám phá cảnh quan hùng vĩ.'),
+(135, 15, 2, 'Tam Cốc – Mua sắm', 'Đi đò Tam Cốc và thưởng thức đặc sản dê núi Ninh Bình.'),
+(140, 1, 1, 'Khởi hành – Hạ Long', 'Tham quan vịnh Hạ Long, hang Sửng Sốt, chèo kayak.'),
+(141, 1, 2, 'Hạ Long – Sapa', 'Di chuyển đi Sapa, tham quan bản Cát Cát, núi Hàm Rồng.'),
+(142, 1, 3, 'Fansipan – Hà Nội', 'Chinh phục Fansipan, quay về Hà Nội kết thúc chuyến đi.'),
+(147, 2, 1, 'Đà Nẵng – Mỹ Khê', 'Tham quan biển Mỹ Khê, cầu Rồng.'),
+(148, 2, 2, 'Hội An cổ kính', 'Tham quan phố cổ, chùa Cầu, thưởng thức ẩm thực Hội An.'),
+(149, 2, 3, 'Bà Nà Hills', 'Check in Cầu Vàng, tham quan Bà Nà Hills.'),
+(150, 2, 4, 'Đà Nẵng – Kết thúc', 'Tự do mua sắm và trở về.'),
+(155, 3, 1, 'Bãi Sao – Sunset Sanato', 'Tắm biển, check-in hoàng hôn đẹp nhất Phú Quốc.'),
+(156, 3, 2, 'VinWonders – Safari', 'Tham quan Safari và VinWonders.'),
+(157, 3, 3, 'Chợ đêm – Trở về', 'Tham quan chợ đêm Phú Quốc, kết thúc chuyến đi.'),
+(162, 26, 1, 'Khám phá Singapore về đêm', 'Du khách sẽ tham gia hành trình tham quan Marina Bay Sands, Gardens by the Bay và thưởng thức không khí Singapore lung linh về đêm. Bầu không khí mát mẻ, kết hợp ánh đèn hiện đại khiến hành trình trở nên vô cùng ấn tượng. Ngoài ra, đoàn còn được trải nghiệm show nhạc nước Spectra độc đáo không thể bỏ lỡ.'),
+(163, 26, 2, 'Tận hưởng vẻ đẹp Bali', 'Buổi sáng, du khách di chuyển đến Bali để thăm Đền Tanah Lot cổ kính nằm giữa biển. Buổi chiều, tắm biển ở Kuta với bãi cát trắng trải dài và những con sóng mạnh tuyệt đẹp. Cả đoàn được tự do chụp ảnh, nghỉ dưỡng và thưởng thức ẩm thực địa phương mang hương vị đặc trưng của đảo Bali.'),
+(164, 24, 1, 'Check-in Bali', 'Nhận phòng – tắm biển – nghỉ dưỡng.'),
+(165, 24, 2, 'Uluwatu – Kecak Show', 'Tham quan đền và xem biểu diễn truyền thống.'),
+(166, 24, 3, 'Nusa Dua – Waterbom', 'Vui chơi tại công viên nước lớn nhất Bali.'),
+(167, 24, 4, 'Tự do nghỉ dưỡng – Trở về', 'Mua sắm – check-out – về Việt Nam.');
 
 -- --------------------------------------------------------
 
@@ -428,11 +487,11 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `name`, `email`, `phone`) VALUES
 (1, 'admin', '123', 'admin', 'Admin', 'admin@gmail.com', '0900000000'),
-(2, 'guide1', '123', 'guide', 'Nguyễn HDV 1', 'g1@gmail.com', '0900000001'),
-(3, 'guide2', '123', 'guide', 'Nguyễn HDV 2', 'g2@gmail.com', '0900000002'),
-(4, 'guide3', '123', 'guide', 'Nguyễn HDV 3', 'g3@gmail.com', '0900000003'),
-(5, 'guide4', '123', 'guide', 'Nguyễn HDV 4', 'g4@gmail.com', '0900000004'),
-(6, 'guide5', '123', 'guide', 'Nguyễn HDV 5', 'g5@gmail.com', '0900000005');
+(2, 'guide1', '123', 'guide', 'Nguyễn Minh Khoa', 'khoanguyen.travel@gmail.com', '0900000001'),
+(3, 'guide2', '123', 'guide', 'Trần Hoàng Phúc', 'phuc.tran.tourguide@gmail.com', '0900000002'),
+(4, 'guide3', '123', 'guide', 'Lê Hải Nam', 'hainam.guide@gmail.com', '0900000003'),
+(5, 'guide4', '123', 'guide', 'Đỗ Thanh Tùng', 'tung.do.travel@gmail.com', '0900000004'),
+(6, 'guide5', '123', 'guide', 'Vũ Bảo Long', 'longvu.guideservice@gmail.com', '0900000005');
 
 -- --------------------------------------------------------
 
@@ -456,11 +515,11 @@ CREATE TABLE `vehicles` (
 --
 
 INSERT INTO `vehicles` (`vehicle_service_id`, `service_name`, `seat`, `price_per_day`, `description`, `driver_name`, `driver_phone`, `license_plate`) VALUES
-(1, 'Xe 16 chỗ', 16, 1500000.00, 'Xe 16 chỗ phổ thông', 'Nguyễn Văn A', '0912345678', '51A-12345'),
-(2, 'Xe 29 chỗ', 29, 2200000.00, 'Xe 29 chỗ du lịch', 'Trần Văn B', '0987654321', '51B-67890'),
-(3, 'Xe 45 chỗ', 45, 3500000.00, 'Xe 45 chỗ đoàn lớn', 'Lê Văn C', '0909123456', '51C-24680'),
-(4, 'Xe Limousine', 9, 2500000.00, 'Xe Limousine cao cấp', 'Phạm Văn D', '0933555777', '51D-13579'),
-(5, 'Xe VIP', 7, 3000000.00, 'Xe VIP riêng tư', 'Hoàng Văn E', '0977333444', '51E-11223');
+(1, 'Xe 16 chỗ', 16, 1500000.00, 'Xe 16 chỗ phổ thông', 'Nguyễn Minh Khang', '0912345678', '51A-12345'),
+(2, 'Xe 29 chỗ', 29, 2200000.00, 'Xe 29 chỗ du lịch', 'Lê Tuấn Kiệt', '0987654321', '51B-67890'),
+(3, 'Xe 45 chỗ', 45, 3500000.00, 'Xe 45 chỗ đoàn lớn', 'Đặng Quang Khải', '0909123456', '51C-24680'),
+(4, 'Xe Limousine', 9, 2500000.00, 'Xe Limousine cao cấp', 'Võ Minh Thiện', '0933555777', '51D-13579'),
+(5, 'Xe VIP', 7, 3000000.00, 'Xe VIP riêng tư', 'Bùi Anh Dũng', '0977333444', '51E-11223');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -491,6 +550,16 @@ ALTER TABLE `booking_customers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `booking_customers_ibfk_1` (`booking_id`),
   ADD KEY `booking_customers_ibfk_2` (`customer_id`);
+
+--
+-- Chỉ mục cho bảng `booking_segment_customers`
+--
+ALTER TABLE `booking_segment_customers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_booking` (`booking_id`),
+  ADD KEY `idx_schedule` (`tour_schedule_id`),
+  ADD KEY `idx_customer` (`customer_id`),
+  ADD KEY `idx_vehicle` (`vehicle_id`);
 
 --
 -- Chỉ mục cho bảng `categories`
@@ -569,19 +638,25 @@ ALTER TABLE `vehicles`
 -- AUTO_INCREMENT cho bảng `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=335;
 
 --
 -- AUTO_INCREMENT cho bảng `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `booking_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_customers`
 --
 ALTER TABLE `booking_customers`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=365;
+
+--
+-- AUTO_INCREMENT cho bảng `booking_segment_customers`
+--
+ALTER TABLE `booking_segment_customers`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
@@ -605,7 +680,7 @@ ALTER TABLE `guides`
 -- AUTO_INCREMENT cho bảng `guide_tours`
 --
 ALTER TABLE `guide_tours`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT cho bảng `hotels`
@@ -623,13 +698,13 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT cho bảng `tours`
 --
 ALTER TABLE `tours`
-  MODIFY `tour_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `tour_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_schedules`
 --
 ALTER TABLE `tour_schedules`
-  MODIFY `tour_schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `tour_schedule_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
@@ -669,6 +744,15 @@ ALTER TABLE `bookings`
 ALTER TABLE `booking_customers`
   ADD CONSTRAINT `booking_customers_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `booking_customers_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON DELETE RESTRICT;
+
+--
+-- Các ràng buộc cho bảng `booking_segment_customers`
+--
+ALTER TABLE `booking_segment_customers`
+  ADD CONSTRAINT `fk_bsc_booking` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_bsc_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
+  ADD CONSTRAINT `fk_bsc_schedule` FOREIGN KEY (`tour_schedule_id`) REFERENCES `tour_schedules` (`tour_schedule_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_bsc_vehicle` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`vehicle_service_id`);
 
 --
 -- Các ràng buộc cho bảng `guides`

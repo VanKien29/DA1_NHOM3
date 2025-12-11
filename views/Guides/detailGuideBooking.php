@@ -28,6 +28,10 @@
                                 }
                             ?>
                         </span>
+                        <?php if (!empty($_SESSION['msg'])): ?>
+                        <div class="alert alert-warning mt-2"><?= $_SESSION['msg']; ?></div>
+                        <?php unset($_SESSION['msg']); ?>
+                        <?php endif; ?>
 
                         <?php if ($booking['status'] !== 'da_hoan_thanh'): ?>
                         <button class="btn btn-status" onclick="toggleStatusForm()">Cập nhật</button>

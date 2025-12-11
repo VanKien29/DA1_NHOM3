@@ -121,7 +121,7 @@
                     </label>
                     <?php endforeach; ?>
                 </div>
-                <span class="hint-text">Cần chọn ít nhất 3 khách. Khách trùng lịch sẽ bị khóa.</span>
+                <span class="hint-text">Cần chọn ít nhất 5 khách. Khách trùng lịch sẽ bị khóa.</span>
             </div>
             <div class="action-row" style="display:flex; justify-content:space-between; gap:10px; margin-top:8px;">
                 <button type="submit" name="prev_step" value="1" class="btn-prev">Quay lại</button>

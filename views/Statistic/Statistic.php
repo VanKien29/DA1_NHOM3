@@ -177,7 +177,7 @@
 <div class="dashboard-wrapper">
 
     <div class="dashboard-header">
-        <h1>Dashboard Thống Kê</h1>
+        <h1>Dashboard Thống Kê — Năm <?= $data['year'] ?></h1>
 
         <form method="GET">
             <input type="hidden" name="action" value="admin-statistic">

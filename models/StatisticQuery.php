@@ -139,8 +139,7 @@ class StatisticQuery extends BaseModel
 
 
     // 5 tour đang diễn ra
-    public function getRunningTours()
-    {
+    public function getRunningTours($year){
         $sql = "
             SELECT b.*, t.tour_name, u.name AS guide_name
             FROM bookings b
@@ -148,16 +147,20 @@ class StatisticQuery extends BaseModel
             JOIN guides g ON b.guide_id = g.guide_id
             JOIN users u ON g.user_id = u.user_id
             WHERE b.status = 'dang_dien_ra'
+            AND YEAR(b.start_date) = :year
             ORDER BY b.start_date ASC
             LIMIT 5
         ";
-        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
+
     // 5 tour sắp diễn ra
-    public function getUpcomingTours()
-    {
+    public function getUpcomingTours($year){
         $sql = "
             SELECT b.*, t.tour_name, u.name AS guide_name
             FROM bookings b
@@ -165,10 +168,15 @@ class StatisticQuery extends BaseModel
             JOIN guides g ON b.guide_id = g.guide_id
             JOIN users u ON g.user_id = u.user_id
             WHERE b.status = 'sap_dien_ra'
+            AND YEAR(b.start_date) = :year
             ORDER BY b.start_date ASC
             LIMIT 5
         ";
-        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['year' => $year]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
 }
