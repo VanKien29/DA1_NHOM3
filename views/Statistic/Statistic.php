@@ -194,7 +194,6 @@
         </form>
     </div>
 
-
     <!-- STAT CARDS -->
     <div class="card-grid">
 
@@ -219,7 +218,7 @@
         </div>
 
         <div class="stat-card revenue">
-            <h3>Tổng Doanh Thu Tháng</h3>
+            <h3>Tổng Doanh Thu</h3>
             <div class="value"><?= number_format($data['total_revenue']) ?> VND</div>
         </div>
 

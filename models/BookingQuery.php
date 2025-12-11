@@ -544,7 +544,6 @@ class BookingQuery extends BaseModel
                     CASE 
                         WHEN c.role = 'adult' THEN t.price_adult
                         WHEN c.role = 'child' THEN t.price_child
-                        WHEN c.role = 'vip' THEN t.price_vip
                         ELSE 0
                     END
                 ) AS total_price
@@ -567,7 +566,6 @@ class BookingQuery extends BaseModel
                     CASE 
                         WHEN c.role = 'adult' THEN t.price_adult
                         WHEN c.role = 'child' THEN t.price_child
-                        WHEN c.role = 'vip' THEN t.price_vip
                         ELSE 0
                     END
                 ) AS total_price
@@ -678,6 +676,7 @@ class BookingQuery extends BaseModel
             ':id' => $booking_id
         ]);
     }
+    
     public function getBookingsByAdvancedFilter($status, $from, $to)
     {
         $sql = "SELECT 
@@ -687,7 +686,14 @@ class BookingQuery extends BaseModel
                     v.service_name AS vehicle_name,
                     u.name AS guide_name,
                     (SELECT COUNT(*) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_customers,
-                    (SELECT SUM(price_per_customer) FROM booking_customers bc WHERE bc.booking_id = b.booking_id) AS total_price
+                    (IFNULL((SELECT SUM(bc.price_per_customer)
+                            FROM booking_customers bc
+                            WHERE bc.booking_id = b.booking_id), 0)
+                    +
+                    IFNULL((SELECT SUM(bsc.segment_price_per_customer)
+                            FROM booking_segment_customers bsc
+                            WHERE bsc.booking_id = b.booking_id), 0)) AS total_price
+
                 FROM bookings b
                 LEFT JOIN tours t ON b.tour_id = t.tour_id
                 LEFT JOIN hotels h ON b.hotel_id = h.hotel_service_id
@@ -733,6 +739,93 @@ class BookingQuery extends BaseModel
         $stmt->execute($params);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    // thêm 1 dòng chặng cho khách
+    public function addSegmentCustomer($booking_id, $tour_schedule_id, $customer_id, $vehicle_id, $segment_price_per_customer)
+    {
+        $sql = "INSERT INTO booking_segment_customers
+                (booking_id, tour_schedule_id, customer_id, vehicle_id, segment_price_per_customer)
+                VALUES (:booking_id, :tour_schedule_id, :customer_id, :vehicle_id, :price)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':booking_id' => $booking_id,
+            ':tour_schedule_id' => $tour_schedule_id,
+            ':customer_id' => $customer_id,
+            ':vehicle_id' => $vehicle_id,
+            ':price' => $segment_price_per_customer,
+        ]);
+    }
+
+    // lấy các chặng xe của 1 booking (để hiển thị trong chi tiết)
+    public function getSegmentCustomersByBooking($booking_id){
+        $sql = "
+            SELECT 
+                bsc.tour_schedule_id,
+                bsc.segment_price_per_customer,
+                bsc.vehicle_id,                    -- THÊM DÒNG NÀY
+                c.full_name,
+                c.customer_id,
+                ts.day_number,
+                ts.title AS schedule_title,
+                v.service_name AS vehicle_name,
+                v.price_per_day
+            FROM booking_segment_customers bsc
+            LEFT JOIN customers c ON c.customer_id = bsc.customer_id
+            LEFT JOIN tour_schedules ts ON ts.tour_schedule_id = bsc.tour_schedule_id
+            LEFT JOIN vehicles v ON v.vehicle_service_id = bsc.vehicle_id
+            WHERE bsc.booking_id = :id
+            ORDER BY ts.day_number ASC, c.full_name ASC
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $booking_id]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // xoá toàn bộ cấu hình xe theo chặng của 1 booking (dùng khi update)
+    public function deleteSegmentCustomersByBooking($booking_id)
+    {
+        $sql = "DELETE FROM booking_segment_customers WHERE booking_id = :booking_id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':booking_id' => $booking_id]);
+    }
+
+    public function syncGuideTour($guide_id, $booking_id, $tour_id){
+        // 1) Kiểm tra booking đã có trong guide_tours chưa?
+        $sql = "SELECT id FROM guide_tours WHERE booking_id = :booking_id LIMIT 1";
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute(['booking_id' => $booking_id]);
+        $exists = $stm->fetchColumn();
+
+        // Nếu chưa có → INSERT mới
+        if (!$exists) {
+            $sql = "INSERT INTO guide_tours (guide_id, booking_id, tour_id, status)
+                    VALUES (:guide_id, :booking_id, :tour_id, 'current')";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute([
+                'guide_id'   => $guide_id,
+                'booking_id' => $booking_id,
+                'tour_id'    => $tour_id
+            ]);
+            return true;
+        }
+
+        // 2) Nếu đã có → UPDATE
+        $sql = "UPDATE guide_tours 
+                SET guide_id = :guide_id,
+                    tour_id  = :tour_id
+                WHERE booking_id = :booking_id";
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([
+            'guide_id'   => $guide_id,
+            'tour_id'    => $tour_id,
+            'booking_id' => $booking_id
+        ]);
+
+        return true;
     }
 
 }
