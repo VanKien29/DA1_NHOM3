@@ -454,6 +454,7 @@ class BookingQuery extends BaseModel
         $sql = "SELECT 
                 b.*, 
                 t.tour_name,
+                t.days,
                 h.service_name AS hotel_name,
                 h.hotel_manager AS hotel_manager,
                 h.hotel_manager_phone AS hotel_manager_phone,
@@ -487,7 +488,35 @@ class BookingQuery extends BaseModel
         ]);
         return true;
     }
+    public function getAttendanceByDay($booking_id, $day_number)
+    {
+        $sql = "SELECT  
+                a.*, 
+                c.full_name,
+                c.phone,
+                c.email
+            FROM attendance a
+            JOIN customers c ON a.customer_id = c.customer_id
+            WHERE a.booking_id = ? AND a.day_number = ?";
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([$booking_id, $day_number]);
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function addAttendanceForBooking($booking_id, $customer_id, $days)
+    {
+        $sql = "INSERT INTO attendance (booking_id, customer_id, day_number, status) 
+            VALUES (:booking_id, :customer_id, :day_number, :status)";
+        $stmt = $this->pdo->prepare($sql);
 
+        for ($day = 1; $day <= $days; $day++) {
+            $stmt->execute([
+                ':booking_id' => $booking_id,
+                ':customer_id' => $customer_id,
+                ':day_number' => $day,
+                ':status' => 'absent',
+            ]);
+        }
+    }
     public function getVehicleByBooking($booking_id)
     {
         $sql = "SELECT v.*
@@ -580,7 +609,8 @@ class BookingQuery extends BaseModel
         return $stm->fetchColumn();
     }
 
-    public function autoStatus($start_date, $end_date){
+    public function autoStatus($start_date, $end_date)
+    {
         $today = date('Y-m-d');
         if ($today < $start_date)
             return 'sap_dien_ra';
@@ -620,8 +650,9 @@ class BookingQuery extends BaseModel
         $stmt = $this->pdo->prepare("UPDATE bookings SET status=? WHERE booking_id=?");
         return $stmt->execute([$status, $id]);
     }
-    public function getHistoryTours($guide_id) {
-    $sql = "
+    public function getHistoryTours($guide_id)
+    {
+        $sql = "
         SELECT 
             b.*, 
             t.tour_name,
@@ -635,20 +666,22 @@ class BookingQuery extends BaseModel
         ORDER BY b.end_date DESC
     ";
 
-    $stm = $this->pdo->prepare($sql);
-    $stm->execute([':gid' => $guide_id]);
-    return $stm->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([':gid' => $guide_id]);
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-    
-    public function updateHistoryGuideTour($booking_id) {
+
+    public function updateHistoryGuideTour($booking_id)
+    {
         $sql = "UPDATE guide_tours SET status = 'history' WHERE booking_id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $booking_id);
         $stmt->execute();
     }
-    public function getRunningTours($guide_id) {
-    $sql = "
+    public function getRunningTours($guide_id)
+    {
+        $sql = "
         SELECT 
             b.*, 
             t.tour_name,
@@ -662,13 +695,14 @@ class BookingQuery extends BaseModel
         ORDER BY b.start_date DESC
     ";
 
-    $stm = $this->pdo->prepare($sql);
-    $stm->execute([':gid' => $guide_id]);
-    return $stm->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stm = $this->pdo->prepare($sql);
+        $stm->execute([':gid' => $guide_id]);
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
-    public function updateNote($booking_id, $note){
+    public function updateNote($booking_id, $note)
+    {
         $sql = "UPDATE bookings SET note = :note WHERE booking_id = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([

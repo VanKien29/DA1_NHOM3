@@ -17,7 +17,7 @@ class BookingController
     {
         $status = $_GET['status'] ?? '';
         $from = $_GET['from'] ?? '';
-        $to   = $_GET['to'] ?? '';
+        $to = $_GET['to'] ?? '';
         $bookings = $this->bookingQuery->getBookingsByAdvancedFilter($status, $from, $to);
         require './views/Booking/listBooking.php';
     }
@@ -336,6 +336,20 @@ class BookingController
                         $extraPrice[$cid] = 0;
                     }
 
+                    if (!$err) {
+                        // Gán thuộc tính cho model
+                        $this->bookingQuery->tour_id = $tour_id;
+                        $this->bookingQuery->guide_id = $guide_id;
+                        $this->bookingQuery->hotel_id = $hotel_id;
+                        $this->bookingQuery->vehicle_id = $vehicle_id;
+                        $this->bookingQuery->start_date = $start_date;
+                        $this->bookingQuery->end_date = $end_date;
+                        $this->bookingQuery->status = $this->bookingQuery->autoStatus($start_date, $end_date);
+                        $this->bookingQuery->report = '';
+                        $this->bookingQuery->created_at = date('Y-m-d H:i:s');
+
+                        // Tạo booking
+                        $booking_id = $this->bookingQuery->createBooking();
                     // ========= GÁN XE THEO LỊCH TRÌNH =========
                     foreach ($segment_vehicle as $schedule_id => $vehicle_id) {
 
@@ -343,6 +357,8 @@ class BookingController
                         if ($vehicle_id <= 0) continue;
 
                         $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
+                        $total_customers = count($customers_arr);
+                        $days = isset($tour['days']) ? (int) $tour['days'] : 1;
                         if (!$vehicle) continue;
 
                         $segment_total = (float)$vehicle['price_per_day'];
@@ -370,6 +386,11 @@ class BookingController
                                 $vehicle_id,
                                 $price
                             );
+                            $is_main = ($cid == $main) ? 1 : 0;
+                            $this->bookingQuery->addBookingCustomers($booking_id, $cid, $is_main, $price);
+                            $this->bookingQuery->addAttendanceForBooking($booking_id, $cid, $days);
+                        }
+                        $this->bookingQuery->addGuideTour($guide_id, $booking_id, $tour_id);
 
                             if ($price > 0) {
                                 $extraPrice[$cid] += $price;
