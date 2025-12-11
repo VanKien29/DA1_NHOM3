@@ -30,6 +30,13 @@ class BookingController
 
     public function deleteCustomer($bc_id, $booking_id)
     {
+        $customers = $this->bookingQuery->getBookingCustomers($booking_id);
+        $total_customers = count($customers);
+        if ($total_customers <= 5) {
+            $_SESSION['error'] = "Không thể xóa! Booking cần phải có ít nhất 5 khách.";
+            header("Location: ?action=admin-detailBooking&id=" . $booking_id);
+            exit;
+        }
         $info = $this->bookingQuery->getCustomerIdByBCId($bc_id);
         $customer_id = $info['customer_id'];
         $this->bookingQuery->deleteCustomerFromBooking($bc_id);
@@ -40,82 +47,119 @@ class BookingController
     }
 
     public function detailBooking($id){
-        $booking = $this->bookingQuery->getBooking($id);
-        $guide = $this->bookingQuery->getGuideByBooking($id);
-        $customers = $this->bookingQuery->getBookingCustomers($id);
-        $attendance = $this->bookingQuery->getAttendance($id);
+        $booking      = $this->bookingQuery->getBooking($id);
+        $guide        = $this->bookingQuery->getGuideByBooking($id);
+        $customers    = $this->bookingQuery->getBookingCustomers($id);
+        $attendance   = $this->bookingQuery->getAttendance($id);
         $customers_all = $this->CustomerQuery->getAllCustomers();
-        $segments = $this->bookingQuery->getSegmentCustomersByBooking($id);
-        $tour = $this->ToursQuery->findTour($booking['tour_id']);
-        $hotel = $this->HotelQuery->findHotel($booking['hotel_id']);
-        $vehicle = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
+        $segmentsRaw   = $this->bookingQuery->getSegmentCustomersByBooking($id);
+        $tour          = $this->ToursQuery->findTour($booking['tour_id']);
+        $hotel         = $this->HotelQuery->findHotel($booking['hotel_id']);
+        $vehicle       = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
         $tour_schedules = $this->ToursQuery->getTourSchedule($booking['tour_id']);
 
-        $groupedSegments = [];
-        foreach ($segments as $s) {
+        $segments_grouped = [];
+        foreach ($segmentsRaw as $s) {
             $sid = $s['tour_schedule_id'];
-
-            if (!isset($groupedSegments[$sid])) {
-                $groupedSegments[$sid] = [
+            if (!isset($segments_grouped[$sid])) {
+                $segments_grouped[$sid] = [
                     "day_number" => $s['day_number'],
-                    "title" => $s['schedule_title'],
-                    "vehicle" => $s['vehicle_name'],
+                    "title"      => $s['schedule_title'],
+                    "vehicle_id" => $s['vehicle_id'],
+                    "vehicle"    => $s['vehicle_name'],
                     "price_per_day" => $s['price_per_day'],
-                    "using" => [],
-                    "excluded" => []
+                    "using"      => [],
+                    "excluded"   => []
                 ];
             }
-
             if ($s['segment_price_per_customer'] > 0) {
-                $groupedSegments[$sid]["using"][] = $s;
+                $segments_grouped[$sid]["using"][] = $s;
             } else {
-                $groupedSegments[$sid]["excluded"][] = $s;
+                $segments_grouped[$sid]["excluded"][] = $s;
             }
         }
-        $segments_grouped = $groupedSegments;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_add_customer'])) {
-            $new_customer = $_POST['add_customer_id'];
-            if (empty($new_customer)) {
+            $new_customer = $_POST['add_customer_id'] ?? '';
+            if (!$new_customer) {
                 $_SESSION['error'] = "Vui lòng chọn khách cần thêm.";
                 header("Location: ?action=admin-detailBooking&id=" . $id);
                 exit;
             }
+            // Kiểm tra trùng trong booking
             foreach ($customers as $c) {
                 if ($c['customer_id'] == $new_customer) {
-                    $_SESSION['error'] = "Khách này đã có trong booking!";
+                    $_SESSION['error'] = "Khách này đã tồn tại trong booking.";
                     header("Location: ?action=admin-detailBooking&id=" . $id);
                     exit;
                 }
             }
-            if ($this->bookingQuery->checkCustomerConflict($new_customer, $booking['start_date'], $booking['end_date'])) {
-                $_SESSION['error'] = "Khách đang tham gia một tour khác trùng lịch!";
+            // Kiểm tra trùng lịch
+            if ($this->bookingQuery->checkCustomerConflict(
+                $new_customer,
+                $booking['start_date'],
+                $booking['end_date'],
+                $id
+            )) {
+                $_SESSION['error'] = "Khách đang tham gia một tour khác trùng lịch.";
                 header("Location: ?action=admin-detailBooking&id=" . $id);
                 exit;
             }
-            $total_customers = count($customers) + 1;
-
             $customerInfo = $this->CustomerQuery->findCustomer($new_customer);
 
-            $price = $this->calculatePrice(
+            $priceBase = $this->calculatePrice(
                 $customerInfo,
                 $tour,
                 $hotel,
-                $vehicle,
                 $booking['start_date'],
-                $booking['end_date'],
-                $total_customers
+                $booking['end_date']
             );
 
-            $this->bookingQuery->addBookingCustomers($id, $new_customer, 0, $price);
-            $this->bookingQuery->addAttendance($id, $new_customer);
+            $extra = 0;
+            foreach ($segments_grouped as $sid => $seg) {
+                if (!$seg['vehicle_id']) continue;
 
+                $vehicle_id   = $seg['vehicle_id'];
+                $price_per_day = (float)$seg['price_per_day'];
+
+                // khách hiện đang dùng xe
+                $using_ids = array_map(fn($u) => $u['customer_id'], $seg['using']);
+
+                // khách không dùng xe
+                $excluded_ids = array_map(fn($e) => $e['customer_id'], $seg['excluded']);
+
+                // nhóm khách dùng xe thực sự
+                $real_using = array_diff($using_ids, $excluded_ids);
+
+                // thêm khách mới vào nhóm dùng xe
+                $real_using[] = $new_customer;
+
+                $count = count($real_using);
+                $price_per_customer = ($count > 0) ? $price_per_day / $count : 0;
+
+                // cộng vào tổng giá
+                $extra += $price_per_customer;
+
+                // LƯU VÀO booking_segment_customers
+                $this->bookingQuery->addSegmentCustomer(
+                    $id,
+                    $sid,
+                    $new_customer,
+                    $vehicle_id,
+                    $price_per_customer
+                );
+            }
+
+            $final_price = $priceBase + $extra;
+            $this->bookingQuery->addBookingCustomers($id, $new_customer, 0, $final_price);
+            $this->bookingQuery->addAttendance($id, $new_customer);
             $_SESSION['message'] = "Thêm khách thành công!";
             header("Location: ?action=admin-detailBooking&id=" . $id);
             exit;
         }
         require './views/Booking/DetailBooking.php';
     }
+
 
     private function calculatePrice($customer, $tour, $hotel, $start_date, $end_date)
     {
@@ -235,8 +279,8 @@ class BookingController
             // ---------------- STEP 2 ----------------
             if ($current_step == 2 && isset($_POST['next_2'])) {
                 $customers_arr = $_POST['customers'] ?? [];
-                if (count($customers_arr) < 3) {
-                    $err['customers'] = "Cần chọn ít nhất 3 khách.";
+                if (count($customers_arr) < 5) {
+                    $err['customers'] = "Cần chọn ít nhất 5 khách.";
                 }
                 if (!$err) {
                     $current_step = 3;
@@ -261,8 +305,8 @@ class BookingController
                 if (!$tour_id || !$guide_id || !$hotel_id) {
                     $err['empty'] = "Vui lòng chọn đầy đủ thông tin.";
                 }
-                if (count($customers_arr) < 3) {
-                    $err['customers'] = "Cần chọn ít nhất 3 khách.";
+                if (count($customers_arr) < 5) {
+                    $err['customers'] = "Cần chọn ít nhất 5 khách.";
                 }
                 if ($main && !in_array($main, $customers_arr)) {
                     $err['main'] = "Khách đại diện không hợp lệ.";
@@ -512,8 +556,8 @@ class BookingController
                 if ($current_step == 2 && isset($_POST['next_2'])) {
                     $customers_arr = $_POST['customers'] ?? [];
 
-                    if (count($customers_arr) < 3) {
-                        $err['customers'] = "Cần chọn ít nhất 3 khách.";
+                    if (count($customers_arr) < 5) {
+                        $err['customers'] = "Cần chọn ít nhất 5 khách.";
                     }
 
                     if (!$err) {
@@ -540,8 +584,8 @@ class BookingController
                         $err['empty'] = "Vui lòng nhập đầy đủ thông tin (Tour / HDV / Khách sạn).";
                     }
 
-                    if (count($customers_arr) < 3) {
-                        $err['customers'] = "Cần ít nhất 3 khách.";
+                    if (count($customers_arr) < 5) {
+                        $err['customers'] = "Cần ít nhất 5 khách.";
                     }
 
                     if ($main && !in_array($main, $customers_arr)) {

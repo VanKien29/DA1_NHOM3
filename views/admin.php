@@ -457,8 +457,9 @@ $user = $_SESSION['user'];
 
                     // Statistics Dashboard
                     case 'admin':
+                    case 'admin-statistic':
                         (new StatisticController)->dashboard();
-                        break;
+                    break;
                 }
             }
             ?>

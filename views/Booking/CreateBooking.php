@@ -88,12 +88,19 @@
                 </div>
             </div>
 
+            <?php 
+            $selected_customers = $_POST['customers'] ?? [];
+            if (!is_array($selected_customers)) $selected_customers = [];
+            foreach ($selected_customers as $cid): ?>
+            <input type="hidden" name="customers[]" value="<?= $cid ?>">
+            <?php endforeach; ?>
+
             <div class="form-group">
                 <label>Chọn khách tham gia</label>
                 <div class="customer-list">
                     <?php foreach ($customers as $c): 
                         $cid = $c['customer_id'];
-                        $blocked = in_array($cid, $blocked_customers); 
+                        $blocked = in_array($cid, $blocked_customers);
                     ?>
                     <label class="customer-item <?= $blocked ? 'disabled' : '' ?>">
                         <?php if (!$blocked): ?>
@@ -104,16 +111,17 @@
                         <?php endif; ?>
                         <div class="cust-info">
                             <span class="name"><?= $c['full_name'] ?></span>
-                            <span class="sub"><?= $c['phone'] ?></span>
+                            <span class="sub"><?= $c['phone'] ?> · <?= $c['email'] ?></span>
                             <?php if ($blocked): ?>
                             <span class="tag-conflict">• Trùng lịch</span>
                             <?php endif; ?>
                         </div>
+
                     </label>
                     <?php endforeach; ?>
                 </div>
                 <span class="hint-text">
-                    Cần chọn ít nhất 3 khách. Khách <b>Trùng lịch</b> sẽ không chọn được.
+                    Cần chọn ít nhất 5 khách. Khách <b>trùng lịch</b> sẽ bị khóa.
                 </span>
             </div>
 
@@ -199,7 +207,7 @@
 
                         <!-- KHÁCH KHÔNG ĐI XE -->
                         <div class="exclude-box hidden">
-                            <label>Chọn khách KHÔNG dùng xe</label>
+                            <label>Chọn khách không đi xe</label>
                             <div class="exclude-list">
                                 <?php foreach ($customers as $c): ?>
                                 <?php if (!in_array($c['customer_id'], $selected_customers)) continue; ?>
