@@ -295,7 +295,9 @@ a {
 
 .room-item input {
   transform: scale(1.2);
-} /* === BADGE STATUS COLORS === */
+}
+
+/* === BADGE STATUS COLORS === */
 .badge {
   padding: 6px 14px;
   font-size: 13px;
@@ -328,6 +330,7 @@ a {
   background-color: #fee2e2;
   color: #b91c1c;
 }
+
 /* ===== HEADER CHUẨN UI ADMIN ===== */
 .table-header {
   border-bottom: 2px solid #f1f5f9;
@@ -361,6 +364,7 @@ a {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
 }
+
 /* ==== FILTER BAR ==== */
 .filter-bar {
   background: #ffffff;
@@ -431,4 +435,21 @@ a {
 .filter-reset:hover {
   background: #d1d5db;
   transform: translateY(-1px);
+}
+
+/* Xanh nhạt */
+.soft-blue {
+  background: #e8f1ff !important;
+  border-color: #bcd6ff !important;
+  color: #6b8ece !important;
+}
+
+/* Không click được */
+.disabled-link {
+  pointer-events: none;
+  /* KHÔNG BẤM ĐƯỢC */
+  opacity: 0.6;
+  /* Nhạt nhẹ */
+  cursor: default !important;
+  /* Không hiện tay bấm */
 }

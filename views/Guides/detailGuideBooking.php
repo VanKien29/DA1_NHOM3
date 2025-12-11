@@ -209,11 +209,10 @@
         </div>
     </div>
 
-    <!-- ======================= CHỌN NGÀY ĐIỂM DANH ======================= -->
-    <div class="mb-3">
+    <!-- ======================= DANH SÁCH KHÁCH ======================= -->
+    <div class="booking-info-box">
         <h5 class="fw-bold">Điểm danh theo ngày</h5>
-
-        <div class="btn-group" role="group">
+        <div class="btn-group day-buttons" role="group">
             <?php for ($d = 1; $d <= $booking['days']; $d++): ?>
             <a href="?action=guide-detailGuideBooking&id=<?= $booking['booking_id'] ?>&day=<?= $d ?>"
                 class="btn <?= ($day == $d) ? 'btn-primary' : 'btn-outline-primary' ?>">
@@ -221,10 +220,6 @@
             </a>
             <?php endfor; ?>
         </div>
-    </div>
-
-    <!-- ======================= DANH SÁCH KHÁCH ======================= -->
-    <div class="booking-info-box">
         <h5>Danh sách khách – Ngày <?= $day ?></h5>
 
         <table class="table-schedule">

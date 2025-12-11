@@ -156,7 +156,8 @@ class BookingController
 
             $final_price = $priceBase + $extra;
             $this->bookingQuery->addBookingCustomers($id, $new_customer, 0, $final_price);
-            $this->bookingQuery->addAttendance($id, $new_customer);
+            $days = isset($tour['days']) ? (int) $tour['days'] : 1;
+            $this->bookingQuery->addAttendanceForBooking($id, $new_customer, $days);
             $_SESSION['message'] = "Thêm khách thành công!";
             header("Location: ?action=admin-detailBooking&id=" . $id);
             exit;
@@ -259,7 +260,7 @@ class BookingController
 
                 if (!$err) {
                     $tour = $this->ToursQuery->findTour($tour_id);
-                    $days = max(1, (int) $tour['days']); // tour phải >= 1 ngày
+                    $days = isset($tour['days']) ? (int) $tour['days'] : 1;
                     $end_date = date('Y-m-d', strtotime($start_date . " +$days days"));
 
                     // Check HDV trùng lịch
@@ -341,9 +342,10 @@ class BookingController
 
                     $tour = $this->ToursQuery->findTour($tour_id);
                     $hotel = $this->HotelQuery->findHotel($hotel_id);
-
+                    $days = isset($tour['days']) ? (int) $tour['days'] : 1;
                     // ======= KHỞI TẠO MẢNG TỔNG GIÁ XE =======
                     $extraPrice = [];
+                    $days = isset($tour['days']) ? (int) $tour['days'] : 1;
                     foreach ($customers_arr as $cid) {
                         $extraPrice[$cid] = 0;
                     }
@@ -412,7 +414,7 @@ class BookingController
                             $final_price
                         );
                         // Điểm danh
-                        $this->bookingQuery->addAttendance($booking_id, $cid);
+                        $this->bookingQuery->addAttendanceForBooking($booking_id, $cid, $days);
                     }
 
                     // Gán guide_tours
@@ -699,7 +701,8 @@ class BookingController
                             $is_main = ($cid == $main) ? 1 : 0;
 
                             $this->bookingQuery->addBookingCustomers($id, $cid, $is_main, $final_price);
-                            $this->bookingQuery->addAttendance($id, $cid);
+                            $days = isset($tour['days']) ? (int) $tour['days'] : 1;
+                            $this->bookingQuery->addAttendanceForBooking($id, $cid, $days);
                         }
 
                         // ===== GUIDE_TOUR =====
