@@ -177,7 +177,7 @@
 <div class="dashboard-wrapper">
 
     <div class="dashboard-header">
-        <h1>Dashboard Thống Kê</h1>
+        <h1>Dashboard Thống Kê — Năm <?= $data['year'] ?></h1>
 
         <form method="GET">
             <input type="hidden" name="action" value="admin-statistic">
@@ -193,7 +193,6 @@
             </select>
         </form>
     </div>
-
 
     <!-- STAT CARDS -->
     <div class="card-grid">
@@ -219,7 +218,7 @@
         </div>
 
         <div class="stat-card revenue">
-            <h3>Tổng Doanh Thu Tháng</h3>
+            <h3>Tổng Doanh Thu</h3>
             <div class="value"><?= number_format($data['total_revenue']) ?> VND</div>
         </div>
 
