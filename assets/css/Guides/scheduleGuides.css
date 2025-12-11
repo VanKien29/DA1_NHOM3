@@ -33,6 +33,7 @@ a {
   background-color: #cffafe !important;
   color: #0e7490 !important;
 }
+
 .table-container h4 {
   font-size: 20px;
   font-weight: 600;
@@ -195,6 +196,7 @@ a {
     overflow-x: auto;
   }
 }
+
 .admin-table-container {
   background-color: #fff;
   border-radius: 16px;
@@ -231,6 +233,7 @@ a {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(13, 110, 253, 0.35);
 }
+
 .booking-info-box {
   background: #fff;
   padding: 20px;

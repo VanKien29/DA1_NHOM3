@@ -439,21 +439,39 @@ h3.fw-bold {
   }
 }
 
-/* .att-day-btn {
-  padding: 8px 16px;
-  background: #eef3ff;
-  border-radius: 10px;
-  margin-right: 12px;
-  font-weight: 600;
-  color: #1e40af;
-  transition: 0.2s;
+.day-buttons .btn {
+  border-radius: 10px !important;
+  padding: 8px 18px !important;
+  font-weight: 600 !important;
+  background: #f8f9fa !important;
+  border: 1px solid #d0d0d0 !important;
+  color: #333 !important;
+  transition: 0.25s ease-in-out !important;
 }
 
-.att-day-btn:hover {
-  background: #dbeafe;
+.day-buttons a {
+  text-decoration: none;
 }
 
-.att-day-btn.active {
-  background: #1e40af;
-  color: white;
-} */
+/* Nút chưa active */
+.day-buttons .btn-outline-primary {
+  background: #ffffff !important;
+  color: #0d6efd !important;
+}
+
+.day-buttons .btn-outline-primary:hover {
+  background: #e9f4ff !important;
+  color: #0d6efd !important;
+  border-color: #0d6efd !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 85, 255, 0.15) !important;
+}
+
+/* Nút đang chọn */
+.day-buttons .btn-primary {
+  background: linear-gradient(135deg, #0d6efd, #3a8eff) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(0, 85, 255, 0.35) !important;
+  transform: translateY(-2px) !important;
+}
