@@ -248,13 +248,13 @@ class BookingQuery extends BaseModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updateBooking($id, $tour_id, $guide_id, $hotel_id, $vehicle_id, $status, $start_date, $end_date)
+    public function updateBooking($id, $tour_id, $guide_id, $hotel_id, $status, $start_date, $end_date)
     {
         $sql = "UPDATE bookings SET 
                 tour_id = :tour_id, 
                 guide_id = :guide_id, 
                 hotel_id = :hotel_id, 
-                vehicle_id = :vehicle_id, 
+                -- vehicle_id = :vehicle_id, 
                 status = :status, 
                 start_date = :start_date, 
                 end_date = :end_date
@@ -263,7 +263,7 @@ class BookingQuery extends BaseModel
         $stmt->bindParam(':tour_id', $tour_id);
         $stmt->bindParam(':guide_id', $guide_id);
         $stmt->bindParam(':hotel_id', $hotel_id);
-        $stmt->bindParam(':vehicle_id', $vehicle_id);
+        // $stmt->bindParam(':vehicle_id', $vehicle_id);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':start_date', $start_date);
         $stmt->bindParam(':end_date', $end_date);
@@ -710,7 +710,7 @@ class BookingQuery extends BaseModel
             ':id' => $booking_id
         ]);
     }
-    
+
     public function getBookingsByAdvancedFilter($status, $from, $to)
     {
         $sql = "SELECT 
@@ -793,7 +793,8 @@ class BookingQuery extends BaseModel
     }
 
     // lấy các chặng xe của 1 booking (để hiển thị trong chi tiết)
-    public function getSegmentCustomersByBooking($booking_id){
+    public function getSegmentCustomersByBooking($booking_id)
+    {
         $sql = "
             SELECT 
                 bsc.tour_schedule_id,
@@ -827,7 +828,8 @@ class BookingQuery extends BaseModel
         $stmt->execute([':booking_id' => $booking_id]);
     }
 
-    public function syncGuideTour($guide_id, $booking_id, $tour_id){
+    public function syncGuideTour($guide_id, $booking_id, $tour_id)
+    {
         // 1) Kiểm tra booking đã có trong guide_tours chưa?
         $sql = "SELECT id FROM guide_tours WHERE booking_id = :booking_id LIMIT 1";
         $stm = $this->pdo->prepare($sql);
@@ -840,9 +842,9 @@ class BookingQuery extends BaseModel
                     VALUES (:guide_id, :booking_id, :tour_id, 'current')";
             $stm = $this->pdo->prepare($sql);
             $stm->execute([
-                'guide_id'   => $guide_id,
+                'guide_id' => $guide_id,
                 'booking_id' => $booking_id,
-                'tour_id'    => $tour_id
+                'tour_id' => $tour_id
             ]);
             return true;
         }
@@ -854,8 +856,8 @@ class BookingQuery extends BaseModel
                 WHERE booking_id = :booking_id";
         $stm = $this->pdo->prepare($sql);
         $stm->execute([
-            'guide_id'   => $guide_id,
-            'tour_id'    => $tour_id,
+            'guide_id' => $guide_id,
+            'tour_id' => $tour_id,
             'booking_id' => $booking_id
         ]);
 

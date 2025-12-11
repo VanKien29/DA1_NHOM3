@@ -49,7 +49,7 @@ class GuideScheduleController
         $attendance_id = $_POST['attendance_id'];
         $status = $_POST['status'];
         $booking_id = $_POST['booking_id'];
-        $day = isset($_POST['day_number']) ? (int)$_POST['day_number'] : 1;
+        $day = isset($_POST['day_number']) ? (int) $_POST['day_number'] : 1;
 
         $this->bookingQuery->updateAttendance($attendance_id, $status);
         header("Location: ?action=guide-detailGuideBooking&id=$booking_id&day=$day");
@@ -64,6 +64,7 @@ class GuideScheduleController
             $_SESSION['msg'] = "Hướng dẫn viên không được phép cập nhật trạng thái này!";
             header("Location: ?action=guide-detailGuideBooking&id=" . $booking_id);
             exit;
+        }
         $booking = $this->bookingQuery->getFullBooking($booking_id);
         $today = date("Y-m-d");
 

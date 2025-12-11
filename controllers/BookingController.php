@@ -46,16 +46,17 @@ class BookingController
         exit;
     }
 
-    public function detailBooking($id){
-        $booking      = $this->bookingQuery->getBooking($id);
-        $guide        = $this->bookingQuery->getGuideByBooking($id);
-        $customers    = $this->bookingQuery->getBookingCustomers($id);
-        $attendance   = $this->bookingQuery->getAttendance($id);
+    public function detailBooking($id)
+    {
+        $booking = $this->bookingQuery->getBooking($id);
+        $guide = $this->bookingQuery->getGuideByBooking($id);
+        $customers = $this->bookingQuery->getBookingCustomers($id);
+        $attendance = $this->bookingQuery->getAttendance($id);
         $customers_all = $this->CustomerQuery->getAllCustomers();
-        $segmentsRaw   = $this->bookingQuery->getSegmentCustomersByBooking($id);
-        $tour          = $this->ToursQuery->findTour($booking['tour_id']);
-        $hotel         = $this->HotelQuery->findHotel($booking['hotel_id']);
-        $vehicle       = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
+        $segmentsRaw = $this->bookingQuery->getSegmentCustomersByBooking($id);
+        $tour = $this->ToursQuery->findTour($booking['tour_id']);
+        $hotel = $this->HotelQuery->findHotel($booking['hotel_id']);
+        $vehicle = $this->VehiclesQuery->findVehicles($booking['vehicle_id']);
         $tour_schedules = $this->ToursQuery->getTourSchedule($booking['tour_id']);
 
         $segments_grouped = [];
@@ -64,12 +65,12 @@ class BookingController
             if (!isset($segments_grouped[$sid])) {
                 $segments_grouped[$sid] = [
                     "day_number" => $s['day_number'],
-                    "title"      => $s['schedule_title'],
+                    "title" => $s['schedule_title'],
                     "vehicle_id" => $s['vehicle_id'],
-                    "vehicle"    => $s['vehicle_name'],
+                    "vehicle" => $s['vehicle_name'],
                     "price_per_day" => $s['price_per_day'],
-                    "using"      => [],
-                    "excluded"   => []
+                    "using" => [],
+                    "excluded" => []
                 ];
             }
             if ($s['segment_price_per_customer'] > 0) {
@@ -95,12 +96,14 @@ class BookingController
                 }
             }
             // Kiểm tra trùng lịch
-            if ($this->bookingQuery->checkCustomerConflict(
-                $new_customer,
-                $booking['start_date'],
-                $booking['end_date'],
-                $id
-            )) {
+            if (
+                $this->bookingQuery->checkCustomerConflict(
+                    $new_customer,
+                    $booking['start_date'],
+                    $booking['end_date'],
+                    $id
+                )
+            ) {
                 $_SESSION['error'] = "Khách đang tham gia một tour khác trùng lịch.";
                 header("Location: ?action=admin-detailBooking&id=" . $id);
                 exit;
@@ -117,10 +120,11 @@ class BookingController
 
             $extra = 0;
             foreach ($segments_grouped as $sid => $seg) {
-                if (!$seg['vehicle_id']) continue;
+                if (!$seg['vehicle_id'])
+                    continue;
 
-                $vehicle_id   = $seg['vehicle_id'];
-                $price_per_day = (float)$seg['price_per_day'];
+                $vehicle_id = $seg['vehicle_id'];
+                $price_per_day = (float) $seg['price_per_day'];
 
                 // khách hiện đang dùng xe
                 $using_ids = array_map(fn($u) => $u['customer_id'], $seg['using']);
@@ -177,10 +181,10 @@ class BookingController
 
     public function createBooking()
     {
-        $guides    = $this->GuideQuery->getAllGuides();
-        $hotels    = $this->HotelQuery->getAllHotel();
-        $tours     = $this->ToursQuery->getAllTours();
-        $vehicles  = $this->VehiclesQuery->getAllVehicles();
+        $guides = $this->GuideQuery->getAllGuides();
+        $hotels = $this->HotelQuery->getAllHotel();
+        $tours = $this->ToursQuery->getAllTours();
+        $vehicles = $this->VehiclesQuery->getAllVehicles();
         $customers = $this->CustomerQuery->getAllCustomers();
 
         // Tìm kiếm khách
@@ -191,19 +195,23 @@ class BookingController
             $search = strtolower($search);
             $filtered = [];
             foreach ($customers as $c) {
-                if (str_contains(strtolower($c['full_name']), $search) ||
-                    str_contains(strtolower($c['phone']), $search)) {
+                if (
+                    str_contains(strtolower($c['full_name']), $search) ||
+                    str_contains(strtolower($c['phone']), $search)
+                ) {
                     $filtered[] = $c;
                 }
             }
 
             if (!empty($_POST['start_date']) && !empty($_POST['end_date'])) {
                 foreach ($filtered as $c) {
-                    if ($this->bookingQuery->checkCustomerConflict(
-                        $c['customer_id'],
-                        $_POST['start_date'],
-                        $_POST['end_date']
-                    )) {
+                    if (
+                        $this->bookingQuery->checkCustomerConflict(
+                            $c['customer_id'],
+                            $_POST['start_date'],
+                            $_POST['end_date']
+                        )
+                    ) {
                         $blocked_customers[] = $c['customer_id'];
                     }
                 }
@@ -212,11 +220,13 @@ class BookingController
         } else {
             if (!empty($_POST['start_date']) && !empty($_POST['end_date'])) {
                 foreach ($customers as $c) {
-                    if ($this->bookingQuery->checkCustomerConflict(
-                        $c['customer_id'],
-                        $_POST['start_date'],
-                        $_POST['end_date']
-                    )) {
+                    if (
+                        $this->bookingQuery->checkCustomerConflict(
+                            $c['customer_id'],
+                            $_POST['start_date'],
+                            $_POST['end_date']
+                        )
+                    ) {
                         $blocked_customers[] = $c['customer_id'];
                     }
                 }
@@ -225,7 +235,7 @@ class BookingController
 
         // STEP hiện tại
         $current_step = $_POST['current_step'] ?? 1;
-        $current_step = (int)$current_step;
+        $current_step = (int) $current_step;
 
         $err = [];
 
@@ -233,14 +243,14 @@ class BookingController
 
             // Quay lại step trước
             if (!empty($_POST['prev_step'])) {
-                $current_step = (int)$_POST['prev_step'];
+                $current_step = (int) $_POST['prev_step'];
             }
 
             // ---------------- STEP 1 ----------------
             if ($current_step == 1 && isset($_POST['next_1'])) {
 
-                $tour_id    = $_POST['tour_id'] ?? '';
-                $guide_id   = $_POST['guide_id'] ?? '';
+                $tour_id = $_POST['tour_id'] ?? '';
+                $guide_id = $_POST['guide_id'] ?? '';
                 $start_date = $_POST['start_date'] ?? '';
 
                 if (!$tour_id || !$guide_id || !$start_date) {
@@ -249,7 +259,7 @@ class BookingController
 
                 if (!$err) {
                     $tour = $this->ToursQuery->findTour($tour_id);
-                    $days = max(1, (int)$tour['days']); // tour phải >= 1 ngày
+                    $days = max(1, (int) $tour['days']); // tour phải >= 1 ngày
                     $end_date = date('Y-m-d', strtotime($start_date . " +$days days"));
 
                     // Check HDV trùng lịch
@@ -263,11 +273,13 @@ class BookingController
                     // tính lại blocked
                     $blocked_customers = [];
                     foreach ($customers as $c) {
-                        if ($this->bookingQuery->checkCustomerConflict(
-                            $c['customer_id'],
-                            $start_date,
-                            $end_date
-                        )) {
+                        if (
+                            $this->bookingQuery->checkCustomerConflict(
+                                $c['customer_id'],
+                                $start_date,
+                                $end_date
+                            )
+                        ) {
                             $blocked_customers[] = $c['customer_id'];
                         }
                     }
@@ -290,13 +302,13 @@ class BookingController
             // ---------------- STEP 3: LƯU BOOKING ----------------
             if ($current_step == 3 && isset($_POST['final_submit'])) {
 
-                $tour_id       = $_POST['tour_id'] ?? '';
-                $guide_id      = $_POST['guide_id'] ?? '';
-                $hotel_id      = $_POST['hotel_id'] ?? '';
-                $start_date    = $_POST['start_date'] ?? '';
-                $end_date      = $_POST['end_date'] ?? '';
+                $tour_id = $_POST['tour_id'] ?? '';
+                $guide_id = $_POST['guide_id'] ?? '';
+                $hotel_id = $_POST['hotel_id'] ?? '';
+                $start_date = $_POST['start_date'] ?? '';
+                $end_date = $_POST['end_date'] ?? '';
                 $customers_arr = $_POST['customers'] ?? [];
-                $main          = $_POST['main_customer'] ?? '';
+                $main = $_POST['main_customer'] ?? '';
 
                 // Dữ liệu xe
                 $segment_vehicle = $_POST['segment_vehicle'] ?? [];
@@ -315,70 +327,59 @@ class BookingController
                 if (!$err) {
 
                     // =========== TẠO BOOKING ===========
-                    $this->bookingQuery->tour_id    = $tour_id;
-                    $this->bookingQuery->guide_id   = $guide_id;
-                    $this->bookingQuery->hotel_id   = $hotel_id;
+                    $this->bookingQuery->tour_id = $tour_id;
+                    $this->bookingQuery->guide_id = $guide_id;
+                    $this->bookingQuery->hotel_id = $hotel_id;
                     $this->bookingQuery->vehicle_id = null;
                     $this->bookingQuery->start_date = $start_date;
-                    $this->bookingQuery->end_date   = $end_date;
-                    $this->bookingQuery->status     = $this->bookingQuery->autoStatus($start_date, $end_date);
-                    $this->bookingQuery->report     = '';
+                    $this->bookingQuery->end_date = $end_date;
+                    $this->bookingQuery->status = $this->bookingQuery->autoStatus($start_date, $end_date);
+                    $this->bookingQuery->report = '';
                     $this->bookingQuery->created_at = date('Y-m-d H:i:s');
 
                     $booking_id = $this->bookingQuery->createBooking();
 
-                    $tour   = $this->ToursQuery->findTour($tour_id);
-                    $hotel  = $this->HotelQuery->findHotel($hotel_id);
+                    $tour = $this->ToursQuery->findTour($tour_id);
+                    $hotel = $this->HotelQuery->findHotel($hotel_id);
 
-                    // Extra tiền xe theo từng khách
+                    // ======= KHỞI TẠO MẢNG TỔNG GIÁ XE =======
                     $extraPrice = [];
                     foreach ($customers_arr as $cid) {
                         $extraPrice[$cid] = 0;
                     }
 
-                    if (!$err) {
-                        // Gán thuộc tính cho model
-                        $this->bookingQuery->tour_id = $tour_id;
-                        $this->bookingQuery->guide_id = $guide_id;
-                        $this->bookingQuery->hotel_id = $hotel_id;
-                        $this->bookingQuery->vehicle_id = $vehicle_id;
-                        $this->bookingQuery->start_date = $start_date;
-                        $this->bookingQuery->end_date = $end_date;
-                        $this->bookingQuery->status = $this->bookingQuery->autoStatus($start_date, $end_date);
-                        $this->bookingQuery->report = '';
-                        $this->bookingQuery->created_at = date('Y-m-d H:i:s');
-
-                        // Tạo booking
-                        $booking_id = $this->bookingQuery->createBooking();
-                    // ========= GÁN XE THEO LỊCH TRÌNH =========
+                    // ======= DUYỆT TỪNG CHẶNG XE =======
                     foreach ($segment_vehicle as $schedule_id => $vehicle_id) {
 
-                        $vehicle_id = (int)$vehicle_id;
-                        if ($vehicle_id <= 0) continue;
+                        $vehicle_id = (int) $vehicle_id;
+                        if ($vehicle_id <= 0)
+                            continue;
 
                         $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
-                        $total_customers = count($customers_arr);
-                        $days = isset($tour['days']) ? (int) $tour['days'] : 1;
-                        if (!$vehicle) continue;
+                        if (!$vehicle)
+                            continue;
 
-                        $segment_total = (float)$vehicle['price_per_day'];
+                        $segment_total = (float) $vehicle['price_per_day'];
 
                         $excluded = $segment_exclude[$schedule_id] ?? [];
-                        if (!is_array($excluded)) $excluded = [];
+                        if (!is_array($excluded))
+                            $excluded = [];
 
-                        // khách dùng xe = tổng - khách không đi
+                        // khách đi xe = tổng - khách không đi
                         $using_ids = array_diff($customers_arr, $excluded);
                         $count_using = count($using_ids);
 
-                        $price_per_customer = ($count_using > 0)
+                        $price_per_customer = $count_using > 0
                             ? $segment_total / $count_using
                             : 0;
 
+                        // LƯU TỪNG KHÁCH CHO CHẶNG NÀY
                         foreach ($customers_arr as $cid) {
-                            $is_using = in_array($cid, $using_ids);
-                            $price    = $is_using ? $price_per_customer : 0;
 
-                            // Lưu vào bảng booking_segment_customers
+                            $is_using = in_array($cid, $using_ids);
+                            $price = $is_using ? $price_per_customer : 0;
+
+                            // Lưu vào booking_segment_customers
                             $this->bookingQuery->addSegmentCustomer(
                                 $booking_id,
                                 $schedule_id,
@@ -386,31 +387,31 @@ class BookingController
                                 $vehicle_id,
                                 $price
                             );
-                            $is_main = ($cid == $main) ? 1 : 0;
-                            $this->bookingQuery->addBookingCustomers($booking_id, $cid, $is_main, $price);
-                            $this->bookingQuery->addAttendanceForBooking($booking_id, $cid, $days);
-                        }
-                        $this->bookingQuery->addGuideTour($guide_id, $booking_id, $tour_id);
 
-                            if ($price > 0) {
-                                $extraPrice[$cid] += $price;
-                            }
+                            $extraPrice[$cid] += $price;
                         }
                     }
 
                     // ========= Lưu khách =========
                     foreach ($customers_arr as $cid) {
                         $customer = $this->CustomerQuery->findCustomer($cid);
+                        $base = $this->calculatePrice(
+                            $customer,
+                            $tour,
+                            $hotel,
+                            $start_date,
+                            $end_date
+                        );
 
-                        // giá tour + hotel
-                        $base = $this->calculatePrice($customer, $tour, $hotel, $start_date, $end_date);
-
-                        // tổng cuối = base + xe
-                        $final_price = $base + ($extraPrice[$cid] ?? 0);
-
+                        $final_price = $base + $extraPrice[$cid];
                         $is_main = ($cid == $main) ? 1 : 0;
-
-                        $this->bookingQuery->addBookingCustomers($booking_id, $cid, $is_main, $final_price);
+                        $this->bookingQuery->addBookingCustomers(
+                            $booking_id,
+                            $cid,
+                            $is_main,
+                            $final_price
+                        );
+                        // Điểm danh
                         $this->bookingQuery->addAttendance($booking_id, $cid);
                     }
 
@@ -426,15 +427,16 @@ class BookingController
         require './views/Booking/CreateBooking.php';
     }
 
-    public function updateBooking($id){
-        $guides    = $this->GuideQuery->getAllGuides();
-        $hotels    = $this->HotelQuery->getAllHotel();
-        $tours     = $this->ToursQuery->getAllTours();
-        $vehicles  = $this->VehiclesQuery->getAllVehicles();
+    public function updateBooking($id)
+    {
+        $guides = $this->GuideQuery->getAllGuides();
+        $hotels = $this->HotelQuery->getAllHotel();
+        $tours = $this->ToursQuery->getAllTours();
+        $vehicles = $this->VehiclesQuery->getAllVehicles();
         $customers = $this->CustomerQuery->getAllCustomers();
-        $booking        = $this->bookingQuery->getBooking($id);
-        $oldCustomers   = $this->bookingQuery->getBookingCustomers($id);
-        $selected_old   = array_column($oldCustomers, 'customer_id');
+        $booking = $this->bookingQuery->getBooking($id);
+        $oldCustomers = $this->bookingQuery->getBookingCustomers($id);
+        $selected_old = array_column($oldCustomers, 'customer_id');
         $segments = $this->bookingQuery->getSegmentCustomersByBooking($id);
 
         $segment_grouped = [];
@@ -479,15 +481,17 @@ class BookingController
             $search = strtolower($search);
             $filtered = [];
             foreach ($customers as $c) {
-                if (str_contains(strtolower($c['full_name']), $search) ||
-                    str_contains(strtolower($c['phone']), $search)) {
+                if (
+                    str_contains(strtolower($c['full_name']), $search) ||
+                    str_contains(strtolower($c['phone']), $search)
+                ) {
                     $filtered[] = $c;
                 }
             }
             // Check trùng lịch
             if (!empty($_POST['start_date']) && !empty($_POST['end_date'])) {
                 $start_date = $_POST['start_date'];
-                $end_date   = $_POST['end_date'];
+                $end_date = $_POST['end_date'];
                 foreach ($filtered as $c) {
                     if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date, $id)) {
                         $blocked_customers[] = $c['customer_id'];
@@ -497,7 +501,7 @@ class BookingController
             $customers = $filtered;
         } else {
             $start_date = $_POST['start_date'] ?? $booking['start_date'];
-            $end_date   = $_POST['end_date']   ?? $booking['end_date'];
+            $end_date = $_POST['end_date'] ?? $booking['end_date'];
             if ($start_date && $end_date) {
                 foreach ($customers as $c) {
                     if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date, $id)) {
@@ -520,7 +524,7 @@ class BookingController
                 // Khi quay về step 2 cần tính lại blocked
                 if ($current_step == 2 && !empty($_POST['start_date']) && !empty($_POST['end_date'])) {
                     $start = $_POST['start_date'];
-                    $end   = $_POST['end_date'];
+                    $end = $_POST['end_date'];
                     $blocked_customers = [];
                     foreach ($customers as $c) {
                         if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start, $end, $id)) {
@@ -533,8 +537,8 @@ class BookingController
 
                 // ============ STEP 1: Tour & HDV =============
                 if ($current_step == 1 && isset($_POST['next_1'])) {
-                    $tour_id    = $_POST['tour_id'] ?? '';
-                    $guide_id   = $_POST['guide_id'] ?? '';
+                    $tour_id = $_POST['tour_id'] ?? '';
+                    $guide_id = $_POST['guide_id'] ?? '';
                     $start_date = $_POST['start_date'] ?? '';
 
                     if (!$tour_id || !$guide_id || !$start_date) {
@@ -587,15 +591,15 @@ class BookingController
                 }
                 // ============ STEP 3: Lưu cập nhật ===========
                 if ($current_step == 3 && isset($_POST['final_submit'])) {
-                    $tour_id       = $_POST['tour_id'] ?? "";
-                    $guide_id      = $_POST['guide_id'] ?? "";
-                    $hotel_id      = $_POST['hotel_id'] ?? "";
-                    $start_date    = $_POST['start_date'] ?? "";
-                    $end_date      = $_POST['end_date'] ?? "";
+                    $tour_id = $_POST['tour_id'] ?? "";
+                    $guide_id = $_POST['guide_id'] ?? "";
+                    $hotel_id = $_POST['hotel_id'] ?? "";
+                    $start_date = $_POST['start_date'] ?? "";
+                    $end_date = $_POST['end_date'] ?? "";
                     $customers_arr = $_POST['customers'] ?? [];
-                    $main          = $_POST['main_customer'] ?? "";
-                    $status_req    = $_POST['status'] ?? $booking['status'];
-                    $status        = ($status_req === 'da_huy') ? 'da_huy' : $booking['status'];
+                    $main = $_POST['main_customer'] ?? "";
+                    $status_req = $_POST['status'] ?? $booking['status'];
+                    $status = ($status_req === 'da_huy') ? 'da_huy' : $booking['status'];
 
                     // Dữ liệu xe theo lịch trình
                     $segment_vehicle = $_POST['segment_vehicle'] ?? [];
@@ -625,7 +629,7 @@ class BookingController
                         );
 
                         // Lấy tour & hotel để tính giá
-                        $tour  = $this->ToursQuery->findTour($tour_id);
+                        $tour = $this->ToursQuery->findTour($tour_id);
                         $hotel = $this->HotelQuery->findHotel($hotel_id);
 
                         // Xóa khách + điểm danh + segment cũ
@@ -641,16 +645,19 @@ class BookingController
 
                         // ===== GÁN XE THEO LỊCH TRÌNH =====
                         foreach ($segment_vehicle as $schedule_id => $vehicle_id) {
-                            $vehicle_id = (int)$vehicle_id;
-                            if ($vehicle_id <= 0) continue;
+                            $vehicle_id = (int) $vehicle_id;
+                            if ($vehicle_id <= 0)
+                                continue;
 
                             $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
-                            if (!$vehicle) continue;
+                            if (!$vehicle)
+                                continue;
 
-                            $segment_total = (float)$vehicle['price_per_day'];
+                            $segment_total = (float) $vehicle['price_per_day'];
 
                             $excluded = $segment_exclude[$schedule_id] ?? [];
-                            if (!is_array($excluded)) $excluded = [];
+                            if (!is_array($excluded))
+                                $excluded = [];
 
                             // khách dùng xe = khách được chọn - khách không đi
                             $using_ids = array_diff($customers_arr, $excluded);
@@ -662,7 +669,7 @@ class BookingController
 
                             foreach ($customers_arr as $cid) {
                                 $is_using = in_array($cid, $using_ids);
-                                $price    = $is_using ? $price_per_customer : 0;
+                                $price = $is_using ? $price_per_customer : 0;
 
                                 // Lưu vào bảng booking_segment_customers
                                 $this->bookingQuery->addSegmentCustomer(
