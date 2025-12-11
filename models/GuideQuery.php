@@ -6,6 +6,7 @@ class GuideQuery extends BaseModel
     public $experience_years;
     public $specialization;
     public $note;
+    public $cccd;
 
     public function getAllGuides()
     {
@@ -142,5 +143,5 @@ class GuideQuery extends BaseModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
 }

@@ -29,6 +29,15 @@ class GuideScheduleController
         $vehicle = $this->bookingQuery->getVehicleByBooking($id);
         $schedules = $this->tourScheduleQuery->getSchedulesByTourId($booking['tour_id']);
 
+        $currentDay = isset($_GET['day']) ? (int) $_GET['day'] : 1;
+        if ($currentDay < 1)
+            $currentDay = 1;
+        if ($currentDay > (int) $booking['days']) {
+            $currentDay = (int) $booking['days'];
+        }
+        $attendance = $this->bookingQuery->getAttendanceByDay($id, $currentDay);
+        $day = $currentDay;
+
         require './views/Guides/detailGuideBooking.php';
     }
 
@@ -40,18 +49,20 @@ class GuideScheduleController
         $attendance_id = $_POST['attendance_id'];
         $status = $_POST['status'];
         $booking_id = $_POST['booking_id'];
+        $day = isset($_POST['day_number']) ? (int)$_POST['day_number'] : 1;
 
         $this->bookingQuery->updateAttendance($attendance_id, $status);
-        header("Location: ?action=guide-detailGuideBooking&id=$booking_id");
+        header("Location: ?action=guide-detailGuideBooking&id=$booking_id&day=$day");
         exit;
     }
 
-    public function updateStatusByGuide() {
+    public function updateStatusByGuide()
+    {
         $booking_id = $_POST['booking_id'];
         $status = $_POST['status'];
         if (!in_array($status, ['dang_dien_ra', 'da_hoan_thanh'])) {
             $_SESSION['msg'] = "Hướng dẫn viên không được phép cập nhật trạng thái này!";
-            header("Location: ?action=guide-detailGuideBooking&id=".$booking_id);
+            header("Location: ?action=guide-detailGuideBooking&id=" . $booking_id);
             exit;
         }
         $this->bookingQuery->updateStatus($booking_id, $status);
@@ -60,7 +71,8 @@ class GuideScheduleController
         exit;
     }
 
-    public function updateNote(){
+    public function updateNote()
+    {
         if (!isset($_POST['booking_id']) || !isset($_POST['note'])) {
             die("Thiếu dữ liệu.");
         }
@@ -74,7 +86,5 @@ class GuideScheduleController
         $_SESSION['msg'] = "Đã lưu ghi chú!";
         header("Location: ?action=guide-detailGuideBooking&id=" . $booking_id);
         exit;
-}
-
-
+    }
 }

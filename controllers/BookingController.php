@@ -17,7 +17,7 @@ class BookingController
     {
         $status = $_GET['status'] ?? '';
         $from = $_GET['from'] ?? '';
-        $to   = $_GET['to'] ?? '';
+        $to = $_GET['to'] ?? '';
         $bookings = $this->bookingQuery->getBookingsByAdvancedFilter($status, $from, $to);
         require './views/Booking/listBooking.php';
     }
@@ -39,7 +39,8 @@ class BookingController
         exit;
     }
 
-    public function detailBooking($id){
+    public function detailBooking($id)
+    {
         $booking = $this->bookingQuery->getBooking($id);
         $guide = $this->bookingQuery->getGuideByBooking($id);
         $customers = $this->bookingQuery->getBookingCustomers($id);
@@ -107,7 +108,8 @@ class BookingController
         return $role_price + $hotel_cost + $vehicle_cost;
     }
 
-    public function createBooking(){
+    public function createBooking()
+    {
         $guides = $this->GuideQuery->getAllGuides();
         $hotels = $this->HotelQuery->getAllHotel();
         $tours = $this->ToursQuery->getAllTours();
@@ -138,7 +140,7 @@ class BookingController
             $customers = $filtered;
         } else {
             $start_date = $_POST['start_date'] ?? '';
-            $end_date   = $_POST['end_date'] ?? '';
+            $end_date = $_POST['end_date'] ?? '';
             if ($start_date && $end_date) {
                 foreach ($customers as $c) {
                     if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date)) {
@@ -257,9 +259,9 @@ class BookingController
                         $this->bookingQuery->hotel_id = $hotel_id;
                         $this->bookingQuery->vehicle_id = $vehicle_id;
                         $this->bookingQuery->start_date = $start_date;
-                        $this->bookingQuery->end_date   = $end_date;
+                        $this->bookingQuery->end_date = $end_date;
                         $this->bookingQuery->status = $this->bookingQuery->autoStatus($start_date, $end_date);
-                        $this->bookingQuery->report     = '';
+                        $this->bookingQuery->report = '';
                         $this->bookingQuery->created_at = date('Y-m-d H:i:s');
 
                         // Tạo booking
@@ -269,6 +271,7 @@ class BookingController
                         $hotel = $this->HotelQuery->findHotel($hotel_id);
                         $vehicle = $this->VehiclesQuery->findVehicles($vehicle_id);
                         $total_customers = count($customers_arr);
+                        $days = isset($tour['days']) ? (int) $tour['days'] : 1;
                         foreach ($customers_arr as $cid) {
                             $customer = $this->CustomerQuery->findCustomer($cid);
                             $price = $this->calculatePrice(
@@ -282,10 +285,8 @@ class BookingController
                             );
                             $is_main = ($cid == $main) ? 1 : 0;
                             $this->bookingQuery->addBookingCustomers($booking_id, $cid, $is_main, $price);
-                            $this->bookingQuery->addAttendance($booking_id, $cid);
+                            $this->bookingQuery->addAttendanceForBooking($booking_id, $cid, $days);
                         }
-
-                        // Gắn HDV - tour
                         $this->bookingQuery->addGuideTour($guide_id, $booking_id, $tour_id);
 
                         echo "<script>alert('Tạo booking thành công'); location.href='?action=admin-listBooking';</script>";
@@ -329,7 +330,7 @@ class BookingController
             $customers = $filtered;
         } else {
             $start_date = $_POST['start_date'] ?? '';
-            $end_date   = $_POST['end_date'] ?? '';
+            $end_date = $_POST['end_date'] ?? '';
             if ($start_date && $end_date) {
                 foreach ($customers as $c) {
                     if ($this->bookingQuery->checkCustomerConflict($c['customer_id'], $start_date, $end_date, $id)) {
